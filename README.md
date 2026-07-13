@@ -89,6 +89,10 @@ python3 orbat.py --side allies
 
 概念驗證階段。引擎與兩個劇本已成形、有單元測試（`python3 test_hourstate.py`、`python3 command.py`），但實戰對局測試仍有限。歡迎當成 LLM 驅動遊戲設計的一個實驗來把玩、批評、fork。
 
+## 聯繫 · Contact
+
+有問題、建議、或想聊聊這個 LLM-as-referee 的點子？**歡迎[開一則 Issue](https://github.com/ethan104091-del/acies-arbiter/issues)**——這是最快找到我的方式。也歡迎 star / fork / PR。
+
 ## 授權
 
 [MIT](LICENSE)
