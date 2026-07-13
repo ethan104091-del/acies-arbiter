@@ -3,6 +3,8 @@
 **一款終端機 WWII 師級戰棋，由大型語言模型（LLM）擔任裁判。**
 *A terminal WWII division-level wargame where a Large Language Model is the referee.*
 
+![黑潮行動 — La Sève 河防區](assets/screenshot_blacktide.png)
+
 ---
 
 > **English abstract.** Most wargames encode their rules as executable code — which is why they are rigid and complex. This project takes a different bet: the rules live as **natural language** (~a dozen Markdown files), and an **LLM plays the referee** — reading the rules, adjudicating combat, maintaining fog of war, and writing after-action reports. There are **no dice**: outcomes are determined by defined inputs; the only uncertainty comes from information asymmetry, hidden state, and reading indicators. You command through a Python/Rich terminal viewer; the AI referee resolves. Two scenarios ship: a single-player campaign vs. an AI opponent, and a symmetric 1v1 PvP map. **This is a concept/experiment, not a plug-and-play game — it needs an LLM and a human running the referee loop** (see below).
@@ -40,6 +42,10 @@
 |------|------|------|
 | **黑潮行動 Black Tide** | 單機 vs AI | 美軍 III Corps 48 小時強渡 La Sève 河、奪 Saint-Vivien；敵軍由 Claude 扮演的「Adler」指揮官應戰（有記憶、會學習）。 |
 | **純戰場 Open Field** | 1v1 PvP | 對稱平衡、地形中立的純戰術對決。含**補給線攔截**與**指揮所/斬首**機制；勝負看殲敵。 |
+
+![純戰場 — 補給線（虛線）+ 指揮所（主/前★）](assets/screenshot_openfield.png)
+
+*純戰場：虛線是補給走廊（藍暢通／黃受威脅／紅切斷）；`主`/`前★` 是指揮所（★=軍長所在）。*
 
 ## 安裝
 
