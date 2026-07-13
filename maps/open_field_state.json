@@ -1,0 +1,1976 @@
+{
+  "scenario_name": "純戰場 The Open Field",
+  "scenario_id": "open_field",
+  "mode": "pvp",
+  "tick": 0,
+  "max_ticks": 8,
+  "map": {
+    "width": 30,
+    "height": 18,
+    "terrain": [
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ]
+    ]
+  },
+  "units": {
+    "BLU-1": {
+      "side": "allies",
+      "short": "藍1步",
+      "name": "第1步兵師",
+      "type": "infantry",
+      "pos": [
+        1,
+        4
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "1-r1": {
+          "name": "1營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r1": {
+          "name": "2營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r1": {
+          "name": "3營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r2": {
+          "name": "1營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r2": {
+          "name": "2營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r2": {
+          "name": "3營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r3": {
+          "name": "1營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r3": {
+          "name": "2營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r3": {
+          "name": "3營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030
+    },
+    "RED-1": {
+      "side": "axis",
+      "short": "紅1步",
+      "name": "紅第1步兵師",
+      "type": "infantry",
+      "pos": [
+        28,
+        13
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "1-r1": {
+          "name": "1營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r1": {
+          "name": "2營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r1": {
+          "name": "3營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r2": {
+          "name": "1營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r2": {
+          "name": "2營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r2": {
+          "name": "3營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r3": {
+          "name": "1營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r3": {
+          "name": "2營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r3": {
+          "name": "3營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030
+    },
+    "BLU-2": {
+      "side": "allies",
+      "short": "藍2步",
+      "name": "第2步兵師",
+      "type": "infantry",
+      "pos": [
+        1,
+        9
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "1-r4": {
+          "name": "1營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r4": {
+          "name": "2營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r4": {
+          "name": "3營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r5": {
+          "name": "1營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r5": {
+          "name": "2營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r5": {
+          "name": "3營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r6": {
+          "name": "1營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r6": {
+          "name": "2營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r6": {
+          "name": "3營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030
+    },
+    "RED-2": {
+      "side": "axis",
+      "short": "紅2步",
+      "name": "紅第2步兵師",
+      "type": "infantry",
+      "pos": [
+        28,
+        8
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "1-r4": {
+          "name": "1營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r4": {
+          "name": "2營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r4": {
+          "name": "3營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r5": {
+          "name": "1營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r5": {
+          "name": "2營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r5": {
+          "name": "3營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r6": {
+          "name": "1營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r6": {
+          "name": "2營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r6": {
+          "name": "3營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030
+    },
+    "BLU-3": {
+      "side": "allies",
+      "short": "藍3步",
+      "name": "第3步兵師",
+      "type": "infantry",
+      "pos": [
+        1,
+        14
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "1-r7": {
+          "name": "1營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r7": {
+          "name": "2營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r7": {
+          "name": "3營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r8": {
+          "name": "1營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r8": {
+          "name": "2營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r8": {
+          "name": "3營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r9": {
+          "name": "1營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r9": {
+          "name": "2營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r9": {
+          "name": "3營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030
+    },
+    "RED-3": {
+      "side": "axis",
+      "short": "紅3步",
+      "name": "紅第3步兵師",
+      "type": "infantry",
+      "pos": [
+        28,
+        3
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "1-r7": {
+          "name": "1營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r7": {
+          "name": "2營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r7": {
+          "name": "3營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r8": {
+          "name": "1營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r8": {
+          "name": "2營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r8": {
+          "name": "3營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r9": {
+          "name": "1營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r9": {
+          "name": "2營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r9": {
+          "name": "3營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030
+    },
+    "BLU-AD": {
+      "side": "allies",
+      "short": "藍裝",
+      "name": "藍軍裝甲師",
+      "type": "armor",
+      "pos": [
+        2,
+        9
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 4,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "t1": {
+          "name": "1戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t2": {
+          "name": "2戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t3": {
+          "name": "3戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t4": {
+          "name": "4戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "m1": {
+          "name": "1裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "m2": {
+          "name": "2裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "m3": {
+          "name": "3裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "sp1": {
+          "name": "1自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "in_division"
+        },
+        "sp2": {
+          "name": "2自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "in_division"
+        },
+        "sp3": {
+          "name": "3自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "裝甲工兵營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "工兵",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "裝甲偵察",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 5538,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 13988
+    },
+    "RED-AD": {
+      "side": "axis",
+      "short": "紅裝",
+      "name": "紅軍裝甲師",
+      "type": "armor",
+      "pos": [
+        27,
+        8
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 4,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "t1": {
+          "name": "1戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t2": {
+          "name": "2戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t3": {
+          "name": "3戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t4": {
+          "name": "4戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "m1": {
+          "name": "1裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "m2": {
+          "name": "2裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "m3": {
+          "name": "3裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "sp1": {
+          "name": "1自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "in_division"
+        },
+        "sp2": {
+          "name": "2自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "in_division"
+        },
+        "sp3": {
+          "name": "3自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "裝甲工兵營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "工兵",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "裝甲偵察",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 5538,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 13988
+    },
+    "BLU-SF": {
+      "side": "allies",
+      "short": "藍特",
+      "name": "藍軍特戰旅",
+      "type": "ranger",
+      "pos": [
+        2,
+        2
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 5,
+      "fatigue": 0,
+      "visibility_state": "CONCEALED",
+      "hidden": true,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "a1": {
+          "name": "1突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵/游騎兵",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "2突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "3突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察營",
+          "type": "recon",
+          "personnel": 300,
+          "note": "縱深偵察/前導",
+          "status": "in_division"
+        },
+        "spt": {
+          "name": "輕支援分隊",
+          "type": "engineer",
+          "personnel": 400,
+          "note": "迫擊/輕反戰車/爆破",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "旅部及勤務",
+          "type": "hq",
+          "personnel": 1000,
+          "note": "通信/補給 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 3500
+    },
+    "RED-SF": {
+      "side": "axis",
+      "short": "紅特",
+      "name": "紅軍特戰旅",
+      "type": "ranger",
+      "pos": [
+        27,
+        15
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 5,
+      "fatigue": 0,
+      "visibility_state": "CONCEALED",
+      "hidden": true,
+      "resources": {
+        "POL": 100,
+        "SA": 100,
+        "HE": 100,
+        "AT": 100,
+        "RAT": 100,
+        "MED": 100,
+        "PARTS": 100
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開局部署",
+      "orbat": {
+        "a1": {
+          "name": "1突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵/游騎兵",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "2突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "3突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察營",
+          "type": "recon",
+          "personnel": 300,
+          "note": "縱深偵察/前導",
+          "status": "in_division"
+        },
+        "spt": {
+          "name": "輕支援分隊",
+          "type": "engineer",
+          "personnel": 400,
+          "note": "迫擊/輕反戰車/爆破",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "旅部及勤務",
+          "type": "hq",
+          "personnel": 1000,
+          "note": "通信/補給 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 3500
+    }
+  },
+  "command": {
+    "allies": {
+      "main_cp": null,
+      "fwd_cp": null,
+      "commander_at": null
+    },
+    "axis": {
+      "main_cp": null,
+      "fwd_cp": null,
+      "commander_at": null
+    }
+  },
+  "weather_state": {
+    "current": {
+      "tick": 0,
+      "precipitation": "none",
+      "cloud": "clear",
+      "visibility_km": 15,
+      "cas_modifier": 1.0,
+      "move_modifier": 1.0,
+      "note": "全程晴好開闊、純戰術"
+    }
+  },
+  "objectives": {
+    "type": "attrition",
+    "note": "殲敵較多者勝；斬首即勝；平手比自損"
+  },
+  "victory_state": null,
+  "supply_note": "補給走廊/效率於渲染與結算時由單位位置即時計算（見 scenario_open_field.md §5-A）",
+  "fog_of_war": {
+    "allies_spotted": [
+      "RED-1",
+      "RED-2",
+      "RED-3",
+      "RED-AD"
+    ],
+    "axis_spotted": [
+      "BLU-1",
+      "BLU-2",
+      "BLU-3",
+      "BLU-AD"
+    ],
+    "_note": "特戰旅開局隱蔽(未列)、指揮所位置須靠偵察找出。"
+  },
+  "hour_in_tick": 0,
+  "global_hour": 0,
+  "game_time": "1944-08-25 06:00",
+  "phase": "tick_planning",
+  "pending_orders": [],
+  "standing_orders": {
+    "allies": "",
+    "axis": ""
+  }
+}

@@ -1,0 +1,4 @@
+# 料鋒 Acies / 樞衡 Arbiter — 相依套件
+anthropic>=0.40      # AI 裁判 / 參謀（需環境變數 ANTHROPIC_API_KEY）
+rich>=13             # 終端機 TUI 渲染
+wcwidth>=0.2         # 東亞字寬對齊（地圖網格）

@@ -1,0 +1,1040 @@
+{
+  "scenario_name": "黑潮行動 — Operation Black Tide",
+  "scenario_id": "black_tide",
+  "campaign_run": 1,
+  "tick": 0,
+  "max_ticks": 8,
+  "map": {
+    "width": 25,
+    "height": 18,
+    "terrain": [
+      ".........F...R..........H",
+      ".........F...R........HH.",
+      "........FF...R..UU.......",
+      ".........F...B...........",
+      "..........F..R...........",
+      "....FFF......R......H....",
+      "....FF.KKK....R....HH....",
+      ".....FKKK.K...R..........",
+      "...........K..R..........",
+      "......KKKKK...B..UUU.....",
+      ".......KKK.K..R..UUU.....",
+      "......KK.FK..R...........",
+      ".......KFF...R...........",
+      "......KFKK..R............",
+      "......KFF...B......UU....",
+      "......FF....R............",
+      ".....F......R..........HH",
+      "............R............"
+    ]
+  },
+  "weather": "晴 多雲 微風SW",
+  "weather_state": {
+    "current": {
+      "tick": 0,
+      "precipitation": "none",
+      "cloud": "scattered",
+      "visibility_km": 12,
+      "cas_modifier": 1.0,
+      "move_modifier": 1.0
+    }
+  },
+  "campaign_pool": {
+    "allies_tons": 120000,
+    "axis_tons": 50000
+  },
+  "objectives": {
+    "saint_vivien": {
+      "name": "Saint-Vivien",
+      "pos": [
+        18,
+        9
+      ],
+      "controller": "axis",
+      "value": "major"
+    },
+    "la_hetraie": {
+      "name": "La Hêtraie",
+      "pos": [
+        16,
+        2
+      ],
+      "controller": "axis",
+      "value": "minor"
+    },
+    "beaumont": {
+      "name": "Beaumont-sur-Sève",
+      "pos": [
+        19,
+        14
+      ],
+      "controller": "axis",
+      "value": "minor"
+    },
+    "bridge_north": {
+      "name": "Pont du Nord 北橋",
+      "pos": [
+        13,
+        3
+      ],
+      "controller": "axis",
+      "value": "bridge"
+    },
+    "bridge_central": {
+      "name": "Pont du Centre 中橋",
+      "pos": [
+        14,
+        9
+      ],
+      "controller": "axis",
+      "value": "bridge"
+    },
+    "bridge_south": {
+      "name": "Pont du Sud 南橋",
+      "pos": [
+        12,
+        14
+      ],
+      "controller": "axis",
+      "value": "bridge"
+    }
+  },
+  "units": {
+    "1ID": {
+      "side": "allies",
+      "short": "1ID",
+      "name": "1st Infantry 'Big Red One'",
+      "type": "infantry",
+      "pos": [
+        3,
+        8
+      ],
+      "strength": 100,
+      "org": 98,
+      "xp": 4,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 90,
+        "SA": 95,
+        "HE": 90,
+        "AT": 95,
+        "RAT": 95,
+        "MED": 95,
+        "PARTS": 90
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開戰部署",
+      "orbat": {
+        "1-16": {
+          "name": "1營/16團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-16": {
+          "name": "2營/16團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-16": {
+          "name": "3營/16團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-18": {
+          "name": "1營/18團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-18": {
+          "name": "2營/18團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-18": {
+          "name": "3營/18團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-26": {
+          "name": "1營/26團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-26": {
+          "name": "2營/26團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-26": {
+          "name": "3營/26團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "騎兵偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "M8×13+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "醫療/信號/補給/司令部 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "第745戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "M4×54+Stuart×17 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "第634防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm Bofors×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030
+    },
+    "4ID": {
+      "side": "allies",
+      "short": "4ID",
+      "name": "4th Infantry 'Ivy'",
+      "type": "infantry",
+      "pos": [
+        4,
+        11
+      ],
+      "strength": 100,
+      "org": 95,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 85,
+        "SA": 90,
+        "HE": 85,
+        "AT": 85,
+        "RAT": 90,
+        "MED": 90,
+        "PARTS": 80
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開戰部署",
+      "orbat": {
+        "1-8": {
+          "name": "1營/8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-8": {
+          "name": "2營/8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-8": {
+          "name": "3營/8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-12": {
+          "name": "1營/12團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-12": {
+          "name": "2營/12團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-12": {
+          "name": "3營/12團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-22": {
+          "name": "1營/22團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-22": {
+          "name": "2營/22團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-22": {
+          "name": "3營/22團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "騎兵偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "M8×13+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "醫療/信號/補給/司令部 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "第70戰車營",
+          "type": "armor",
+          "personnel": 720,
+          "note": "M4×52 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 13600
+    },
+    "3AD": {
+      "side": "allies",
+      "short": "3AD",
+      "name": "3rd Armored 'Spearhead'",
+      "type": "armor",
+      "pos": [
+        5,
+        5
+      ],
+      "strength": 100,
+      "org": 95,
+      "xp": 4,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 80,
+        "SA": 90,
+        "HE": 80,
+        "AT": 90,
+        "RAT": 90,
+        "MED": 85,
+        "PARTS": 75
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開戰部署",
+      "orbat": {
+        "32a": {
+          "name": "32團1戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "M4 Sherman",
+          "status": "in_division"
+        },
+        "32b": {
+          "name": "32團2戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "M4 Sherman",
+          "status": "in_division"
+        },
+        "33a": {
+          "name": "33團1戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "M4 Sherman",
+          "status": "in_division"
+        },
+        "33b": {
+          "name": "33團2戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "M4 Sherman",
+          "status": "in_division"
+        },
+        "36a": {
+          "name": "36團1裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "M3 halftrack×80",
+          "status": "in_division"
+        },
+        "36b": {
+          "name": "36團2裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "M3 halftrack×80",
+          "status": "in_division"
+        },
+        "36c": {
+          "name": "36團3裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "M3 halftrack×80",
+          "status": "in_division"
+        },
+        "sp1": {
+          "name": "第54自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "M7 Priest×18",
+          "status": "in_division"
+        },
+        "sp2": {
+          "name": "第67自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "M7 Priest×18",
+          "status": "in_division"
+        },
+        "sp3": {
+          "name": "第391自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "M7 Priest×18",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "第23裝甲工兵營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "橋梁/TNT12000lbs",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "裝甲偵察",
+          "type": "recon",
+          "personnel": 300,
+          "note": "M8×9",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 5538,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 13988
+    },
+    "90ID": {
+      "side": "allies",
+      "short": "90ID",
+      "name": "90th Infantry 'Tough Ombres'",
+      "type": "infantry",
+      "pos": [
+        3,
+        15
+      ],
+      "strength": 100,
+      "org": 92,
+      "xp": 2,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 85,
+        "SA": 90,
+        "HE": 80,
+        "AT": 80,
+        "RAT": 90,
+        "MED": 85,
+        "PARTS": 80
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開戰部署",
+      "orbat": {
+        "1-357": {
+          "name": "1營/357團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-357": {
+          "name": "2營/357團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-357": {
+          "name": "3營/357團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-358": {
+          "name": "1營/358團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-358": {
+          "name": "2營/358團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-358": {
+          "name": "3營/358團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-359": {
+          "name": "1營/359團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-359": {
+          "name": "2營/359團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-359": {
+          "name": "3營/359團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "騎兵偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "M8×13+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "醫療/信號/補給/司令部 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "第712戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "M4×48 (attached)",
+          "status": "in_division"
+        },
+        "brg": {
+          "name": "第537架橋連",
+          "type": "engineer",
+          "personnel": 200,
+          "note": "重型浮橋200m (軍級加強)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 13780
+    },
+    "17SS": {
+      "side": "axis",
+      "short": "17SS",
+      "name": "17.SS-PzGren 'Götz'",
+      "type": "panzergrenadier",
+      "pos": [
+        18,
+        9
+      ],
+      "strength": 85,
+      "org": 85,
+      "xp": 4,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 70,
+        "SA": 80,
+        "HE": 65,
+        "AT": 70,
+        "RAT": 75,
+        "MED": 60,
+        "PARTS": 55
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開戰部署",
+      "orbat": {
+        "37-1": {
+          "name": "1營/37團",
+          "type": "panzergrenadier",
+          "personnel": 700,
+          "note": "擲彈兵(部分摩化)",
+          "status": "in_division"
+        },
+        "37-2": {
+          "name": "2營/37團",
+          "type": "panzergrenadier",
+          "personnel": 700,
+          "note": "擲彈兵",
+          "status": "in_division"
+        },
+        "37-3": {
+          "name": "3營/37團",
+          "type": "panzergrenadier",
+          "personnel": 700,
+          "note": "擲彈兵",
+          "status": "in_division"
+        },
+        "38-1": {
+          "name": "1營/38團",
+          "type": "panzergrenadier",
+          "personnel": 700,
+          "note": "擲彈兵(部分摩化)",
+          "status": "in_division"
+        },
+        "38-2": {
+          "name": "2營/38團",
+          "type": "panzergrenadier",
+          "personnel": 700,
+          "note": "擲彈兵",
+          "status": "in_division"
+        },
+        "38-3": {
+          "name": "3營/38團",
+          "type": "panzergrenadier",
+          "personnel": 700,
+          "note": "擲彈兵",
+          "status": "in_division"
+        },
+        "pz": {
+          "name": "第17裝甲營",
+          "type": "armor",
+          "personnel": 900,
+          "note": "StuG III/IV×41 (無Panther/Tiger)",
+          "status": "in_division"
+        },
+        "art1": {
+          "name": "砲兵1營(自走)",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "Wespe×12+Hummel×6",
+          "status": "in_division"
+        },
+        "art2": {
+          "name": "砲兵2營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "leFH18 105mm×12",
+          "status": "in_division"
+        },
+        "art3": {
+          "name": "砲兵3營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "sFH18 150mm×12",
+          "status": "in_division"
+        },
+        "pak": {
+          "name": "反戰車營",
+          "type": "antitank",
+          "personnel": 600,
+          "note": "PaK40×23+Marder×9+Hetzer×6",
+          "status": "in_division"
+        },
+        "flak": {
+          "name": "88防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "88mm Flak×12 (★彈藥短缺)",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "裝甲工兵營",
+          "type": "engineer",
+          "personnel": 600,
+          "note": "預埋/拆橋/Teller雷",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "裝甲偵察營",
+          "type": "recon",
+          "personnel": 400,
+          "note": "SdKfz234/250+摩托",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 4550,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 13200
+    },
+    "2Pz": {
+      "side": "axis",
+      "short": "2Pz",
+      "name": "2. Panzer-Division",
+      "type": "armor",
+      "pos": [
+        22,
+        5
+      ],
+      "strength": 90,
+      "org": 90,
+      "xp": 5,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 65,
+        "SA": 80,
+        "HE": 60,
+        "AT": 60,
+        "RAT": 70,
+        "MED": 55,
+        "PARTS": 50
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開戰部署",
+      "orbat": {
+        "pz1": {
+          "name": "第I裝甲營",
+          "type": "armor",
+          "personnel": 600,
+          "note": "Panther×34 (75mm L/70)",
+          "status": "in_division"
+        },
+        "pz2": {
+          "name": "第II裝甲營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "Pz IV×50 (75mm L/48)",
+          "status": "in_division"
+        },
+        "pg2-1": {
+          "name": "1營/2機步團",
+          "type": "mech_inf",
+          "personnel": 900,
+          "note": "SdKfz251機械化",
+          "status": "in_division"
+        },
+        "pg2-2": {
+          "name": "2營/2機步團",
+          "type": "mech_inf",
+          "personnel": 900,
+          "note": "機步",
+          "status": "in_division"
+        },
+        "pg304-1": {
+          "name": "1營/304團",
+          "type": "mech_inf",
+          "personnel": 850,
+          "note": "機步",
+          "status": "in_division"
+        },
+        "pg304-2": {
+          "name": "2營/304團",
+          "type": "mech_inf",
+          "personnel": 850,
+          "note": "機步",
+          "status": "in_division"
+        },
+        "art": {
+          "name": "第74砲兵團",
+          "type": "artillery",
+          "personnel": 1200,
+          "note": "Wespe×12+Hummel×6+leFH18×24",
+          "status": "in_division"
+        },
+        "pak": {
+          "name": "反戰車營",
+          "type": "antitank",
+          "personnel": 600,
+          "note": "PaK40×12+Marder×9+JagdpzIV×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "第38裝甲工兵營",
+          "type": "engineer",
+          "personnel": 580,
+          "note": "工兵",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "第2裝甲偵察營",
+          "type": "recon",
+          "personnel": 500,
+          "note": "Puma(50mm)×16 ★重型偵察",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 4120,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 11800
+    },
+    "352": {
+      "side": "axis",
+      "short": "352",
+      "name": "352. Infanterie",
+      "type": "infantry",
+      "pos": [
+        18,
+        14
+      ],
+      "strength": 70,
+      "org": 70,
+      "xp": 2,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 60,
+        "SA": 75,
+        "HE": 55,
+        "AT": 50,
+        "RAT": 65,
+        "MED": 50,
+        "PARTS": 40
+      },
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "開戰部署",
+      "orbat": {
+        "914": {
+          "name": "第914擲彈團",
+          "type": "infantry",
+          "personnel": 1600,
+          "note": "已削減(約1.6k)",
+          "status": "in_division"
+        },
+        "915": {
+          "name": "第915擲彈團",
+          "type": "infantry",
+          "personnel": 1600,
+          "note": "已削減",
+          "status": "in_division"
+        },
+        "916": {
+          "name": "第916擲彈團",
+          "type": "infantry",
+          "personnel": 1600,
+          "note": "已削減",
+          "status": "in_division"
+        },
+        "art": {
+          "name": "第352砲兵團",
+          "type": "artillery",
+          "personnel": 700,
+          "note": "leFH18×18(半損)",
+          "status": "in_division"
+        },
+        "pak": {
+          "name": "反戰車",
+          "type": "antitank",
+          "personnel": 300,
+          "note": "PaK40×14+Marder×3",
+          "status": "in_division"
+        },
+        "flak": {
+          "name": "防空",
+          "type": "aa",
+          "personnel": 200,
+          "note": "20mm Flak×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "第352工兵營",
+          "type": "engineer",
+          "personnel": 440,
+          "note": "半損",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 760,
+          "note": "司令部/補給/醫療(半損) — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 7200
+    }
+  },
+  "fog_of_war": {
+    "allies_spotted": [
+      "352"
+    ],
+    "axis_spotted": [
+      "1ID",
+      "3AD"
+    ],
+    "_note": "開戰預戰情報：美軍已知 352 在 Beaumont；Adler 已知 1ID、3AD 大致位置。"
+  },
+  "hour_in_tick": 0,
+  "global_hour": 0,
+  "game_time": "1944-08-25 06:00",
+  "phase": "tick_planning",
+  "pending_orders": [],
+  "standing_orders": {
+    "allies": "",
+    "axis": ""
+  }
+}

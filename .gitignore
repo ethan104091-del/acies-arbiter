@@ -1,0 +1,21 @@
+# 執行期產物（不進 repo；用 *_setup.py 生成器重建 state）
+__pycache__/
+*.pyc
+*.pyo
+
+# 渲染/示意輸出圖
+*.png
+*.svg
+
+# 對局執行期檔案
+combat_log*.jsonl
+combat_log*.archive
+activity.json
+report_allies.md
+report_axis.md
+hour_action_*.json
+
+# 備份/暫存
+*.bak
+*.tmp
+.DS_Store
