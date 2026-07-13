@@ -6,7 +6,8 @@ __pycache__/
 # 渲染/示意輸出圖
 *.png
 *.svg
-!assets/*.png     # README 截圖要進 repo
+# 例外：README 截圖要進 repo
+!assets/*.png
 
 # 對局執行期檔案
 combat_log*.jsonl
