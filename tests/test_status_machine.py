@@ -15,10 +15,10 @@ import pathlib
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # 引擎模組在 repo 根
 import arbiter as ar                                          # noqa: E402
 
-RUN4 = Path(__file__).resolve().parent / "runs" / "run4_openfield" / "final_state.json"
+RUN4 = Path(__file__).resolve().parent.parent / "runs" / "run4_openfield" / "final_state.json"
 fails = []
 
 

@@ -25,3 +25,8 @@ hour_action_*.json
 # 學習歷程／成果報告（另一個專案的交付物，刻意放在此目錄但不進 repo）
 料鋒_學習歷程.*
 料鋒_成果報告.*
+
+# 執行期／示範產物
+annotations.json
+supply_demo.png
+open_field_preview.png

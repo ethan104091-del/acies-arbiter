@@ -18,6 +18,9 @@
 推進時鐘(hourstate.advance_hour)、更新 fog/pending、寫雙方戰報，
 然後刪除/清空 hour_action_*.json 等下一個 hour。
 """
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parent.parent))  # 引擎模組留在 repo 根（28 個歷史解算腳本依賴該路徑）
 import argparse
 import json
 import time

@@ -13,6 +13,9 @@
     python3 client.py --url https://xxxx.trycloudflare.com --token <token> --side axis
     （同網路測試： --url http://192.168.x.x:8000 ）
 """
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parent.parent))  # 引擎模組留在 repo 根（28 個歷史解算腳本依賴該路徑）
 import argparse
 import json
 import sys

@@ -2,12 +2,15 @@
 """生成黑潮行動 Operation Black Tide 的乾淨開局 → state.json（Tick 0）。
 沿用現有 state 的 map/objectives 結構、重建 7 個師的初始部署（scenario.md §3）。
 """
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parent.parent))  # 引擎模組留在 repo 根（28 個歷史解算腳本依賴該路徑）
 import json
 from pathlib import Path
 import orbat, hourstate as hs
 
 G = Path.home() / "war-game"
-old = json.load(open(G / "state.json"))     # 重用 map 結構
+old = json.load(open(G / "maps/blacktide_state.json"))     # 重用 map 結構
 
 # (short, name, type, pos, strength, org, xp, resources)  依 scenario.md §3
 UNITS = {
@@ -63,7 +66,7 @@ for uid, (short, name, typ, pos, strv, org, xp, res) in UNITS.items():
 
 hs.ensure_hour_fields(s)
 orbat.ensure_orbat(s)
-json.dump(s, open(G / "state.json", "w"), ensure_ascii=False, indent=2)
+json.dump(s, open(G / "maps/blacktide_state.json", "w"), ensure_ascii=False, indent=2)
 
 print("=== 黑潮行動 乾淨開局 ===")
 print(f"tick {s['tick']}/{s['max_ticks']}  {len(s['units'])} 師  地圖 {s['map']['width']}×{s['map']['height']}")

@@ -3,6 +3,9 @@
 雙方 10 編隊 180° 對稱部署、鏡像編制、指揮所與補給欄位齊備。可載入開局。
 藍軍=allies、紅軍=axis（沿用既有 fog/filter 機制）。
 """
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parent.parent))  # 引擎模組留在 repo 根（28 個歷史解算腳本依賴該路徑）
 import json
 from pathlib import Path
 import orbat, hourstate as hs

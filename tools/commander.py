@@ -9,6 +9,9 @@ curses 互動：方向鍵移游標，在地圖上自由放置標記 / 文字 / �
 用法： python3 ~/war-game/commander.py
 除錯： CMDR_DEBUG=1 python3 commander.py  → 按鍵與動作寫入 /tmp/cmdr_debug.log
 """
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parent.parent))  # 引擎模組留在 repo 根（28 個歷史解算腳本依賴該路徑）
 import curses
 import json
 import locale

@@ -9,6 +9,9 @@
 
 用法： python3 ~/war-game/map.py
 """
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parent.parent))  # 引擎模組留在 repo 根（28 個歷史解算腳本依賴該路徑）
 import json
 import time
 from pathlib import Path
