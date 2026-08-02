@@ -1,0 +1,5006 @@
+{
+  "scenario_name": "純戰場 The Open Field",
+  "scenario_id": "open_field",
+  "mode": "pvp",
+  "tick": 8,
+  "max_ticks": 8,
+  "map": {
+    "width": 30,
+    "height": 18,
+    "terrain": [
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "F",
+        "F",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ],
+      [
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "."
+      ]
+    ]
+  },
+  "units": {
+    "BLU-1": {
+      "side": "allies",
+      "short": "藍1步",
+      "name": "第1步兵師",
+      "type": "infantry",
+      "pos": [
+        9,
+        4
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "CAMOUFLAGED",
+      "hidden": false,
+      "resources": {
+        "POL": 98.2,
+        "SA": 99.4,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 99.4,
+        "PARTS": 98.8
+      },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 27,
+      "move_progress": 0.07350000000000056,
+      "flags": {},
+      "fortification": 0.5,
+      "dig_hours": 8.0,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "機動朝 (9, 4)",
+      "orbat": {
+        "1-r1": {
+          "name": "1營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r1": {
+          "name": "2營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r1": {
+          "name": "3營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r2": {
+          "name": "1營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r2": {
+          "name": "2營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r2": {
+          "name": "3營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r3": {
+          "name": "1營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r3": {
+          "name": "2營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r3": {
+          "name": "3營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030,
+      "supply_status": "intact",
+      "contact_hours": {
+        "axis": 0
+      },
+      "no_return_fire_since": 0,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "camo_hours": 4.0,
+      "camouflaged": true
+    },
+    "RED-1": {
+      "side": "axis",
+      "short": "紅1步",
+      "name": "紅第1步兵師",
+      "type": "infantry",
+      "pos": [
+        21,
+        12
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 98.2,
+        "SA": 99.4,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 99.4,
+        "PARTS": 98.8
+      },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 28,
+      "move_progress": 0.8390000000000006,
+      "flags": {},
+      "fortification": 0.5,
+      "dig_hours": 8.0,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "機動朝 (20, 12)",
+      "orbat": {
+        "1-r1": {
+          "name": "1營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r1": {
+          "name": "2營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r1": {
+          "name": "3營/r1團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r2": {
+          "name": "1營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r2": {
+          "name": "2營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r2": {
+          "name": "3營/r2團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r3": {
+          "name": "1營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r3": {
+          "name": "2營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r3": {
+          "name": "3營/r3團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030,
+      "supply_status": "intact",
+      "contact_hours": {
+        "allies": 0
+      },
+      "no_return_fire_since": 0,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "BLU-2": {
+      "side": "allies",
+      "short": "藍2步",
+      "name": "第2步兵師",
+      "type": "infantry",
+      "pos": [
+        11,
+        9
+      ],
+      "strength": 99.32,
+      "org": 75,
+      "xp": 3,
+      "fatigue": 80,
+      "visibility_state": "EXPOSED",
+      "hidden": false,
+      "resources": {
+        "POL": 85.0,
+        "SA": 88.0,
+        "HE": 91.0,
+        "AT": 91.0,
+        "RAT": 94.6,
+        "MED": 88.0,
+        "PARTS": 94.0
+      },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 96,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 21,
+      "move_progress": 0.18400000000000039,
+      "flags": {},
+      "fortification": 0.5,
+      "dig_hours": 8.0,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "遭敵砲擊",
+      "orbat": {
+        "1-r4": {
+          "name": "1營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r4": {
+          "name": "2營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r4": {
+          "name": "3營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r5": {
+          "name": "1營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r5": {
+          "name": "2營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r5": {
+          "name": "3營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r6": {
+          "name": "1營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r6": {
+          "name": "2營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r6": {
+          "name": "3營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 13934,
+      "supply_status": "intact",
+      "contact_hours": {
+        "axis": 22
+      },
+      "combat_hours": 10,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "cas_log": [
+        [
+          38,
+          8
+        ],
+        [
+          39,
+          8
+        ],
+        [
+          40,
+          8
+        ],
+        [
+          41,
+          8
+        ],
+        [
+          42,
+          8
+        ],
+        [
+          43,
+          8
+        ],
+        [
+          44,
+          12
+        ],
+        [
+          45,
+          12
+        ],
+        [
+          46,
+          12
+        ],
+        [
+          47,
+          12
+        ]
+      ],
+      "crater_log": [
+        {
+          "gh": 38,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 39,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 40,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 41,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 42,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 43,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 44,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 44,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 44,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 44,
+          "bearing": "正東",
+          "caliber": "155"
+        },
+        {
+          "gh": 44,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 44,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 44,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 45,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 45,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 45,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 45,
+          "bearing": "正東",
+          "caliber": "155"
+        },
+        {
+          "gh": 45,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 45,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 45,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 46,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 46,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 46,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 46,
+          "bearing": "正東",
+          "caliber": "155"
+        },
+        {
+          "gh": 46,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 46,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 46,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 47,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 47,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 47,
+          "bearing": "正東",
+          "caliber": "105"
+        },
+        {
+          "gh": 47,
+          "bearing": "正東",
+          "caliber": "155"
+        },
+        {
+          "gh": 47,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 47,
+          "bearing": "正東",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 47,
+          "bearing": "正東",
+          "caliber": "SP105"
+        }
+      ]
+    },
+    "RED-2": {
+      "side": "axis",
+      "short": "紅2步",
+      "name": "紅第2步兵師",
+      "type": "infantry",
+      "pos": [
+        14,
+        9
+      ],
+      "strength": 99.54,
+      "org": 75,
+      "xp": 3,
+      "fatigue": 100,
+      "visibility_state": "EXPOSED",
+      "hidden": false,
+      "resources": {
+        "POL": 88.0,
+        "SA": 98.8,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 98.8,
+        "PARTS": 97.0
+      },
+      "equip": {
+        "tanks": 52,
+        "guns": 0
+      },
+      "losses": {
+        "personnel": 50,
+        "tanks": 2,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.237500000000001,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "機動朝 (13, 9)",
+      "orbat": {
+        "1-r4": {
+          "name": "1營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "detached"
+        },
+        "2-r4": {
+          "name": "2營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r4": {
+          "name": "3營/r4團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r5": {
+          "name": "1營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r5": {
+          "name": "2營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r5": {
+          "name": "3營/r5團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r6": {
+          "name": "1營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r6": {
+          "name": "2營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r6": {
+          "name": "3營/r6團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "detached"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "detached"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "detached"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "detached"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "detached"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 10810,
+      "supply_status": "intact",
+      "contact_hours": {
+        "allies": 0
+      },
+      "no_return_fire_since": 0,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "camo_hours": 0.0,
+      "camouflaged": false,
+      "crater_log": [
+        {
+          "gh": 45,
+          "bearing": "正西",
+          "caliber": "105、155"
+        },
+        {
+          "gh": 45,
+          "bearing": "正西",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 45,
+          "bearing": "正西",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 45,
+          "bearing": "正西",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 46,
+          "bearing": "正西",
+          "caliber": "105、155"
+        },
+        {
+          "gh": 46,
+          "bearing": "正西",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 46,
+          "bearing": "正西",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 46,
+          "bearing": "正西",
+          "caliber": "SP105"
+        }
+      ],
+      "cas_log": [
+        [
+          45,
+          18
+        ],
+        [
+          46,
+          32
+        ]
+      ]
+    },
+    "BLU-3": {
+      "side": "allies",
+      "short": "藍3步",
+      "name": "第3步兵師",
+      "type": "infantry",
+      "pos": [
+        7,
+        14
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "hidden": false,
+      "resources": {
+        "POL": 98.2,
+        "SA": 99.4,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 99.4,
+        "PARTS": 98.8
+      },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 11,
+      "move_progress": 0.0835000000000008,
+      "flags": {},
+      "fortification": 0.5,
+      "dig_hours": 8.0,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "機動朝 (7, 14)",
+      "orbat": {
+        "1-r7": {
+          "name": "1營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r7": {
+          "name": "2營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r7": {
+          "name": "3營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r8": {
+          "name": "1營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r8": {
+          "name": "2營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r8": {
+          "name": "3營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r9": {
+          "name": "1營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r9": {
+          "name": "2營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r9": {
+          "name": "3營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 14030,
+      "supply_status": "intact",
+      "contact_hours": {
+        "axis": 7
+      },
+      "no_return_fire_since": 0,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "camo_hours": 0.0,
+      "camouflaged": false
+    },
+    "RED-3": {
+      "side": "axis",
+      "short": "紅3步",
+      "name": "紅第3步兵師",
+      "type": "infantry",
+      "pos": [
+        16,
+        5
+      ],
+      "strength": 99,
+      "org": 90,
+      "xp": 3,
+      "fatigue": 48,
+      "visibility_state": "EXPOSED",
+      "hidden": false,
+      "resources": {
+        "POL": 88.0,
+        "SA": 98.8,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 98.8,
+        "PARTS": 97.0
+      },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.49550000000000066,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "機動朝 (14, 8)",
+      "orbat": {
+        "1-r7": {
+          "name": "1營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r7": {
+          "name": "2營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r7": {
+          "name": "3營/r7團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r8": {
+          "name": "1營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r8": {
+          "name": "2營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r8": {
+          "name": "3營/r8團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "1-r9": {
+          "name": "1營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "2-r9": {
+          "name": "2營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "3-r9": {
+          "name": "3營/r9團",
+          "type": "infantry",
+          "personnel": 870,
+          "note": "步兵營",
+          "status": "in_division"
+        },
+        "a1": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "105榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M2A1 105mm×12",
+          "status": "in_division"
+        },
+        "a4": {
+          "name": "155榴砲營",
+          "type": "artillery",
+          "personnel": 500,
+          "note": "M1 155mm×12",
+          "status": "in_division"
+        },
+        "eng": {
+          "name": "工兵戰鬥營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "架橋/拆雷/工事",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察隊",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車+Jeep",
+          "status": "detached"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 2050,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        },
+        "tank": {
+          "name": "配屬戰車營",
+          "type": "armor",
+          "personnel": 750,
+          "note": "中戰車×54 (attached)",
+          "status": "in_division"
+        },
+        "aa": {
+          "name": "防空營",
+          "type": "aa",
+          "personnel": 400,
+          "note": "40mm×32 (attached)",
+          "status": "in_division"
+        }
+      },
+      "personnel": 13730,
+      "supply_status": "intact",
+      "contact_hours": {
+        "allies": 0
+      },
+      "no_return_fire_since": 0,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "camo_hours": 0.0,
+      "camouflaged": false
+    },
+    "BLU-AD": {
+      "side": "allies",
+      "short": "藍裝",
+      "name": "藍軍裝甲師",
+      "type": "armor",
+      "pos": [
+        10,
+        9
+      ],
+      "strength": 94,
+      "org": 100,
+      "xp": 4,
+      "fatigue": 0,
+      "visibility_state": "CAMOUFLAGED",
+      "hidden": false,
+      "resources": {
+        "POL": 94.6,
+        "SA": 99.4,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 99.4,
+        "PARTS": 97.6
+      },
+      "equip": {
+        "tanks": 216,
+        "guns": 0
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 36,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.5,
+      "dig_hours": 8.0,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "機動朝 (10, 9)",
+      "orbat": {
+        "t1": {
+          "name": "1戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t2": {
+          "name": "2戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t3": {
+          "name": "3戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t4": {
+          "name": "4戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "m1": {
+          "name": "1裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "m2": {
+          "name": "2裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "m3": {
+          "name": "3裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "sp1": {
+          "name": "1自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "detached"
+        },
+        "sp2": {
+          "name": "2自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "detached"
+        },
+        "sp3": {
+          "name": "3自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "detached"
+        },
+        "eng": {
+          "name": "裝甲工兵營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "工兵",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "裝甲偵察",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 5538,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 12338,
+      "supply_status": "intact",
+      "contact_hours": {
+        "axis": 0
+      },
+      "no_return_fire_since": 0,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "camo_hours": 4.0,
+      "camouflaged": true
+    },
+    "RED-AD": {
+      "side": "axis",
+      "short": "紅裝",
+      "name": "紅軍裝甲師",
+      "type": "armor",
+      "pos": [
+        13,
+        9
+      ],
+      "strength": 99.74,
+      "org": 85,
+      "xp": 4,
+      "fatigue": 73,
+      "visibility_state": "EXPOSED",
+      "hidden": false,
+      "resources": {
+        "POL": 37.2,
+        "SA": 95.2,
+        "HE": 95.5,
+        "AT": 92.5,
+        "RAT": 95.4,
+        "MED": 95.2,
+        "PARTS": 92.0
+      },
+      "equip": {
+        "tanks": 212,
+        "guns": 0
+      },
+      "losses": {
+        "personnel": 32,
+        "tanks": 4,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.30000000000000004,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "機動朝 (12, 9)",
+      "orbat": {
+        "t1": {
+          "name": "1戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t2": {
+          "name": "2戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t3": {
+          "name": "3戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "t4": {
+          "name": "4戰車營",
+          "type": "armor",
+          "personnel": 700,
+          "note": "中戰車",
+          "status": "in_division"
+        },
+        "m1": {
+          "name": "1裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "m2": {
+          "name": "2裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "m3": {
+          "name": "3裝步營",
+          "type": "mech_inf",
+          "personnel": 1000,
+          "note": "半履帶",
+          "status": "in_division"
+        },
+        "sp1": {
+          "name": "1自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "detached"
+        },
+        "sp2": {
+          "name": "2自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "detached"
+        },
+        "sp3": {
+          "name": "3自走砲營",
+          "type": "artillery",
+          "personnel": 550,
+          "note": "自走榴砲×18",
+          "status": "detached"
+        },
+        "eng": {
+          "name": "裝甲工兵營",
+          "type": "engineer",
+          "personnel": 700,
+          "note": "工兵",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "裝甲偵察",
+          "type": "recon",
+          "personnel": 300,
+          "note": "裝甲車",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "師部及勤務",
+          "type": "hq",
+          "personnel": 5538,
+          "note": "司令部/補給/醫療 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 12306,
+      "supply_status": "intact",
+      "contact_hours": {
+        "allies": 1
+      },
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "camo_hours": 0.0,
+      "camouflaged": false,
+      "crater_log": [
+        {
+          "gh": 44,
+          "bearing": "正西",
+          "caliber": "105、155"
+        },
+        {
+          "gh": 44,
+          "bearing": "正西",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 44,
+          "bearing": "正西",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 44,
+          "bearing": "正西",
+          "caliber": "SP105"
+        }
+      ],
+      "cas_log": [
+        [
+          44,
+          32
+        ]
+      ],
+      "no_return_fire_since": 44
+    },
+    "BLU-SF": {
+      "side": "allies",
+      "short": "藍特",
+      "name": "藍軍特戰旅",
+      "type": "ranger",
+      "pos": [
+        6,
+        4
+      ],
+      "strength": 100,
+      "org": 100,
+      "xp": 5,
+      "fatigue": 0,
+      "visibility_state": "CONCEALED",
+      "hidden": true,
+      "resources": {
+        "POL": 98.2,
+        "SA": 99.4,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 99.4,
+        "PARTS": 98.8
+      },
+      "equip": {
+        "tanks": 0,
+        "guns": 12
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 24,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.5,
+      "dig_hours": 8.04,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "機動朝 (6, 4)",
+      "orbat": {
+        "a1": {
+          "name": "1突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵/游騎兵",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "2突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "3突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察營",
+          "type": "recon",
+          "personnel": 300,
+          "note": "縱深偵察/前導",
+          "status": "in_division"
+        },
+        "spt": {
+          "name": "輕支援分隊",
+          "type": "engineer",
+          "personnel": 400,
+          "note": "迫擊/輕反戰車/爆破",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "旅部及勤務",
+          "type": "hq",
+          "personnel": 1000,
+          "note": "通信/補給 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 3500,
+      "supply_status": "intact",
+      "contact_hours": {
+        "axis": 0
+      },
+      "no_return_fire_since": 0,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "RED-SF": {
+      "side": "axis",
+      "short": "紅特",
+      "name": "紅軍特戰旅",
+      "type": "ranger",
+      "pos": [
+        9,
+        14
+      ],
+      "strength": 100,
+      "org": 79,
+      "xp": 5,
+      "fatigue": 42,
+      "visibility_state": "CAMOUFLAGED",
+      "hidden": false,
+      "resources": {
+        "POL": 94.8,
+        "SA": 99.2,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 99.2,
+        "PARTS": 98.2
+      },
+      "equip": {
+        "tanks": 0,
+        "guns": 12
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.09999999999999964,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "broken_down_vehicles": 0,
+      "orders": "",
+      "last_action": "機動朝 (9, 14)",
+      "orbat": {
+        "a1": {
+          "name": "1突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵/游騎兵",
+          "status": "in_division"
+        },
+        "a2": {
+          "name": "2突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵",
+          "status": "in_division"
+        },
+        "a3": {
+          "name": "3突擊營",
+          "type": "ranger",
+          "personnel": 600,
+          "note": "精銳輕步兵",
+          "status": "in_division"
+        },
+        "rcn": {
+          "name": "偵察營",
+          "type": "recon",
+          "personnel": 300,
+          "note": "縱深偵察/前導",
+          "status": "in_division"
+        },
+        "spt": {
+          "name": "輕支援分隊",
+          "type": "engineer",
+          "personnel": 400,
+          "note": "迫擊/輕反戰車/爆破",
+          "status": "in_division"
+        },
+        "hq": {
+          "name": "旅部及勤務",
+          "type": "hq",
+          "personnel": 1000,
+          "note": "通信/補給 — 不可拉出",
+          "status": "in_division"
+        }
+      },
+      "personnel": 3500,
+      "supply_status": "intact",
+      "contact_hours": {
+        "allies": 5
+      },
+      "no_return_fire_since": 0,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "camo_hours": 0.0,
+      "camouflaged": false
+    },
+    "RED-3-rcn": {
+      "side": "axis",
+      "short": "紅3步/rcn",
+      "name": "紅3步 偵察隊",
+      "type": "recon",
+      "pos": [
+        14,
+        3
+      ],
+      "personnel": 300,
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "speed": 2,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "is_detachment": true,
+      "parent": "RED-3",
+      "bn_code": "rcn",
+      "_str_cut": 1,
+      "orders": "",
+      "hidden": false,
+      "last_action": "機動朝 (16, 3)",
+      "equip": {
+        "tanks": 0,
+        "guns": 0
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 12,
+      "move_progress": 0.5,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 98.2,
+        "SA": 99.4,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 99.4,
+        "PARTS": 98.8
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "no_return_fire_since": 4,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "camo_hours": 0.0,
+      "camouflaged": false
+    },
+    "RED-2-rcn": {
+      "side": "axis",
+      "short": "紅2步/rcn",
+      "name": "紅2步 偵察隊",
+      "type": "recon",
+      "pos": [
+        14,
+        9
+      ],
+      "personnel": 300,
+      "strength": 100,
+      "org": 100,
+      "xp": 3,
+      "speed": 2,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "is_detachment": true,
+      "parent": "RED-2",
+      "bn_code": "rcn",
+      "_str_cut": 1,
+      "orders": "",
+      "hidden": false,
+      "last_action": "機動朝 (14, 9)",
+      "equip": {
+        "tanks": 0,
+        "guns": 0
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 9,
+      "move_progress": 0.25,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 98.2,
+        "SA": 99.4,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 99.4,
+        "PARTS": 98.8
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "no_return_fire_since": 4,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "camo_hours": 0.0,
+      "camouflaged": false
+    },
+    "RED-2-1-r4": {
+      "side": "axis",
+      "short": "紅2步/1-r4",
+      "name": "紅2步 1營/r4團",
+      "type": "infantry",
+      "pos": [
+        29,
+        8
+      ],
+      "personnel": 870,
+      "strength": 99,
+      "org": 100,
+      "xp": 3,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "STANDARD",
+      "is_detachment": true,
+      "parent": "RED-2",
+      "bn_code": "1-r4",
+      "_str_cut": 3,
+      "orders": "",
+      "hidden": false,
+      "last_action": "機動朝 (29, 8)",
+      "equip": {
+        "tanks": 0,
+        "guns": 0
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 30,
+      "move_progress": 0.2880000000000005,
+      "flags": {},
+      "fortification": 0.5,
+      "dig_hours": 8.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 98.2,
+        "SA": 99.4,
+        "HE": 100.0,
+        "AT": 100.0,
+        "RAT": 95.8,
+        "MED": 99.4,
+        "PARTS": 98.8
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "no_return_fire_since": 9,
+      "combat_hours": 0,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "BLU-AD-sp1": {
+      "side": "allies",
+      "short": "藍裝/sp1",
+      "name": "藍裝 1自走砲營",
+      "type": "artillery",
+      "pos": [
+        10,
+        9
+      ],
+      "personnel": 550,
+      "strength": 100,
+      "org": 100,
+      "xp": 4,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "BLU-AD",
+      "bn_code": "sp1",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "由 藍裝 拉出",
+      "equip": {
+        "tanks": 0,
+        "guns": 18
+      },
+      "gun_mix": {
+        "SP105": 18
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.15,
+      "dig_hours": 2.68,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "axis": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "BLU-AD-sp2": {
+      "side": "allies",
+      "short": "藍裝/sp2",
+      "name": "藍裝 2自走砲營",
+      "type": "artillery",
+      "pos": [
+        10,
+        9
+      ],
+      "personnel": 550,
+      "strength": 98,
+      "org": 100,
+      "xp": 4,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "BLU-AD",
+      "bn_code": "sp2",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "由 藍裝 拉出",
+      "equip": {
+        "tanks": 0,
+        "guns": 18
+      },
+      "gun_mix": {
+        "SP105": 18
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.15,
+      "dig_hours": 2.68,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "axis": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "BLU-AD-sp3": {
+      "side": "allies",
+      "short": "藍裝/sp3",
+      "name": "藍裝 3自走砲營",
+      "type": "artillery",
+      "pos": [
+        10,
+        9
+      ],
+      "personnel": 550,
+      "strength": 96,
+      "org": 100,
+      "xp": 4,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "BLU-AD",
+      "bn_code": "sp3",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "由 藍裝 拉出",
+      "equip": {
+        "tanks": 0,
+        "guns": 18
+      },
+      "gun_mix": {
+        "SP105": 18
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.15,
+      "dig_hours": 2.68,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "axis": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "RED-2-a1": {
+      "side": "axis",
+      "short": "紅2步/a1",
+      "name": "紅2步 105榴砲營",
+      "type": "artillery",
+      "pos": [
+        15,
+        9
+      ],
+      "personnel": 490,
+      "strength": 98.0,
+      "org": 76.0,
+      "xp": 3,
+      "speed": 1,
+      "fatigue": 8,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "RED-2",
+      "bn_code": "a1",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "遭敵攔阻射擊",
+      "equip": {
+        "tanks": 0,
+        "guns": 12
+      },
+      "gun_mix": {
+        "105": 12
+      },
+      "losses": {
+        "personnel": 10,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": [],
+      "crater_log": [
+        {
+          "gh": 47,
+          "bearing": "正西",
+          "caliber": "105、155"
+        },
+        {
+          "gh": 47,
+          "bearing": "正西",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 47,
+          "bearing": "正西",
+          "caliber": "SP105"
+        },
+        {
+          "gh": 47,
+          "bearing": "正西",
+          "caliber": "SP105"
+        }
+      ],
+      "cas_log": [
+        [
+          47,
+          10
+        ]
+      ]
+    },
+    "RED-2-a2": {
+      "side": "axis",
+      "short": "紅2步/a2",
+      "name": "紅2步 105榴砲營",
+      "type": "artillery",
+      "pos": [
+        15,
+        9
+      ],
+      "personnel": 500,
+      "strength": 94,
+      "org": 79,
+      "xp": 3,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "RED-2",
+      "bn_code": "a2",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "由 紅2步 拉出",
+      "equip": {
+        "tanks": 0,
+        "guns": 12
+      },
+      "gun_mix": {
+        "105": 12
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "RED-2-a3": {
+      "side": "axis",
+      "short": "紅2步/a3",
+      "name": "紅2步 105榴砲營",
+      "type": "artillery",
+      "pos": [
+        15,
+        9
+      ],
+      "personnel": 500,
+      "strength": 92,
+      "org": 79,
+      "xp": 3,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "RED-2",
+      "bn_code": "a3",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "由 紅2步 拉出",
+      "equip": {
+        "tanks": 0,
+        "guns": 12
+      },
+      "gun_mix": {
+        "105": 12
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "RED-2-a4": {
+      "side": "axis",
+      "short": "紅2步/a4",
+      "name": "紅2步 155榴砲營",
+      "type": "artillery",
+      "pos": [
+        15,
+        9
+      ],
+      "personnel": 500,
+      "strength": 90,
+      "org": 79,
+      "xp": 3,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "RED-2",
+      "bn_code": "a4",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "由 紅2步 拉出",
+      "equip": {
+        "tanks": 0,
+        "guns": 12
+      },
+      "gun_mix": {
+        "155": 12
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "RED-AD-sp1": {
+      "side": "axis",
+      "short": "紅裝/sp1",
+      "name": "紅裝 1自走砲營",
+      "type": "artillery",
+      "pos": [
+        15,
+        9
+      ],
+      "personnel": 550,
+      "strength": 100,
+      "org": 99,
+      "xp": 4,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "RED-AD",
+      "bn_code": "sp1",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "由 紅裝 拉出",
+      "equip": {
+        "tanks": 0,
+        "guns": 18
+      },
+      "gun_mix": {
+        "SP105": 18
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "RED-AD-sp2": {
+      "side": "axis",
+      "short": "紅裝/sp2",
+      "name": "紅裝 2自走砲營",
+      "type": "artillery",
+      "pos": [
+        15,
+        9
+      ],
+      "personnel": 550,
+      "strength": 98,
+      "org": 99,
+      "xp": 4,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "RED-AD",
+      "bn_code": "sp2",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "由 紅裝 拉出",
+      "equip": {
+        "tanks": 0,
+        "guns": 18
+      },
+      "gun_mix": {
+        "SP105": 18
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    },
+    "RED-AD-sp3": {
+      "side": "axis",
+      "short": "紅裝/sp3",
+      "name": "紅裝 3自走砲營",
+      "type": "artillery",
+      "pos": [
+        15,
+        9
+      ],
+      "personnel": 550,
+      "strength": 96,
+      "org": 99,
+      "xp": 4,
+      "speed": 1,
+      "fatigue": 0,
+      "visibility_state": "EXPOSED",
+      "is_detachment": true,
+      "parent": "RED-AD",
+      "bn_code": "sp3",
+      "_str_cut": 2,
+      "orders": "",
+      "hidden": false,
+      "last_action": "由 紅裝 拉出",
+      "equip": {
+        "tanks": 0,
+        "guns": 18
+      },
+      "gun_mix": {
+        "SP105": 18
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 4,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
+      "supply_status": "intact",
+      "resources": {
+        "POL": 90.0,
+        "SA": 92.0,
+        "HE": 94.0,
+        "AT": 94.0,
+        "RAT": 96.4,
+        "MED": 92.0,
+        "PARTS": 96.0
+      },
+      "contact_hours": {
+        "allies": 0
+      },
+      "combat_hours": 4,
+      "no_supply_hours": 0,
+      "surrender_eligible": false,
+      "surrender_why": []
+    }
+  },
+  "command": {
+    "allies": {
+      "main_cp": [
+        5,
+        9
+      ],
+      "fwd_cp": null,
+      "commander_at": "main",
+      "pending_cp": []
+    },
+    "axis": {
+      "main_cp": [
+        29,
+        8
+      ],
+      "fwd_cp": null,
+      "commander_at": "main",
+      "pending_cp": []
+    }
+  },
+  "weather_state": {
+    "current": {
+      "tick": 0,
+      "precipitation": "none",
+      "cloud": "clear",
+      "visibility_km": 15,
+      "cas_modifier": 1.0,
+      "move_modifier": 1.0,
+      "note": "全程晴好開闊、純戰術"
+    }
+  },
+  "objectives": {
+    "type": "attrition",
+    "note": "殲敵較多者勝；斬首即勝；平手比自損"
+  },
+  "victory_state": null,
+  "supply_note": "補給走廊/效率於渲染與結算時由單位位置即時計算（見 scenario_open_field.md §5-A）",
+  "fog_of_war": {
+    "allies_spotted": [
+      "RED-AD",
+      "RED-SF"
+    ],
+    "axis_spotted": [
+      "BLU-2",
+      "BLU-3"
+    ],
+    "_note": "由 of.spot 每 hour 重算（對稱、確定性）",
+    "allies_spotted_cps": [],
+    "axis_spotted_cps": []
+  },
+  "hour_in_tick": 0,
+  "global_hour": 48,
+  "game_time": "1944-08-27 06:00",
+  "phase": "tick_planning",
+  "pending_orders": [
+    {
+      "id": "o1",
+      "side": "allies",
+      "issued_global_hour": 0,
+      "effective_global_hour": 3,
+      "level": "L1",
+      "text": "BLU-AD：軍長：於 (5,9) 架設主指揮所並進駐",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o2",
+      "side": "allies",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "BLU-1：沿 y=4 軸線東進至 (9,4)，經 (6,5) 繞過 (6,4) 森林格",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o3",
+      "side": "allies",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "BLU-SF：隨 BLU-1 行進，保持於其後方兩格，行進間維持最大偵測",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o4",
+      "side": "allies",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "BLU-AD：經 (3,8)(4,7)(6,7)(8,8) 北繞森林，推進至 (10,9)",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o5",
+      "side": "allies",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "BLU-2：跟隨 BLU-AD 後方，循同一北繞航路推進至 (11,9)",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o6",
+      "side": "allies",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "BLU-3：沿 y=14 軸線東進至 (9,14)",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o7",
+      "side": "axis",
+      "issued_global_hour": 0,
+      "effective_global_hour": 3,
+      "level": "L1",
+      "text": "RED-2：軍長：於 (29,8) 建立主指揮所，啟用後進駐，不前推",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o8",
+      "side": "axis",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "RED-SF：向 (18,15) 隱蔽滲透，搜索南翼；不切補給線、不攻擊",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o9",
+      "side": "axis",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "RED-3：向 (20,3) 戰備推進，避開森林，抵達後原地構築工事",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o10",
+      "side": "axis",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "RED-2：向 (20,9) 戰備推進，與 RED-AD 保持相鄰，抵達後構築工事",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o11",
+      "side": "axis",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "RED-1：向 (20,12) 戰備推進，維持與 RED-2 聯絡，抵達後構築工事",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o12",
+      "side": "axis",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "RED-AD：經開闊地向 (20,10) 行軍縱隊推進，不入森林，抵達後構築工事",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o13",
+      "side": "axis",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "RED-3-rcn：RED-3 拉出偵察隊，向 (16,3) 前進偵察，偵獲敵軍即停止前推",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o14",
+      "side": "axis",
+      "issued_global_hour": 0,
+      "effective_global_hour": 4,
+      "level": "L2",
+      "text": "RED-2-rcn：RED-2 拉出偵察隊，向 (16,8) 前進偵察，偵獲敵主力即停止前推",
+      "status": "active",
+      "extra_delay": 2
+    },
+    {
+      "id": "o15",
+      "side": "allies",
+      "issued_global_hour": 6,
+      "effective_global_hour": 8,
+      "level": "L1",
+      "text": "BLU-AD：抵達 (10,9) 後就地構築工事，等待 BLU-2 跟上，之前不再東進",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o16",
+      "side": "axis",
+      "issued_global_hour": 6,
+      "effective_global_hour": 9,
+      "level": "L2",
+      "text": "RED-2：拉出 1-r4 步兵營進駐主指揮所 (29,8) 並構築工事，不得離格",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o17",
+      "side": "allies",
+      "issued_global_hour": 12,
+      "effective_global_hour": 14,
+      "level": "L1",
+      "text": "BLU-1：抵達 (9,4) 即就地構築工事至有頂蓋，抵達後不再東進",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o18",
+      "side": "allies",
+      "issued_global_hour": 12,
+      "effective_global_hour": 14,
+      "level": "L1",
+      "text": "BLU-2：抵達 (11,9) 即就地構築工事至有頂蓋，抵達後不再東進",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o19",
+      "side": "allies",
+      "issued_global_hour": 12,
+      "effective_global_hour": 14,
+      "level": "L1",
+      "text": "BLU-3：抵達 (9,14) 即就地構築工事至有頂蓋，抵達後不再東進",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o20",
+      "side": "allies",
+      "issued_global_hour": 12,
+      "effective_global_hour": 14,
+      "level": "L1",
+      "text": "BLU-SF：BLU-1 停止並築防時，於其後方兩格就地構築工事並維持隱蔽",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o21",
+      "side": "allies",
+      "issued_global_hour": 18,
+      "effective_global_hour": 20,
+      "level": "L1",
+      "text": "BLU-SF：進 (6,4) 森林靜止隱蔽並構築工事，解除尾隨、改固守",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o22",
+      "side": "allies",
+      "issued_global_hour": 18,
+      "effective_global_hour": 20,
+      "level": "L1",
+      "text": "BLU-3：續行 (9,14)，抵達即構築工事至有頂蓋，抵達後不再東進",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o23",
+      "side": "axis",
+      "issued_global_hour": 18,
+      "effective_global_hour": 20,
+      "level": "L1",
+      "text": "RED-1：取消朝 (20,12) 的機動，就地構築工事並完全休整，不移動不交火",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o24",
+      "side": "axis",
+      "issued_global_hour": 18,
+      "effective_global_hour": 20,
+      "level": "L1",
+      "text": "RED-2：取消朝 (20,9) 的機動，就地構築工事並完全休整，不移動不交火",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o25",
+      "side": "axis",
+      "issued_global_hour": 18,
+      "effective_global_hour": 20,
+      "level": "L1",
+      "text": "RED-3：取消朝 (20,3) 的機動，就地構築工事並完全休整，不移動不交火",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o26",
+      "side": "axis",
+      "issued_global_hour": 18,
+      "effective_global_hour": 21,
+      "level": "L2",
+      "text": "RED-SF：沿 (18,15)→(16,14)→(16,16)→(18,15) 循環巡邏，僅偵察不交戰",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o27",
+      "side": "axis",
+      "issued_global_hour": 24,
+      "effective_global_hour": 26,
+      "level": "L1",
+      "text": "RED-1：留 (21,12) 續築至有頂蓋並完全休整，不機動不主動交火",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o28",
+      "side": "axis",
+      "issued_global_hour": 24,
+      "effective_global_hour": 26,
+      "level": "L1",
+      "text": "RED-2：留 (21,9) 續築至有頂蓋並完全休整，不機動不主動交火",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o29",
+      "side": "axis",
+      "issued_global_hour": 24,
+      "effective_global_hour": 26,
+      "level": "L1",
+      "text": "RED-3：留 (21,3) 續築至有頂蓋並完全休整，不機動不主動交火",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o30",
+      "side": "axis",
+      "issued_global_hour": 24,
+      "effective_global_hour": 26,
+      "level": "L1",
+      "text": "RED-AD：留 (20,10) 有頂蓋工事內完全休整，作中央機動預備隊",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o31",
+      "side": "axis",
+      "issued_global_hour": 24,
+      "effective_global_hour": 26,
+      "level": "L1",
+      "text": "RED-2-1-r4：固守 (29,8)，續築至有頂蓋後完全休整",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o32",
+      "side": "axis",
+      "issued_global_hour": 24,
+      "effective_global_hour": 27,
+      "level": "L2",
+      "text": "RED-2-rcn：沿 (13,8)→(10,8)→(13,8) 循環偵察，觀測不交戰",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o33",
+      "side": "axis",
+      "issued_global_hour": 24,
+      "effective_global_hour": 27,
+      "level": "L2",
+      "text": "RED-3-rcn：沿 (13,3)→(10,3)→(13,3) 循環偵察，觀測不交戰",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o34",
+      "side": "axis",
+      "issued_global_hour": 24,
+      "effective_global_hour": 27,
+      "level": "L2",
+      "text": "RED-SF：取消既有巡邏，改沿 (15,14)→(12,14)→(12,16)→(15,16) 循環搜索",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o35",
+      "side": "allies",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "BLU-AD：於 (10,9) 就地實施偽裝作業至完成並維持，工事已封頂",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o36",
+      "side": "allies",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "BLU-1：於 (9,4) 就地實施偽裝作業至完成並維持，工事已封頂",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o37",
+      "side": "allies",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "BLU-2：於 (11,9) 續行構築工事至有頂蓋級",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o38",
+      "side": "allies",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "BLU-3：於 (9,14) 固守完全休整，工事已封頂",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o39",
+      "side": "allies",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "BLU-SF：於 (6,4) 森林維持靜止隱蔽並續行構築工事",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o40",
+      "side": "axis",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "RED-AD：沿 (20,10)→(16,9)→(12,9) 全速推進，進入可攻擊距離即攻擊",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o41",
+      "side": "axis",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "RED-2：沿 (21,9)→(17,9)→(13,9) 跟進 RED-AD，對 BLU-2 正面攻擊",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o42",
+      "side": "axis",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "RED-3：沿 (21,3)→(17,4)→(13,4) 向西北翼推進，接觸後攻擊 BLU-1",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o43",
+      "side": "axis",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "RED-2-rcn：維持既定循環偵察，優先回報敵主力位置與工事狀態",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o44",
+      "side": "axis",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "RED-3-rcn：維持既定循環偵察",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o45",
+      "side": "axis",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "RED-SF：維持既定南翼搜索與滲透",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o46",
+      "side": "axis",
+      "issued_global_hour": 30,
+      "effective_global_hour": 32,
+      "level": "L1",
+      "text": "RED-2-1-r4：固守主指揮所 (29,8)，不得移動",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o47",
+      "side": "allies",
+      "issued_global_hour": 36,
+      "effective_global_hour": 38,
+      "level": "L1",
+      "text": "BLU-3：停止後撤，就地構築工事，優先達散兵壕級，此後固守",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o48",
+      "side": "allies",
+      "issued_global_hour": 36,
+      "effective_global_hour": 38,
+      "level": "L1",
+      "text": "BLU-AD：於 (10,9) 固守，工事與偽裝維持，完全休整",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o49",
+      "side": "allies",
+      "issued_global_hour": 36,
+      "effective_global_hour": 38,
+      "level": "L1",
+      "text": "BLU-1：於 (9,4) 固守，工事與偽裝維持，完全休整",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o50",
+      "side": "allies",
+      "issued_global_hour": 36,
+      "effective_global_hour": 38,
+      "level": "L1",
+      "text": "BLU-2：於 (11,9) 續行構築工事至有頂蓋級",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o51",
+      "side": "allies",
+      "issued_global_hour": 36,
+      "effective_global_hour": 38,
+      "level": "L1",
+      "text": "BLU-SF：於 (6,4) 森林維持靜止隱蔽並續行構築工事",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o52",
+      "side": "axis",
+      "issued_global_hour": 36,
+      "effective_global_hour": 38,
+      "level": "L1",
+      "text": "RED-AD：停止一切機動，未行軍之小時以全師火砲持續砲擊 BLU-2",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o53",
+      "side": "axis",
+      "issued_global_hour": 36,
+      "effective_global_hour": 38,
+      "level": "L1",
+      "text": "RED-2-rcn：向 (14,9) 機動並持續偵察 BLU-2，不主動交戰",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o54",
+      "side": "axis",
+      "issued_global_hour": 36,
+      "effective_global_hour": 38,
+      "level": "L1",
+      "text": "RED-2：續沿 (17,9)-(13,9) 軸線西進，接觸 BLU-2 即近戰攻擊",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o55",
+      "side": "axis",
+      "issued_global_hour": 36,
+      "effective_global_hour": 38,
+      "level": "L1",
+      "text": "RED-SF：向 (9,14) 機動追擊 BLU-3，接觸後近戰襲擊",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o56",
+      "side": "allies",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "BLU-AD：抽離 sp1/sp2/sp3 留守 (10,9)；本隊原地不動、不開火、完全休整",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o57",
+      "side": "allies",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "BLU-2：於 (11,9) 對 (14,9) 實施攔阻射擊，工事維持，不移動",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o58",
+      "side": "allies",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "BLU-3：於 (7,14) 續行構築工事至有頂蓋級",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o59",
+      "side": "allies",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "BLU-1：於 (9,4) 固守，工事與偽裝維持，完全休整",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o60",
+      "side": "allies",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "BLU-SF：於 (6,4) 森林維持靜止隱蔽",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o61",
+      "side": "axis",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "RED-2：抽離 a1-a4 留置原地對 BLU-2 砲擊；本隊西進 (13,9) 後停止",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o62",
+      "side": "axis",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "RED-AD：抽離 sp1-sp3 留置原地對 BLU-2 砲擊；本隊西進 (12,9) 後停止",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o63",
+      "side": "axis",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "RED-SF：進至 (8,14) 以東相鄰格隱蔽待機，只偵察不強攻",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o64",
+      "side": "axis",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "RED-3：向 (14,8) 轉為預備隊，不得砲擊",
+      "status": "active",
+      "extra_delay": 1
+    },
+    {
+      "id": "o65",
+      "side": "axis",
+      "issued_global_hour": 42,
+      "effective_global_hour": 44,
+      "level": "L1",
+      "text": "RED-1：原地固守 (21,12)，不移動不射擊",
+      "status": "active",
+      "extra_delay": 1
+    }
+  ],
+  "standing_orders": {
+    "allies": "",
+    "axis": ""
+  },
+  "hour_log_side": {
+    "allies": [
+      "[gh3] 主指揮所開始架設於 (5, 9)，2 小時後啟用（gh5）",
+      "[gh4] BLU-1 → (1, 4) (進度 0.67, .)",
+      "[gh4] BLU-AD → (3, 8) (進度 0.00, .)",
+      "[gh4] BLU-2 → (1, 9) (進度 0.67, .)",
+      "[gh4] BLU-3 → (1, 14) (進度 0.67, .)",
+      "[gh4] BLU-SF → (1, 3) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）",
+      "[gh5] BLU-1 → (2, 4) (進度 0.34, .)",
+      "[gh5] BLU-AD → (4, 7) (進度 0.00, .)",
+      "[gh5] BLU-2 → (2, 8) (進度 0.34, .)",
+      "[gh5] BLU-3 → (2, 14) (進度 0.34, .)",
+      "[gh5] BLU-SF → (1, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）",
+      "[gh6] BLU-1 → (3, 4) (進度 0.01, .)",
+      "[gh6] BLU-AD → (5, 7) (進度 0.00, .)",
+      "[gh6] BLU-2 → (3, 8) (進度 0.01, .)",
+      "[gh6] BLU-3 → (3, 14) (進度 0.01, .)",
+      "[gh7] BLU-1 → (3, 4) (進度 0.68, .)",
+      "[gh7] BLU-AD → (6, 7) (進度 0.00, .)",
+      "[gh7] BLU-2 → (3, 8) (進度 0.68, .)",
+      "[gh7] BLU-3 → (3, 14) (進度 0.68, .)",
+      "[gh8] BLU-1 → (4, 4) (進度 0.35, .)",
+      "[gh8] BLU-AD → (7, 7) (進度 0.00, .)",
+      "[gh8] BLU-2 → (4, 7) (進度 0.35, .)",
+      "[gh8] BLU-3 → (4, 14) (進度 0.35, .)",
+      "[gh8] BLU-SF → (2, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）",
+      "[gh9] BLU-1 → (5, 4) (進度 0.02, .)",
+      "[gh9] BLU-AD → (8, 8) (進度 0.00, .)",
+      "[gh9] BLU-2 → (5, 7) (進度 0.02, .)",
+      "[gh9] BLU-3 → (5, 14) (進度 0.02, .)",
+      "[gh9] BLU-SF → (3, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）",
+      "[gh10] BLU-1 → (5, 4) (進度 0.69, .)",
+      "[gh10] BLU-AD → (9, 9) (進度 0.00, .)",
+      "[gh10] BLU-2 → (5, 7) (進度 0.69, .)",
+      "[gh10] BLU-3 → (5, 14) (進度 0.69, .)",
+      "[gh11] BLU-1 → (6, 5) (進度 0.36, .)",
+      "[gh11] BLU-AD → (10, 9) (進度 0.00, .)",
+      "[gh11] BLU-2 → (6, 7) (進度 0.36, .)",
+      "[gh11] BLU-3 → (6, 14) (進度 0.36, .)",
+      "[gh11] BLU-SF → (4, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）",
+      "[gh12] BLU-1 → (6, 5) (進度 0.96, .)",
+      "[gh12] BLU-2 → (6, 7) (進度 0.96, .)",
+      "[gh12] BLU-3 → (6, 14) (進度 0.96, .)",
+      "[gh12] BLU-AD 構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh13] BLU-1 → (7, 4) (進度 0.26, .)",
+      "[gh13] BLU-2 → (7, 7) (進度 0.26, .)",
+      "[gh13] BLU-3 → (7, 14) (進度 0.26, .)",
+      "[gh13] BLU-SF → (4, 4) (進度 0.50, .)（尾隨 BLU-1 後方 2 格）",
+      "[gh13] BLU-AD 構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh14] BLU-1 → (7, 4) (進度 0.57, .)",
+      "[gh14] BLU-2 → (7, 7) (進度 0.57, .)",
+      "[gh14] BLU-3 → (7, 14) (進度 0.57, .)",
+      "[gh14] BLU-SF → (5, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）",
+      "[gh14] BLU-AD 構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh15] BLU-1 → (7, 4) (進度 0.83, .)",
+      "[gh15] BLU-2 → (7, 7) (進度 0.83, .)",
+      "[gh15] BLU-3 → (7, 14) (進度 0.83, .)",
+      "[gh15] BLU-AD 構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh16] BLU-1 → (8, 4) (進度 0.10, .)",
+      "[gh16] BLU-2 → (8, 8) (進度 0.10, .)",
+      "[gh16] BLU-3 → (8, 14) (進度 0.10, .)",
+      "[gh16] BLU-SF → (5, 4) (進度 0.50, .)（尾隨 BLU-1 後方 2 格）",
+      "[gh16] BLU-AD 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh17] BLU-1 → (8, 4) (進度 0.37, .)",
+      "[gh17] BLU-2 → (8, 8) (進度 0.37, .)",
+      "[gh17] BLU-3 → (8, 14) (進度 0.37, .)",
+      "[gh17] BLU-SF → (6, 5) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）",
+      "[gh17] BLU-AD 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh18] BLU-1 → (8, 4) (進度 0.60, .)",
+      "[gh18] BLU-2 → (8, 8) (進度 0.60, .)",
+      "[gh18] BLU-3 → (8, 14) (進度 0.60, .)",
+      "[gh18] BLU-AD 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh19] BLU-1 → (8, 4) (進度 0.84, .)",
+      "[gh19] BLU-2 → (8, 8) (進度 0.84, .)",
+      "[gh19] BLU-3 → (8, 14) (進度 0.84, .)",
+      "[gh19] BLU-AD 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh20] BLU-SF 新令生效：解除尾隨 BLU-1，改進 (6,4) 森林格靜止隱蔽並構築工事",
+      "[gh20] BLU-1 → (9, 4) (進度 0.07, .)",
+      "[gh20] BLU-2 → (9, 9) (進度 0.07, .)",
+      "[gh20] BLU-3 → (9, 14) (進度 0.07, .)",
+      "[gh20] BLU-SF → (6, 5) (進度 0.25, F)",
+      "[gh21] BLU-2 → (9, 9) (進度 0.31, .)",
+      "[gh21] BLU-SF → (6, 5) (進度 0.50, F)",
+      "[gh21] BLU-1 構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh21] BLU-3 構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh22] BLU-2 → (9, 9) (進度 0.54, .)",
+      "[gh22] BLU-SF → (6, 5) (進度 0.75, F)",
+      "[gh22] BLU-1 構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh22] BLU-3 構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh23] BLU-2 → (9, 9) (進度 0.78, .)",
+      "[gh23] BLU-SF → (6, 4) (進度 0.00, F)",
+      "[gh23] BLU-1 構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh23] BLU-3 構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh24] BLU-2 → (10, 9) (進度 0.25, .)",
+      "[gh24] BLU-1 構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh24] BLU-3 構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh24] BLU-SF 構築工事 → 淺掘（0.67hr，暴露 0.4）",
+      "[gh25] BLU-2 → (10, 9) (進度 0.72, .)",
+      "[gh25] BLU-1 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh25] BLU-3 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh25] BLU-SF 構築工事 → 淺掘（1.34hr，暴露 0.4）",
+      "[gh26] BLU-2 → (11, 9) (進度 0.18, .)",
+      "[gh26] BLU-1 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh26] BLU-3 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh26] BLU-SF 構築工事 → 淺掘（2.01hr，暴露 0.4）",
+      "[gh27] BLU-1 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh27] BLU-3 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh27] BLU-SF 構築工事 → 淺掘（2.68hr，暴露 0.4）",
+      "[gh27] BLU-2 構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh28] 【偵獲】RED-2-rcn → (13, 8) (進度 0.00, .)（循環偵察，下一航點 (13, 8)）",
+      "[gh28] BLU-1 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh28] BLU-3 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh28] BLU-SF 構築工事 → 散兵壕（3.35hr，暴露 0.18）",
+      "[gh28] BLU-2 構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh28] ★我方偵獲敵 RED-2-rcn 於 (13, 8)",
+      "[gh29] 【偵獲】RED-2-rcn → (12, 8) (進度 0.50, .)（循環偵察，下一航點 (10, 8)）",
+      "[gh29] 【偵獲】RED-3-rcn → (12, 3) (進度 0.50, .)（循環偵察，下一航點 (10, 3)）",
+      "[gh29] BLU-SF 構築工事 → 散兵壕（4.02hr，暴露 0.18）",
+      "[gh29] BLU-2 構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh29] ★我方偵獲敵 RED-3-rcn 於 (12, 3)",
+      "[gh32] 【偵獲】RED-2-rcn → (10, 8) (進度 0.00, .)（循環偵察，目標 (10, 8)）",
+      "[gh32] 【偵獲】RED-3-rcn → (10, 3) (進度 0.00, .)（循環偵察，目標 (10, 3)）",
+      "[gh32] BLU-AD 偽裝作業 → 1.00/3.0 工時",
+      "[gh32] BLU-1 偽裝作業 → 1.00/3.0 工時",
+      "[gh32] BLU-2 構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh32] BLU-SF 構築工事 → 散兵壕（4.69hr，暴露 0.18）",
+      "[gh33] 【偵獲】RED-2-rcn → (11, 8) (進度 0.50, .)（循環偵察，目標 (13, 8)）",
+      "[gh33] 【偵獲】RED-3-rcn → (11, 3) (進度 0.50, .)（循環偵察，目標 (13, 3)）",
+      "[gh33] 【偵獲】RED-SF → (12, 14) (進度 0.65, .)（循環偵察，目標 (12, 14)）",
+      "[gh33] BLU-AD 偽裝作業 → 2.00/3.0 工時",
+      "[gh33] BLU-1 偽裝作業 → 2.00/3.0 工時",
+      "[gh33] BLU-2 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh33] BLU-SF 構築工事 → 散兵壕（5.36hr，暴露 0.18）",
+      "[gh33] ★我方偵獲敵 RED-SF 於 (12, 14)",
+      "[gh34] BLU-3 依應變 1 開始向西後撤 2 格至 (7, 14)（敵 RED-SF 已在 3 格內）｜工事與偽裝歸零",
+      "[gh34] BLU-3 後撤中：BLU-3 → (9, 14) (進度 0.74, .)",
+      "[gh34] 【偵獲】RED-2-rcn → (13, 8) (進度 0.00, .)（循環偵察，目標 (13, 8)）",
+      "[gh34] 【偵獲】RED-SF → (12, 15) (進度 0.55, .)（循環偵察，目標 (12, 16)）",
+      "[gh34] BLU-AD 偽裝作業 → 3.00/3.0 工時　★完成，靜止時能見狀態好一級",
+      "[gh34] BLU-1 偽裝作業 → 3.00/3.0 工時　★完成，靜止時能見狀態好一級",
+      "[gh34] BLU-2 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh34] BLU-SF 構築工事 → 散兵壕（6.03hr，暴露 0.18）",
+      "[gh35] BLU-3 後撤中：BLU-3 → (8, 14) (進度 0.41, .)",
+      "[gh35] 【偵獲】RED-2-rcn → (14, 8) (進度 0.50, .)（循環偵察，目標 (16, 8)）",
+      "[gh35] BLU-2 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh35] BLU-SF 構築工事 → 散兵壕（6.70hr，暴露 0.18）",
+      "[gh36] BLU-3 後撤中：BLU-3 → (7, 14) (進度 0.08, .)",
+      "[gh36] BLU-2 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh36] BLU-SF 構築工事 → 散兵壕（7.37hr，暴露 0.18）",
+      "[gh37] BLU-3 後撤完成，抵達 (7, 14)",
+      "[gh37] BLU-SF 構築工事 → 有頂蓋（8.04hr，暴露 0.1）",
+      "[gh37] BLU-3 構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh38] BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh38] BLU-3 構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh39] BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh39] BLU-3 構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh40] BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh40] BLU-3 構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh41] BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh41] BLU-3 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh42] BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh42] BLU-3 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh43] 【偵獲】RED-SF → (9, 14) (進度 0.10, .)",
+      "[gh43] BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh43] BLU-3 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh43] ★我方偵獲敵 RED-SF 於 (9, 14)",
+      "[gh44] BLU-AD 抽離自走砲營 → BLU-AD-sp1, BLU-AD-sp2, BLU-AD-sp3 留守 (10, 9)；母師餘 戰車216／火砲0",
+      "[gh44] 【偵獲】RED-SF 抵達 (9, 14)，停止行軍",
+      "[gh44] BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06",
+      "[gh44] 藍軍砲群 對 (14, 9) 攔阻射擊 → 對格面 (14, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-AD：暴露0.7 密度0.2 戰車暴露1.0 → 傷亡 108 人、戰車 -14｜BLU-2 105×36 距3 發數900 殺傷力0.3；BLU-2 155×12 距3 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -2.39）",
+      "[gh44] BLU-3 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh44] BLU-AD-sp1 構築工事 → 淺掘（0.67hr，暴露 0.4）",
+      "[gh44] BLU-AD-sp2 構築工事 → 淺掘（0.67hr，暴露 0.4）",
+      "[gh44] BLU-AD-sp3 構築工事 → 淺掘（0.67hr，暴露 0.4）",
+      "[gh45] BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06",
+      "[gh45] 藍軍砲群 對 (15, 9) 攔阻射擊 → 對格面 (15, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-2：暴露0.7 密度0.2 戰車暴露1.0 → 傷亡 61 人、戰車 -4｜BLU-2 105×36 距4 發數900 殺傷力0.15；BLU-2 155×12 距4 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp2 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp3 SP105×18 距5 發數450 殺傷力0.15（組織度 -0.25）",
+      "[gh45] BLU-AD-sp1 構築工事 → 淺掘（1.34hr，暴露 0.4）",
+      "[gh45] BLU-AD-sp2 構築工事 → 淺掘（1.34hr，暴露 0.4）",
+      "[gh45] BLU-AD-sp3 構築工事 → 淺掘（1.34hr，暴露 0.4）",
+      "[gh46] BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06",
+      "[gh46] 藍軍砲群 對 (14, 9) 攔阻射擊 → 對格面 (14, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-2：暴露0.7 密度0.2 戰車暴露1.0 → 傷亡 108 人、戰車 -4｜BLU-2 105×36 距3 發數900 殺傷力0.3；BLU-2 155×12 距3 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -0.44）",
+      "[gh46] BLU-AD-sp1 構築工事 → 淺掘（2.01hr，暴露 0.4）",
+      "[gh46] BLU-AD-sp2 構築工事 → 淺掘（2.01hr，暴露 0.4）",
+      "[gh46] BLU-AD-sp3 構築工事 → 淺掘（2.01hr，暴露 0.4）",
+      "[gh47] 【偵獲】RED-AD → (13, 9) (進度 0.30, .)",
+      "[gh47] BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06",
+      "[gh47] 藍軍砲群 對 (15, 9) 攔阻射擊 → 對格面 (15, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-2-a1：暴露0.7 密度0.12 戰車暴露0.3 → 傷亡 36 人、火砲 -1｜BLU-2 105×36 距4 發數900 殺傷力0.15；BLU-2 155×12 距4 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp2 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp3 SP105×18 距5 發數450 殺傷力0.15（組織度 -3.0）",
+      "[gh47] BLU-AD-sp1 構築工事 → 淺掘（2.68hr，暴露 0.4）",
+      "[gh47] BLU-AD-sp2 構築工事 → 淺掘（2.68hr，暴露 0.4）",
+      "[gh47] BLU-AD-sp3 構築工事 → 淺掘（2.68hr，暴露 0.4）",
+      "[gh47] ★我方偵獲敵 RED-AD 於 (13, 9)"
+    ],
+    "axis": [
+      "[gh3] 主指揮所開始架設於 (29, 8)，2 小時後啟用（gh5）",
+      "[gh4] RED-3 拉出偵察營 → RED-3-rcn 於 (28, 3)",
+      "[gh4] RED-2 拉出偵察營 → RED-2-rcn 於 (28, 8)",
+      "[gh4] RED-3 → (28, 3) (進度 0.67, .)",
+      "[gh4] RED-2 → (28, 8) (進度 0.67, .)",
+      "[gh4] RED-AD → (26, 9) (進度 0.00, .)",
+      "[gh4] RED-1 → (28, 13) (進度 0.67, .)",
+      "[gh4] RED-SF → (26, 15) (進度 0.00, .)",
+      "[gh4] RED-3-rcn → (27, 3) (進度 0.50, .)",
+      "[gh4] RED-2-rcn → (27, 9) (進度 0.50, .)",
+      "[gh5] RED-3 → (27, 3) (進度 0.34, .)",
+      "[gh5] RED-2 → (27, 9) (進度 0.34, .)",
+      "[gh5] RED-AD → (25, 9) (進度 0.00, .)",
+      "[gh5] RED-1 → (27, 13) (進度 0.34, .)",
+      "[gh5] RED-SF → (25, 15) (進度 0.00, .)",
+      "[gh5] RED-3-rcn → (26, 3) (進度 1.00, .)",
+      "[gh5] RED-3-rcn → (25, 3) (進度 0.00, .)",
+      "[gh5] RED-2-rcn → (26, 9) (進度 1.00, .)",
+      "[gh5] RED-2-rcn → (25, 9) (進度 0.00, .)",
+      "[gh6] RED-3 → (26, 3) (進度 0.01, .)",
+      "[gh6] RED-2 → (26, 9) (進度 0.01, .)",
+      "[gh6] RED-AD → (24, 9) (進度 0.00, .)",
+      "[gh6] RED-1 → (26, 13) (進度 0.01, .)",
+      "[gh6] RED-SF → (24, 15) (進度 0.00, .)",
+      "[gh6] RED-3-rcn → (24, 3) (進度 0.50, .)",
+      "[gh6] RED-2-rcn → (24, 9) (進度 0.50, .)",
+      "[gh7] RED-3 → (26, 3) (進度 0.68, .)",
+      "[gh7] RED-2 → (26, 9) (進度 0.68, .)",
+      "[gh7] RED-AD → (23, 9) (進度 0.00, .)",
+      "[gh7] RED-1 → (26, 13) (進度 0.68, .)",
+      "[gh7] RED-SF → (23, 15) (進度 0.00, .)",
+      "[gh7] RED-3-rcn → (23, 3) (進度 1.00, .)",
+      "[gh7] RED-3-rcn → (22, 3) (進度 0.00, .)",
+      "[gh7] RED-2-rcn → (23, 8) (進度 1.00, .)",
+      "[gh7] RED-2-rcn → (22, 8) (進度 0.00, .)",
+      "[gh8] RED-3 → (25, 3) (進度 0.35, .)",
+      "[gh8] RED-2 → (25, 9) (進度 0.35, .)",
+      "[gh8] RED-AD → (22, 10) (進度 0.00, .)",
+      "[gh8] RED-1 → (25, 13) (進度 0.35, .)",
+      "[gh8] RED-SF → (22, 15) (進度 0.00, .)",
+      "[gh8] RED-3-rcn → (21, 3) (進度 0.50, .)",
+      "[gh8] RED-2-rcn → (21, 8) (進度 0.50, .)",
+      "[gh9] RED-2 拉出 1-r4 步兵營 → RED-2-1-r4 於 (25, 9)，奉命進駐主指揮所 (29,8)",
+      "[gh9] RED-3 → (24, 3) (進度 0.02, .)",
+      "[gh9] RED-2 → (24, 9) (進度 0.02, .)",
+      "[gh9] RED-AD → (21, 10) (進度 0.00, .)",
+      "[gh9] RED-1 → (24, 13) (進度 0.02, .)",
+      "[gh9] RED-SF → (21, 15) (進度 0.00, .)",
+      "[gh9] RED-3-rcn → (20, 3) (進度 1.00, .)",
+      "[gh9] RED-3-rcn → (19, 3) (進度 0.00, .)",
+      "[gh9] RED-2-rcn → (20, 8) (進度 1.00, .)",
+      "[gh9] RED-2-rcn → (19, 8) (進度 0.00, .)",
+      "[gh9] RED-2-1-r4 → (25, 9) (進度 0.67, .)",
+      "[gh10] RED-3 → (24, 3) (進度 0.69, .)",
+      "[gh10] RED-2 → (24, 9) (進度 0.69, .)",
+      "[gh10] RED-AD → (20, 10) (進度 0.00, .)",
+      "[gh10] RED-1 → (24, 13) (進度 0.69, .)",
+      "[gh10] RED-SF → (20, 15) (進度 0.00, .)",
+      "[gh10] RED-3-rcn → (18, 3) (進度 0.50, .)",
+      "[gh10] RED-2-rcn → (18, 8) (進度 0.50, .)",
+      "[gh10] RED-2-1-r4 → (26, 9) (進度 0.34, .)",
+      "[gh11] RED-3 → (23, 3) (進度 0.36, .)",
+      "[gh11] RED-2 → (23, 9) (進度 0.36, .)",
+      "[gh11] RED-1 → (23, 12) (進度 0.36, .)",
+      "[gh11] RED-SF → (19, 15) (進度 0.00, .)",
+      "[gh11] RED-3-rcn → (17, 3) (進度 1.00, .)",
+      "[gh11] RED-3-rcn → (16, 3) (進度 0.00, .)",
+      "[gh11] RED-2-rcn → (17, 8) (進度 1.00, .)",
+      "[gh11] RED-2-rcn → (16, 8) (進度 0.00, .)",
+      "[gh11] RED-2-1-r4 → (27, 9) (進度 0.01, .)",
+      "[gh12] RED-3 → (23, 3) (進度 0.96, .)",
+      "[gh12] RED-2 → (23, 9) (進度 0.96, .)",
+      "[gh12] RED-1 → (23, 12) (進度 0.96, .)",
+      "[gh12] RED-SF → (19, 15) (進度 0.90, .)",
+      "[gh12] RED-2-1-r4 → (27, 9) (進度 0.68, .)",
+      "[gh12] RED-AD 構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh13] RED-3 → (22, 3) (進度 0.26, .)",
+      "[gh13] RED-2 → (22, 9) (進度 0.26, .)",
+      "[gh13] RED-1 → (22, 12) (進度 0.26, .)",
+      "[gh13] RED-SF → (18, 15) (進度 0.35, .)",
+      "[gh13] RED-2-1-r4 → (28, 8) (進度 0.02, .)",
+      "[gh13] RED-AD 構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh14] RED-3 → (22, 3) (進度 0.57, .)",
+      "[gh14] RED-2 → (22, 9) (進度 0.57, .)",
+      "[gh14] RED-1 → (22, 12) (進度 0.57, .)",
+      "[gh14] RED-2-1-r4 → (28, 8) (進度 0.35, .)",
+      "[gh14] RED-AD 構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh15] RED-3 → (22, 3) (進度 0.83, .)",
+      "[gh15] RED-2 → (22, 9) (進度 0.83, .)",
+      "[gh15] RED-1 → (22, 12) (進度 0.83, .)",
+      "[gh15] RED-2-1-r4 → (28, 8) (進度 0.69, .)",
+      "[gh15] RED-AD 構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh16] RED-3 → (21, 3) (進度 0.10, .)",
+      "[gh16] RED-2 → (21, 9) (進度 0.10, .)",
+      "[gh16] RED-1 → (21, 12) (進度 0.10, .)",
+      "[gh16] RED-2-1-r4 → (28, 8) (進度 0.99, .)",
+      "[gh16] RED-AD 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh17] RED-3 → (21, 3) (進度 0.37, .)",
+      "[gh17] RED-2 → (21, 9) (進度 0.37, .)",
+      "[gh17] RED-1 → (21, 12) (進度 0.37, .)",
+      "[gh17] RED-2-1-r4 → (29, 8) (進度 0.29, .)",
+      "[gh17] RED-AD 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh18] RED-3 → (21, 3) (進度 0.60, .)",
+      "[gh18] RED-2 → (21, 9) (進度 0.60, .)",
+      "[gh18] RED-1 → (21, 12) (進度 0.60, .)",
+      "[gh18] RED-AD 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh18] RED-2-1-r4 構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh19] RED-3 → (21, 3) (進度 0.84, .)",
+      "[gh19] RED-2 → (21, 9) (進度 0.84, .)",
+      "[gh19] RED-1 → (21, 12) (進度 0.84, .)",
+      "[gh19] RED-AD 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh19] RED-2-1-r4 構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh20] RED-1 新令生效：取消機動，於現位置 (21, 12) 構築工事並完全休整",
+      "[gh20] RED-2 新令生效：取消機動，於現位置 (21, 9) 構築工事並完全休整",
+      "[gh20] RED-3 新令生效：取消機動，於現位置 (21, 3) 構築工事並完全休整",
+      "[gh20] RED-2-1-r4 構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh20] RED-1 就地構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh20] RED-2 就地構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh20] RED-3 就地構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh21] RED-SF → (18, 15) (進度 0.85, .)（循環巡邏，下一航點 (16, 14)）",
+      "[gh21] RED-2-1-r4 構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh21] RED-1 就地構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh21] RED-2 就地構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh21] RED-3 就地構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh22] RED-SF → (17, 14) (進度 0.35, .)（循環巡邏，下一航點 (16, 14)）",
+      "[gh22] RED-2-1-r4 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh22] RED-1 就地構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh22] RED-2 就地構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh22] RED-3 就地構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh23] RED-SF → (17, 14) (進度 0.85, .)（循環巡邏，下一航點 (16, 14)）",
+      "[gh23] RED-2-1-r4 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh23] RED-1 就地構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh23] RED-2 就地構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh23] RED-3 就地構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh24] RED-SF → (16, 14) (進度 0.85, .)（循環搜索南翼，下一航點 (16, 14)）",
+      "[gh24] RED-1 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh24] RED-2 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh24] RED-3 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh24] RED-2-1-r4 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh25] RED-SF → (16, 15) (進度 0.85, .)（循環搜索南翼，下一航點 (16, 16)）",
+      "[gh25] RED-1 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh25] RED-2 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh25] RED-3 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh25] RED-2-1-r4 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh26] 【偵獲】BLU-2 → (11, 9) (進度 0.18, .)",
+      "[gh26] RED-SF → (16, 16) (進度 0.85, .)（循環搜索南翼，下一航點 (16, 16)）",
+      "[gh26] RED-1 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh26] RED-2 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh26] RED-3 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh26] ★我方偵獲敵 BLU-2 於 (11, 9)",
+      "[gh27] RED-2-rcn → (15, 8) (進度 0.50, .)（循環偵察，下一航點 (13, 8)）",
+      "[gh27] RED-3-rcn → (15, 3) (進度 0.50, .)（循環偵察，下一航點 (13, 3)）",
+      "[gh27] RED-SF 新令生效：取消既有循環巡邏，改行新巡邏環",
+      "[gh27] RED-SF → (15, 15) (進度 0.85, .)（循環搜索南翼，下一航點 (15, 14)）",
+      "[gh27] RED-1 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh27] RED-2 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh27] RED-3 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh27] 【偵獲】BLU-2 構築工事 → 淺掘（1.00hr，暴露 0.4）",
+      "[gh27] ★我方偵獲敵 BLU-AD 於 (10, 9)",
+      "[gh28] RED-2-rcn → (13, 8) (進度 0.00, .)（循環偵察，下一航點 (13, 8)）",
+      "[gh28] RED-3-rcn → (13, 3) (進度 0.00, .)（循環偵察，下一航點 (13, 3)）",
+      "[gh28] RED-SF → (15, 14) (進度 0.75, .)（循環搜索南翼，下一航點 (15, 14)）",
+      "[gh28] 【偵獲】BLU-1 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh28] 【偵獲】BLU-2 構築工事 → 淺掘（2.00hr，暴露 0.4）",
+      "[gh28] ★我方偵獲敵 BLU-1 於 (9, 4)",
+      "[gh29] RED-2-rcn → (12, 8) (進度 0.50, .)（循環偵察，下一航點 (10, 8)）",
+      "[gh29] RED-3-rcn → (12, 3) (進度 0.50, .)（循環偵察，下一航點 (10, 3)）",
+      "[gh29] RED-SF → (14, 14) (進度 0.65, .)（循環搜索南翼，下一航點 (12, 14)）",
+      "[gh29] 【偵獲】BLU-2 構築工事 → 散兵壕（3.00hr，暴露 0.18）",
+      "[gh32] RED-AD → (19, 10) (進度 0.00, .)（攻擊軸線，目標 (16, 9)）",
+      "[gh32] RED-2 → (20, 9) (進度 0.51, .)（攻擊軸線，目標 (17, 9)）",
+      "[gh32] RED-3 → (20, 3) (進度 0.51, .)（攻擊軸線，目標 (17, 4)）",
+      "[gh32] RED-2-rcn → (10, 8) (進度 0.00, .)（循環偵察，目標 (10, 8)）",
+      "[gh32] RED-3-rcn → (10, 3) (進度 0.00, .)（循環偵察，目標 (10, 3)）",
+      "[gh32] RED-SF → (13, 14) (進度 0.65, .)（循環偵察，目標 (12, 14)）",
+      "[gh32] 【偵獲】BLU-AD 偽裝作業 → 1.00/3.0 工時",
+      "[gh32] 【偵獲】BLU-1 偽裝作業 → 1.00/3.0 工時",
+      "[gh32] 【偵獲】BLU-2 構築工事 → 散兵壕（4.00hr，暴露 0.18）",
+      "[gh32] ★我方偵獲敵 BLU-3 於 (9, 14)",
+      "[gh33] RED-AD → (18, 10) (進度 0.00, .)（攻擊軸線，目標 (16, 9)）",
+      "[gh33] RED-2 → (19, 9) (進度 0.18, .)（攻擊軸線，目標 (17, 9)）",
+      "[gh33] RED-3 → (19, 3) (進度 0.18, .)（攻擊軸線，目標 (17, 4)）",
+      "[gh33] RED-2-rcn → (11, 8) (進度 0.50, .)（循環偵察，目標 (13, 8)）",
+      "[gh33] RED-3-rcn → (11, 3) (進度 0.50, .)（循環偵察，目標 (13, 3)）",
+      "[gh33] RED-SF → (12, 14) (進度 0.65, .)（循環偵察，目標 (12, 14)）",
+      "[gh33] 【偵獲】BLU-AD 偽裝作業 → 2.00/3.0 工時",
+      "[gh33] 【偵獲】BLU-1 偽裝作業 → 2.00/3.0 工時",
+      "[gh33] 【偵獲】BLU-2 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh34] 【偵獲】BLU-3 依應變 1 開始向西後撤 2 格至 (7, 14)（敵 RED-SF 已在 3 格內）｜工事與偽裝歸零",
+      "[gh34] 【偵獲】BLU-3 後撤中：BLU-3 → (9, 14) (進度 0.74, .)",
+      "[gh34] RED-AD → (17, 9) (進度 0.00, .)（攻擊軸線，目標 (16, 9)）",
+      "[gh34] RED-2 → (19, 9) (進度 0.85, .)（攻擊軸線，目標 (17, 9)）",
+      "[gh34] RED-3 → (19, 3) (進度 0.85, .)（攻擊軸線，目標 (17, 4)）",
+      "[gh34] RED-2-rcn → (13, 8) (進度 0.00, .)（循環偵察，目標 (13, 8)）",
+      "[gh34] RED-3-rcn → (13, 3) (進度 0.00, .)（循環偵察，目標 (13, 3)）",
+      "[gh34] RED-SF → (12, 15) (進度 0.55, .)（循環偵察，目標 (12, 16)）",
+      "[gh34] 【偵獲】BLU-2 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh35] 【偵獲】BLU-3 後撤中：BLU-3 → (8, 14) (進度 0.41, .)",
+      "[gh35] RED-AD → (16, 9) (進度 0.00, .)（攻擊軸線，目標 (16, 9)）",
+      "[gh35] RED-2 → (18, 9) (進度 0.52, .)（攻擊軸線，目標 (17, 9)）",
+      "[gh35] RED-3 → (18, 3) (進度 0.52, .)（攻擊軸線，目標 (17, 4)）",
+      "[gh35] RED-2-rcn → (14, 8) (進度 0.50, .)（循環偵察，目標 (16, 8)）",
+      "[gh35] RED-3-rcn → (14, 3) (進度 0.50, .)（循環偵察，目標 (16, 3)）",
+      "[gh35] RED-SF → (12, 16) (進度 0.45, .)（循環偵察，目標 (12, 16)）",
+      "[gh35] RED-AD 欲對 BLU-2 射擊但未實施：（本小時行軍中，無法實施砲擊：RED-AD）",
+      "[gh35] 【偵獲】BLU-2 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh36] RED-AD → (15, 9) (進度 0.00, .)",
+      "[gh36] RED-2 → (17, 9) (進度 0.19, .)",
+      "[gh36] 【偵獲】BLU-2 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh37] RED-AD → (15, 9) (進度 0.50, .)",
+      "[gh37] RED-2 → (17, 9) (進度 0.52, .)",
+      "[gh38] RED-AD 新令生效：停止一切機動，就地於 (15, 9) 轉為射擊平台",
+      "[gh38] RED-2 → (17, 9) (進度 0.86, .)",
+      "[gh38] RED-2-rcn → (14, 9) (進度 0.25, .)",
+      "[gh38] RED-SF → (12, 16) (進度 0.95, .)",
+      "[gh38] RED-AD 對 BLU-2 實施砲擊：暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）",
+      "[gh38] 【偵獲】BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh39] RED-2 → (16, 9) (進度 0.16, .)",
+      "[gh39] RED-SF → (11, 15) (進度 0.40, .)",
+      "[gh39] RED-AD 對 BLU-2 實施砲擊：暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）",
+      "[gh39] 【偵獲】BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh40] RED-2 → (16, 9) (進度 0.46, .)",
+      "[gh40] RED-SF → (11, 15) (進度 0.85, .)",
+      "[gh40] RED-AD 對 BLU-2 實施砲擊：暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）",
+      "[gh40] 【偵獲】BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh41] RED-2 → (16, 9) (進度 0.76, .)",
+      "[gh41] RED-SF → (10, 14) (進度 0.30, .)",
+      "[gh41] RED-AD 對 BLU-2 實施砲擊：暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）",
+      "[gh41] 【偵獲】BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh41] 【偵獲】BLU-3 構築工事 → 散兵壕（5.00hr，暴露 0.18）",
+      "[gh41] ★我方偵獲敵 BLU-3 於 (7, 14)",
+      "[gh42] RED-2 → (15, 9) (進度 0.03, .)",
+      "[gh42] RED-3 → (18, 3) (進度 0.85, .)",
+      "[gh42] RED-SF → (10, 14) (進度 0.70, .)",
+      "[gh42] RED-AD 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）",
+      "[gh42] 【偵獲】BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh42] 【偵獲】BLU-3 構築工事 → 散兵壕（6.00hr，暴露 0.18）",
+      "[gh43] RED-2 → (15, 9) (進度 0.30, .)",
+      "[gh43] RED-3 → (17, 4) (進度 0.19, .)",
+      "[gh43] RED-SF → (9, 14) (進度 0.10, .)",
+      "[gh43] RED-AD 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）",
+      "[gh43] 【偵獲】BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04",
+      "[gh43] 【偵獲】BLU-3 構築工事 → 散兵壕（7.00hr，暴露 0.18）",
+      "[gh44] RED-2 抽離砲兵營 → RED-2-a1, RED-2-a2, RED-2-a3, RED-2-a4 留置 (15, 9)；母師餘 火砲0",
+      "[gh44] RED-AD 抽離砲兵營 → RED-AD-sp1, RED-AD-sp2, RED-AD-sp3 留置 (15, 9)；母師餘 火砲0",
+      "[gh44] RED-AD → (14, 9) (進度 0.00, .)",
+      "[gh44] RED-2 → (15, 9) (進度 0.53, .)",
+      "[gh44] RED-3 → (17, 4) (進度 0.52, .)",
+      "[gh44] RED-SF 抵達 (9, 14)，停止行軍",
+      "[gh44] 紅軍抽離砲群 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 12 人｜RED-2-a1 105×12 距4 發數300 殺傷力0.15；RED-2-a2 105×12 距4 發數300 殺傷力0.15；RED-2-a3 105×12 距4 發數300 殺傷力0.15；RED-2-a4 155×12 距4 發數180 殺傷力0.55；RED-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -1.06）",
+      "[gh44] 【偵獲】BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06",
+      "[gh44] 【偵獲】藍軍砲群 對 (14, 9) 攔阻射擊 → 對格面 (14, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-AD：暴露0.7 密度0.2 戰車暴露1.0 → 傷亡 108 人、戰車 -14｜BLU-2 105×36 距3 發數900 殺傷力0.3；BLU-2 155×12 距3 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -2.39）",
+      "[gh44] RED-AD 遭敵攔阻射擊：傷亡 32 人、戰車 -4、組織度 -2.39",
+      "[gh44] 【偵獲】BLU-3 構築工事 → 有頂蓋（8.00hr，暴露 0.1）",
+      "[gh45] RED-AD → (14, 9) (進度 0.45, .)",
+      "[gh45] RED-2 → (15, 9) (進度 0.77, .)",
+      "[gh45] RED-3 → (17, 4) (進度 0.86, .)",
+      "[gh45] 紅軍抽離砲群 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 12 人｜RED-2-a1 105×12 距4 發數300 殺傷力0.15；RED-2-a2 105×12 距4 發數300 殺傷力0.15；RED-2-a3 105×12 距4 發數300 殺傷力0.15；RED-2-a4 155×12 距4 發數180 殺傷力0.55；RED-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -1.06）",
+      "[gh45] 【偵獲】BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06",
+      "[gh45] 【偵獲】藍軍砲群 對 (15, 9) 攔阻射擊 → 對格面 (15, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-2：暴露0.7 密度0.2 戰車暴露1.0 → 傷亡 61 人、戰車 -4｜BLU-2 105×36 距4 發數900 殺傷力0.15；BLU-2 155×12 距4 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp2 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp3 SP105×18 距5 發數450 殺傷力0.15（組織度 -0.25）",
+      "[gh45] RED-2 遭敵攔阻射擊：傷亡 18 人、戰車 -1、組織度 -0.25",
+      "[gh46] RED-AD → (14, 9) (進度 0.90, .)",
+      "[gh46] RED-2 → (14, 9) (進度 0.00, .)",
+      "[gh46] RED-3 → (16, 5) (進度 0.19, .)",
+      "[gh46] 紅軍抽離砲群 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 12 人｜RED-2-a1 105×12 距4 發數300 殺傷力0.15；RED-2-a2 105×12 距4 發數300 殺傷力0.15；RED-2-a3 105×12 距4 發數300 殺傷力0.15；RED-2-a4 155×12 距4 發數180 殺傷力0.55；RED-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -1.06）",
+      "[gh46] 【偵獲】BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06",
+      "[gh46] 【偵獲】藍軍砲群 對 (14, 9) 攔阻射擊 → 對格面 (14, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-2：暴露0.7 密度0.2 戰車暴露1.0 → 傷亡 108 人、戰車 -4｜BLU-2 105×36 距3 發數900 殺傷力0.3；BLU-2 155×12 距3 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -0.44）",
+      "[gh46] RED-2 遭敵攔阻射擊：傷亡 32 人、戰車 -1、組織度 -0.44",
+      "[gh47] RED-AD → (13, 9) (進度 0.30, .)",
+      "[gh47] RED-2 → (14, 9) (進度 0.24, .)",
+      "[gh47] RED-3 → (16, 5) (進度 0.50, .)",
+      "[gh47] 紅軍抽離砲群 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 12 人｜RED-2-a1 105×12 距4 發數300 殺傷力0.15；RED-2-a2 105×12 距4 發數300 殺傷力0.15；RED-2-a3 105×12 距4 發數300 殺傷力0.15；RED-2-a4 155×12 距4 發數180 殺傷力0.55；RED-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -1.06）",
+      "[gh47] 【偵獲】BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06",
+      "[gh47] 【偵獲】藍軍砲群 對 (15, 9) 攔阻射擊 → 對格面 (15, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-2-a1：暴露0.7 密度0.12 戰車暴露0.3 → 傷亡 36 人、火砲 -1｜BLU-2 105×36 距4 發數900 殺傷力0.15；BLU-2 155×12 距4 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp2 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp3 SP105×18 距5 發數450 殺傷力0.15（組織度 -3.0）",
+      "[gh47] RED-2-a1 遭敵攔阻射擊：傷亡 10 人、組織度 -3.0"
+    ]
+  },
+  "hour_log": [
+    {
+      "global_hour": 0,
+      "game_time": "1944-08-25 06:00",
+      "summary": "[gh0 1944-08-25 06:00] 無事件"
+    },
+    {
+      "global_hour": 1,
+      "game_time": "1944-08-25 07:00",
+      "summary": "[gh1 1944-08-25 07:00] 無事件"
+    },
+    {
+      "global_hour": 2,
+      "game_time": "1944-08-25 08:00",
+      "summary": "[gh2 1944-08-25 08:00] 無事件"
+    },
+    {
+      "global_hour": 3,
+      "game_time": "1944-08-25 09:00",
+      "summary": "[gh3 1944-08-25 09:00] 主指揮所開始架設於 (5, 9)，2 小時後啟用（gh5）；主指揮所開始架設於 (29, 8)，2 小時後啟用（gh5）"
+    },
+    {
+      "global_hour": 4,
+      "game_time": "1944-08-25 10:00",
+      "summary": "[gh4 1944-08-25 10:00] RED-3 拉出偵察營 → RED-3-rcn 於 (28, 3)；RED-2 拉出偵察營 → RED-2-rcn 於 (28, 8)；BLU-1 → (1, 4) (進度 0.67, .)；BLU-AD → (3, 8) (進度 0.00, .)；BLU-2 → (1, 9) (進度 0.67, .)；BLU-3 → (1, 14) (進度 0.67, .)；RED-3 → (28, 3) (進度 0.67, .)；RED-2 → (28, 8) (進度 0.67, .)；RED-AD → (26, 9) (進度 0.00, .)；RED-1 → (28, 13) (進度 0.67, .)；RED-SF → (26, 15) (進度 0.00, .)；RED-3-rcn → (27, 3) (進度 0.50, .)；RED-2-rcn → (27, 9) (進度 0.50, .)；BLU-SF → (1, 3) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）"
+    },
+    {
+      "global_hour": 5,
+      "game_time": "1944-08-25 11:00",
+      "summary": "[gh5 1944-08-25 11:00] BLU-1 → (2, 4) (進度 0.34, .)；BLU-AD → (4, 7) (進度 0.00, .)；BLU-2 → (2, 8) (進度 0.34, .)；BLU-3 → (2, 14) (進度 0.34, .)；RED-3 → (27, 3) (進度 0.34, .)；RED-2 → (27, 9) (進度 0.34, .)；RED-AD → (25, 9) (進度 0.00, .)；RED-1 → (27, 13) (進度 0.34, .)；RED-SF → (25, 15) (進度 0.00, .)；RED-3-rcn → (26, 3) (進度 1.00, .)；RED-3-rcn → (25, 3) (進度 0.00, .)；RED-2-rcn → (26, 9) (進度 1.00, .)；RED-2-rcn → (25, 9) (進度 0.00, .)；BLU-SF → (1, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）"
+    },
+    {
+      "global_hour": 6,
+      "game_time": "1944-08-25 12:00",
+      "summary": "[gh6 1944-08-25 12:00] BLU-1 → (3, 4) (進度 0.01, .)；BLU-AD → (5, 7) (進度 0.00, .)；BLU-2 → (3, 8) (進度 0.01, .)；BLU-3 → (3, 14) (進度 0.01, .)；RED-3 → (26, 3) (進度 0.01, .)；RED-2 → (26, 9) (進度 0.01, .)；RED-AD → (24, 9) (進度 0.00, .)；RED-1 → (26, 13) (進度 0.01, .)；RED-SF → (24, 15) (進度 0.00, .)；RED-3-rcn → (24, 3) (進度 0.50, .)；RED-2-rcn → (24, 9) (進度 0.50, .)"
+    },
+    {
+      "global_hour": 7,
+      "game_time": "1944-08-25 13:00",
+      "summary": "[gh7 1944-08-25 13:00] BLU-1 → (3, 4) (進度 0.68, .)；BLU-AD → (6, 7) (進度 0.00, .)；BLU-2 → (3, 8) (進度 0.68, .)；BLU-3 → (3, 14) (進度 0.68, .)；RED-3 → (26, 3) (進度 0.68, .)；RED-2 → (26, 9) (進度 0.68, .)；RED-AD → (23, 9) (進度 0.00, .)；RED-1 → (26, 13) (進度 0.68, .)；RED-SF → (23, 15) (進度 0.00, .)；RED-3-rcn → (23, 3) (進度 1.00, .)；RED-3-rcn → (22, 3) (進度 0.00, .)；RED-2-rcn → (23, 8) (進度 1.00, .)；RED-2-rcn → (22, 8) (進度 0.00, .)"
+    },
+    {
+      "global_hour": 8,
+      "game_time": "1944-08-25 14:00",
+      "summary": "[gh8 1944-08-25 14:00] BLU-1 → (4, 4) (進度 0.35, .)；BLU-AD → (7, 7) (進度 0.00, .)；BLU-2 → (4, 7) (進度 0.35, .)；BLU-3 → (4, 14) (進度 0.35, .)；RED-3 → (25, 3) (進度 0.35, .)；RED-2 → (25, 9) (進度 0.35, .)；RED-AD → (22, 10) (進度 0.00, .)；RED-1 → (25, 13) (進度 0.35, .)；RED-SF → (22, 15) (進度 0.00, .)；RED-3-rcn → (21, 3) (進度 0.50, .)；RED-2-rcn → (21, 8) (進度 0.50, .)；BLU-SF → (2, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）"
+    },
+    {
+      "global_hour": 9,
+      "game_time": "1944-08-25 15:00",
+      "summary": "[gh9 1944-08-25 15:00] RED-2 拉出 1-r4 步兵營 → RED-2-1-r4 於 (25, 9)，奉命進駐主指揮所 (29,8)；BLU-1 → (5, 4) (進度 0.02, .)；BLU-AD → (8, 8) (進度 0.00, .)；BLU-2 → (5, 7) (進度 0.02, .)；BLU-3 → (5, 14) (進度 0.02, .)；RED-3 → (24, 3) (進度 0.02, .)；RED-2 → (24, 9) (進度 0.02, .)；RED-AD → (21, 10) (進度 0.00, .)；RED-1 → (24, 13) (進度 0.02, .)；RED-SF → (21, 15) (進度 0.00, .)；RED-3-rcn → (20, 3) (進度 1.00, .)；RED-3-rcn → (19, 3) (進度 0.00, .)；RED-2-rcn → (20, 8) (進度 1.00, .)；RED-2-rcn → (19, 8) (進度 0.00, .)；RED-2-1-r4 → (25, 9) (進度 0.67, .)；BLU-SF → (3, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）"
+    },
+    {
+      "global_hour": 10,
+      "game_time": "1944-08-25 16:00",
+      "summary": "[gh10 1944-08-25 16:00] BLU-1 → (5, 4) (進度 0.69, .)；BLU-AD → (9, 9) (進度 0.00, .)；BLU-2 → (5, 7) (進度 0.69, .)；BLU-3 → (5, 14) (進度 0.69, .)；RED-3 → (24, 3) (進度 0.69, .)；RED-2 → (24, 9) (進度 0.69, .)；RED-AD → (20, 10) (進度 0.00, .)；RED-1 → (24, 13) (進度 0.69, .)；RED-SF → (20, 15) (進度 0.00, .)；RED-3-rcn → (18, 3) (進度 0.50, .)；RED-2-rcn → (18, 8) (進度 0.50, .)；RED-2-1-r4 → (26, 9) (進度 0.34, .)"
+    },
+    {
+      "global_hour": 11,
+      "game_time": "1944-08-25 17:00",
+      "summary": "[gh11 1944-08-25 17:00] BLU-1 → (6, 5) (進度 0.36, .)；BLU-AD → (10, 9) (進度 0.00, .)；BLU-2 → (6, 7) (進度 0.36, .)；BLU-3 → (6, 14) (進度 0.36, .)；RED-3 → (23, 3) (進度 0.36, .)；RED-2 → (23, 9) (進度 0.36, .)；RED-1 → (23, 12) (進度 0.36, .)；RED-SF → (19, 15) (進度 0.00, .)；RED-3-rcn → (17, 3) (進度 1.00, .)；RED-3-rcn → (16, 3) (進度 0.00, .)；RED-2-rcn → (17, 8) (進度 1.00, .)；RED-2-rcn → (16, 8) (進度 0.00, .)；RED-2-1-r4 → (27, 9) (進度 0.01, .)；BLU-SF → (4, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）"
+    },
+    {
+      "global_hour": 12,
+      "game_time": "1944-08-25 18:00",
+      "summary": "[gh12 1944-08-25 18:00] BLU-1 → (6, 5) (進度 0.96, .)；BLU-2 → (6, 7) (進度 0.96, .)；BLU-3 → (6, 14) (進度 0.96, .)；RED-3 → (23, 3) (進度 0.96, .)；RED-2 → (23, 9) (進度 0.96, .)；RED-1 → (23, 12) (進度 0.96, .)；RED-SF → (19, 15) (進度 0.90, .)；RED-2-1-r4 → (27, 9) (進度 0.68, .)；BLU-AD 構築工事 → 淺掘（1.00hr，暴露 0.4）；RED-AD 構築工事 → 淺掘（1.00hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 13,
+      "game_time": "1944-08-25 19:00",
+      "summary": "[gh13 1944-08-25 19:00] BLU-1 → (7, 4) (進度 0.26, .)；BLU-2 → (7, 7) (進度 0.26, .)；BLU-3 → (7, 14) (進度 0.26, .)；RED-3 → (22, 3) (進度 0.26, .)；RED-2 → (22, 9) (進度 0.26, .)；RED-1 → (22, 12) (進度 0.26, .)；RED-SF → (18, 15) (進度 0.35, .)；RED-2-1-r4 → (28, 8) (進度 0.02, .)；BLU-SF → (4, 4) (進度 0.50, .)（尾隨 BLU-1 後方 2 格）；BLU-AD 構築工事 → 淺掘（2.00hr，暴露 0.4）；RED-AD 構築工事 → 淺掘（2.00hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 14,
+      "game_time": "1944-08-25 20:00",
+      "summary": "[gh14 1944-08-25 20:00] BLU-1 → (7, 4) (進度 0.57, .)；BLU-2 → (7, 7) (進度 0.57, .)；BLU-3 → (7, 14) (進度 0.57, .)；RED-3 → (22, 3) (進度 0.57, .)；RED-2 → (22, 9) (進度 0.57, .)；RED-1 → (22, 12) (進度 0.57, .)；RED-2-1-r4 → (28, 8) (進度 0.35, .)；BLU-SF → (5, 4) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）；BLU-AD 構築工事 → 散兵壕（3.00hr，暴露 0.18）；RED-AD 構築工事 → 散兵壕（3.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 15,
+      "game_time": "1944-08-25 21:00",
+      "summary": "[gh15 1944-08-25 21:00] BLU-1 → (7, 4) (進度 0.83, .)；BLU-2 → (7, 7) (進度 0.83, .)；BLU-3 → (7, 14) (進度 0.83, .)；RED-3 → (22, 3) (進度 0.83, .)；RED-2 → (22, 9) (進度 0.83, .)；RED-1 → (22, 12) (進度 0.83, .)；RED-2-1-r4 → (28, 8) (進度 0.69, .)；BLU-AD 構築工事 → 散兵壕（4.00hr，暴露 0.18）；RED-AD 構築工事 → 散兵壕（4.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 16,
+      "game_time": "1944-08-25 22:00",
+      "summary": "[gh16 1944-08-25 22:00] BLU-1 → (8, 4) (進度 0.10, .)；BLU-2 → (8, 8) (進度 0.10, .)；BLU-3 → (8, 14) (進度 0.10, .)；RED-3 → (21, 3) (進度 0.10, .)；RED-2 → (21, 9) (進度 0.10, .)；RED-1 → (21, 12) (進度 0.10, .)；RED-2-1-r4 → (28, 8) (進度 0.99, .)；BLU-SF → (5, 4) (進度 0.50, .)（尾隨 BLU-1 後方 2 格）；BLU-AD 構築工事 → 散兵壕（5.00hr，暴露 0.18）；RED-AD 構築工事 → 散兵壕（5.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 17,
+      "game_time": "1944-08-25 23:00",
+      "summary": "[gh17 1944-08-25 23:00] BLU-1 → (8, 4) (進度 0.37, .)；BLU-2 → (8, 8) (進度 0.37, .)；BLU-3 → (8, 14) (進度 0.37, .)；RED-3 → (21, 3) (進度 0.37, .)；RED-2 → (21, 9) (進度 0.37, .)；RED-1 → (21, 12) (進度 0.37, .)；RED-2-1-r4 → (29, 8) (進度 0.29, .)；BLU-SF → (6, 5) (進度 0.00, .)（尾隨 BLU-1 後方 2 格）；BLU-AD 構築工事 → 散兵壕（6.00hr，暴露 0.18）；RED-AD 構築工事 → 散兵壕（6.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 18,
+      "game_time": "1944-08-26 00:00",
+      "summary": "[gh18 1944-08-26 00:00] BLU-1 → (8, 4) (進度 0.60, .)；BLU-2 → (8, 8) (進度 0.60, .)；BLU-3 → (8, 14) (進度 0.60, .)；RED-3 → (21, 3) (進度 0.60, .)；RED-2 → (21, 9) (進度 0.60, .)；RED-1 → (21, 12) (進度 0.60, .)；BLU-AD 構築工事 → 散兵壕（7.00hr，暴露 0.18）；RED-AD 構築工事 → 散兵壕（7.00hr，暴露 0.18）；RED-2-1-r4 構築工事 → 淺掘（1.00hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 19,
+      "game_time": "1944-08-26 01:00",
+      "summary": "[gh19 1944-08-26 01:00] BLU-1 → (8, 4) (進度 0.84, .)；BLU-2 → (8, 8) (進度 0.84, .)；BLU-3 → (8, 14) (進度 0.84, .)；RED-3 → (21, 3) (進度 0.84, .)；RED-2 → (21, 9) (進度 0.84, .)；RED-1 → (21, 12) (進度 0.84, .)；BLU-AD 構築工事 → 有頂蓋（8.00hr，暴露 0.1）；RED-AD 構築工事 → 有頂蓋（8.00hr，暴露 0.1）；RED-2-1-r4 構築工事 → 淺掘（2.00hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 20,
+      "game_time": "1944-08-26 02:00",
+      "summary": "[gh20 1944-08-26 02:00] RED-1 新令生效：取消機動，於現位置 (21, 12) 構築工事並完全休整；RED-2 新令生效：取消機動，於現位置 (21, 9) 構築工事並完全休整；RED-3 新令生效：取消機動，於現位置 (21, 3) 構築工事並完全休整；BLU-SF 新令生效：解除尾隨 BLU-1，改進 (6,4) 森林格靜止隱蔽並構築工事；BLU-1 → (9, 4) (進度 0.07, .)；BLU-2 → (9, 9) (進度 0.07, .)；BLU-3 → (9, 14) (進度 0.07, .)；BLU-SF → (6, 5) (進度 0.25, F)；RED-2-1-r4 構築工事 → 散兵壕（3.00hr，暴露 0.18）；RED-1 就地構築工事 → 淺掘（1.00hr，暴露 0.4）；RED-2 就地構築工事 → 淺掘（1.00hr，暴露 0.4）；RED-3 就地構築工事 → 淺掘（1.00hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 21,
+      "game_time": "1944-08-26 03:00",
+      "summary": "[gh21 1944-08-26 03:00] BLU-2 → (9, 9) (進度 0.31, .)；BLU-SF → (6, 5) (進度 0.50, F)；RED-SF → (18, 15) (進度 0.85, .)（循環巡邏，下一航點 (16, 14)）；BLU-1 構築工事 → 淺掘（1.00hr，暴露 0.4）；BLU-3 構築工事 → 淺掘（1.00hr，暴露 0.4）；RED-2-1-r4 構築工事 → 散兵壕（4.00hr，暴露 0.18）；RED-1 就地構築工事 → 淺掘（2.00hr，暴露 0.4）；RED-2 就地構築工事 → 淺掘（2.00hr，暴露 0.4）；RED-3 就地構築工事 → 淺掘（2.00hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 22,
+      "game_time": "1944-08-26 04:00",
+      "summary": "[gh22 1944-08-26 04:00] BLU-2 → (9, 9) (進度 0.54, .)；BLU-SF → (6, 5) (進度 0.75, F)；RED-SF → (17, 14) (進度 0.35, .)（循環巡邏，下一航點 (16, 14)）；BLU-1 構築工事 → 淺掘（2.00hr，暴露 0.4）；BLU-3 構築工事 → 淺掘（2.00hr，暴露 0.4）；RED-2-1-r4 構築工事 → 散兵壕（5.00hr，暴露 0.18）；RED-1 就地構築工事 → 散兵壕（3.00hr，暴露 0.18）；RED-2 就地構築工事 → 散兵壕（3.00hr，暴露 0.18）；RED-3 就地構築工事 → 散兵壕（3.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 23,
+      "game_time": "1944-08-26 05:00",
+      "summary": "[gh23 1944-08-26 05:00] BLU-2 → (9, 9) (進度 0.78, .)；BLU-SF → (6, 4) (進度 0.00, F)；RED-SF → (17, 14) (進度 0.85, .)（循環巡邏，下一航點 (16, 14)）；BLU-1 構築工事 → 散兵壕（3.00hr，暴露 0.18）；BLU-3 構築工事 → 散兵壕（3.00hr，暴露 0.18）；RED-2-1-r4 構築工事 → 散兵壕（6.00hr，暴露 0.18）；RED-1 就地構築工事 → 散兵壕（4.00hr，暴露 0.18）；RED-2 就地構築工事 → 散兵壕（4.00hr，暴露 0.18）；RED-3 就地構築工事 → 散兵壕（4.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 24,
+      "game_time": "1944-08-26 06:00",
+      "summary": "[gh24 1944-08-26 06:00] BLU-2 → (10, 9) (進度 0.25, .)；RED-SF → (16, 14) (進度 0.85, .)（循環搜索南翼，下一航點 (16, 14)）；BLU-1 構築工事 → 散兵壕（4.00hr，暴露 0.18）；BLU-3 構築工事 → 散兵壕（4.00hr，暴露 0.18）；BLU-SF 構築工事 → 淺掘（0.67hr，暴露 0.4）；RED-1 構築工事 → 散兵壕（5.00hr，暴露 0.18）；RED-2 構築工事 → 散兵壕（5.00hr，暴露 0.18）；RED-3 構築工事 → 散兵壕（5.00hr，暴露 0.18）；RED-2-1-r4 構築工事 → 散兵壕（7.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 25,
+      "game_time": "1944-08-26 07:00",
+      "summary": "[gh25 1944-08-26 07:00] BLU-2 → (10, 9) (進度 0.72, .)；RED-SF → (16, 15) (進度 0.85, .)（循環搜索南翼，下一航點 (16, 16)）；BLU-1 構築工事 → 散兵壕（5.00hr，暴露 0.18）；BLU-3 構築工事 → 散兵壕（5.00hr，暴露 0.18）；BLU-SF 構築工事 → 淺掘（1.34hr，暴露 0.4）；RED-1 構築工事 → 散兵壕（6.00hr，暴露 0.18）；RED-2 構築工事 → 散兵壕（6.00hr，暴露 0.18）；RED-3 構築工事 → 散兵壕（6.00hr，暴露 0.18）；RED-2-1-r4 構築工事 → 有頂蓋（8.00hr，暴露 0.1）"
+    },
+    {
+      "global_hour": 26,
+      "game_time": "1944-08-26 08:00",
+      "summary": "[gh26 1944-08-26 08:00] BLU-2 → (11, 9) (進度 0.18, .)；RED-SF → (16, 16) (進度 0.85, .)（循環搜索南翼，下一航點 (16, 16)）；BLU-1 構築工事 → 散兵壕（6.00hr，暴露 0.18）；BLU-3 構築工事 → 散兵壕（6.00hr，暴露 0.18）；BLU-SF 構築工事 → 淺掘（2.01hr，暴露 0.4）；RED-1 構築工事 → 散兵壕（7.00hr，暴露 0.18）；RED-2 構築工事 → 散兵壕（7.00hr，暴露 0.18）；RED-3 構築工事 → 散兵壕（7.00hr，暴露 0.18）；★我方偵獲敵 BLU-2 於 (11, 9)"
+    },
+    {
+      "global_hour": 27,
+      "game_time": "1944-08-26 09:00",
+      "summary": "[gh27 1944-08-26 09:00] RED-2-rcn → (15, 8) (進度 0.50, .)（循環偵察，下一航點 (13, 8)）；RED-3-rcn → (15, 3) (進度 0.50, .)（循環偵察，下一航點 (13, 3)）；RED-SF 新令生效：取消既有循環巡邏，改行新巡邏環；RED-SF → (15, 15) (進度 0.85, .)（循環搜索南翼，下一航點 (15, 14)）；BLU-1 構築工事 → 散兵壕（7.00hr，暴露 0.18）；BLU-3 構築工事 → 散兵壕（7.00hr，暴露 0.18）；BLU-SF 構築工事 → 淺掘（2.68hr，暴露 0.4）；RED-1 構築工事 → 有頂蓋（8.00hr，暴露 0.1）；RED-2 構築工事 → 有頂蓋（8.00hr，暴露 0.1）；RED-3 構築工事 → 有頂蓋（8.00hr，暴露 0.1）；BLU-2 構築工事 → 淺掘（1.00hr，暴露 0.4）；★我方偵獲敵 BLU-AD 於 (10, 9)"
+    },
+    {
+      "global_hour": 28,
+      "game_time": "1944-08-26 10:00",
+      "summary": "[gh28 1944-08-26 10:00] RED-2-rcn → (13, 8) (進度 0.00, .)（循環偵察，下一航點 (13, 8)）；RED-3-rcn → (13, 3) (進度 0.00, .)（循環偵察，下一航點 (13, 3)）；RED-SF → (15, 14) (進度 0.75, .)（循環搜索南翼，下一航點 (15, 14)）；BLU-1 構築工事 → 有頂蓋（8.00hr，暴露 0.1）；BLU-3 構築工事 → 有頂蓋（8.00hr，暴露 0.1）；BLU-SF 構築工事 → 散兵壕（3.35hr，暴露 0.18）；BLU-2 構築工事 → 淺掘（2.00hr，暴露 0.4）；★我方偵獲敵 RED-2-rcn 於 (13, 8)；★我方偵獲敵 BLU-1 於 (9, 4)"
+    },
+    {
+      "global_hour": 29,
+      "game_time": "1944-08-26 11:00",
+      "summary": "[gh29 1944-08-26 11:00] RED-2-rcn → (12, 8) (進度 0.50, .)（循環偵察，下一航點 (10, 8)）；RED-3-rcn → (12, 3) (進度 0.50, .)（循環偵察，下一航點 (10, 3)）；RED-SF → (14, 14) (進度 0.65, .)（循環搜索南翼，下一航點 (12, 14)）；BLU-SF 構築工事 → 散兵壕（4.02hr，暴露 0.18）；BLU-2 構築工事 → 散兵壕（3.00hr，暴露 0.18）；★我方偵獲敵 RED-3-rcn 於 (12, 3)"
+    },
+    {
+      "global_hour": 30,
+      "game_time": "1944-08-26 12:00",
+      "summary": "[gh30 1944-08-26 12:00] 無事件"
+    },
+    {
+      "global_hour": 31,
+      "game_time": "1944-08-26 13:00",
+      "summary": "[gh31 1944-08-26 13:00] 無事件"
+    },
+    {
+      "global_hour": 32,
+      "game_time": "1944-08-26 14:00",
+      "summary": "[gh32 1944-08-26 14:00] RED-AD → (19, 10) (進度 0.00, .)（攻擊軸線，目標 (16, 9)）；RED-2 → (20, 9) (進度 0.51, .)（攻擊軸線，目標 (17, 9)）；RED-3 → (20, 3) (進度 0.51, .)（攻擊軸線，目標 (17, 4)）；RED-2-rcn → (10, 8) (進度 0.00, .)（循環偵察，目標 (10, 8)）；RED-3-rcn → (10, 3) (進度 0.00, .)（循環偵察，目標 (10, 3)）；RED-SF → (13, 14) (進度 0.65, .)（循環偵察，目標 (12, 14)）；BLU-AD 偽裝作業 → 1.00/3.0 工時；BLU-1 偽裝作業 → 1.00/3.0 工時；BLU-2 構築工事 → 散兵壕（4.00hr，暴露 0.18）；BLU-SF 構築工事 → 散兵壕（4.69hr，暴露 0.18）；★我方偵獲敵 BLU-3 於 (9, 14)"
+    },
+    {
+      "global_hour": 33,
+      "game_time": "1944-08-26 15:00",
+      "summary": "[gh33 1944-08-26 15:00] RED-AD → (18, 10) (進度 0.00, .)（攻擊軸線，目標 (16, 9)）；RED-2 → (19, 9) (進度 0.18, .)（攻擊軸線，目標 (17, 9)）；RED-3 → (19, 3) (進度 0.18, .)（攻擊軸線，目標 (17, 4)）；RED-2-rcn → (11, 8) (進度 0.50, .)（循環偵察，目標 (13, 8)）；RED-3-rcn → (11, 3) (進度 0.50, .)（循環偵察，目標 (13, 3)）；RED-SF → (12, 14) (進度 0.65, .)（循環偵察，目標 (12, 14)）；BLU-AD 偽裝作業 → 2.00/3.0 工時；BLU-1 偽裝作業 → 2.00/3.0 工時；BLU-2 構築工事 → 散兵壕（5.00hr，暴露 0.18）；BLU-SF 構築工事 → 散兵壕（5.36hr，暴露 0.18）；★我方偵獲敵 RED-SF 於 (12, 14)"
+    },
+    {
+      "global_hour": 34,
+      "game_time": "1944-08-26 16:00",
+      "summary": "[gh34 1944-08-26 16:00] BLU-3 依應變 1 開始向西後撤 2 格至 (7, 14)（敵 RED-SF 已在 3 格內）｜工事與偽裝歸零；BLU-3 後撤中：BLU-3 → (9, 14) (進度 0.74, .)；RED-AD → (17, 9) (進度 0.00, .)（攻擊軸線，目標 (16, 9)）；RED-2 → (19, 9) (進度 0.85, .)（攻擊軸線，目標 (17, 9)）；RED-3 → (19, 3) (進度 0.85, .)（攻擊軸線，目標 (17, 4)）；RED-2-rcn → (13, 8) (進度 0.00, .)（循環偵察，目標 (13, 8)）；RED-3-rcn → (13, 3) (進度 0.00, .)（循環偵察，目標 (13, 3)）；RED-SF → (12, 15) (進度 0.55, .)（循環偵察，目標 (12, 16)）；BLU-AD 偽裝作業 → 3.00/3.0 工時　★完成，靜止時能見狀態好一級；BLU-1 偽裝作業 → 3.00/3.0 工時　★完成，靜止時能見狀態好一級；BLU-2 構築工事 → 散兵壕（6.00hr，暴露 0.18）；BLU-SF 構築工事 → 散兵壕（6.03hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 35,
+      "game_time": "1944-08-26 17:00",
+      "summary": "[gh35 1944-08-26 17:00] BLU-3 後撤中：BLU-3 → (8, 14) (進度 0.41, .)；RED-AD → (16, 9) (進度 0.00, .)（攻擊軸線，目標 (16, 9)）；RED-2 → (18, 9) (進度 0.52, .)（攻擊軸線，目標 (17, 9)）；RED-3 → (18, 3) (進度 0.52, .)（攻擊軸線，目標 (17, 4)）；RED-2-rcn → (14, 8) (進度 0.50, .)（循環偵察，目標 (16, 8)）；RED-3-rcn → (14, 3) (進度 0.50, .)（循環偵察，目標 (16, 3)）；RED-SF → (12, 16) (進度 0.45, .)（循環偵察，目標 (12, 16)）；RED-AD 欲對 BLU-2 射擊但未實施：（本小時行軍中，無法實施砲擊：RED-AD）；BLU-2 構築工事 → 散兵壕（7.00hr，暴露 0.18）；BLU-SF 構築工事 → 散兵壕（6.70hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 36,
+      "game_time": "1944-08-26 18:00",
+      "summary": "[gh36 1944-08-26 18:00] BLU-3 後撤中：BLU-3 → (7, 14) (進度 0.08, .)；RED-AD → (15, 9) (進度 0.00, .)；RED-2 → (17, 9) (進度 0.19, .)；BLU-2 構築工事 → 有頂蓋（8.00hr，暴露 0.1）；BLU-SF 構築工事 → 散兵壕（7.37hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 37,
+      "game_time": "1944-08-26 19:00",
+      "summary": "[gh37 1944-08-26 19:00] BLU-3 後撤完成，抵達 (7, 14)；RED-AD → (15, 9) (進度 0.50, .)；RED-2 → (17, 9) (進度 0.52, .)；BLU-SF 構築工事 → 有頂蓋（8.04hr，暴露 0.1）；BLU-3 構築工事 → 淺掘（1.00hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 38,
+      "game_time": "1944-08-26 20:00",
+      "summary": "[gh38 1944-08-26 20:00] RED-AD 新令生效：停止一切機動，就地於 (15, 9) 轉為射擊平台；RED-2 → (17, 9) (進度 0.86, .)；RED-2-rcn → (14, 9) (進度 0.25, .)；RED-SF → (12, 16) (進度 0.95, .)；RED-AD 對 BLU-2 實施砲擊：暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）；BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04；BLU-3 構築工事 → 淺掘（2.00hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 39,
+      "game_time": "1944-08-26 21:00",
+      "summary": "[gh39 1944-08-26 21:00] RED-2 → (16, 9) (進度 0.16, .)；RED-SF → (11, 15) (進度 0.40, .)；RED-AD 對 BLU-2 實施砲擊：暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）；BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04；BLU-3 構築工事 → 散兵壕（3.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 40,
+      "game_time": "1944-08-26 22:00",
+      "summary": "[gh40 1944-08-26 22:00] RED-2 → (16, 9) (進度 0.46, .)；RED-SF → (11, 15) (進度 0.85, .)；RED-AD 對 BLU-2 實施砲擊：暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）；BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04；BLU-3 構築工事 → 散兵壕（4.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 41,
+      "game_time": "1944-08-26 23:00",
+      "summary": "[gh41 1944-08-26 23:00] RED-2 → (16, 9) (進度 0.76, .)；RED-SF → (10, 14) (進度 0.30, .)；RED-AD 對 BLU-2 實施砲擊：暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）；BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04；BLU-3 構築工事 → 散兵壕（5.00hr，暴露 0.18）；★我方偵獲敵 BLU-3 於 (7, 14)"
+    },
+    {
+      "global_hour": 42,
+      "game_time": "1944-08-27 00:00",
+      "summary": "[gh42 1944-08-27 00:00] RED-2 → (15, 9) (進度 0.03, .)；RED-3 → (18, 3) (進度 0.85, .)；RED-SF → (10, 14) (進度 0.70, .)；RED-AD 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）；BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04；BLU-3 構築工事 → 散兵壕（6.00hr，暴露 0.18）"
+    },
+    {
+      "global_hour": 43,
+      "game_time": "1944-08-27 01:00",
+      "summary": "[gh43 1944-08-27 01:00] RED-2 → (15, 9) (進度 0.30, .)；RED-3 → (17, 4) (進度 0.19, .)；RED-SF → (9, 14) (進度 0.10, .)；RED-AD 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 8 人｜RED-AD SP105×54 距4 發數1350 殺傷力0.3（組織度 -0.04）；BLU-2 遭敵砲擊：傷亡 8 人、組織度 -0.04；BLU-3 構築工事 → 散兵壕（7.00hr，暴露 0.18）；★我方偵獲敵 RED-SF 於 (9, 14)"
+    },
+    {
+      "global_hour": 44,
+      "game_time": "1944-08-27 02:00",
+      "summary": "[gh44 1944-08-27 02:00] BLU-AD 抽離自走砲營 → BLU-AD-sp1, BLU-AD-sp2, BLU-AD-sp3 留守 (10, 9)；母師餘 戰車216／火砲0；RED-2 抽離砲兵營 → RED-2-a1, RED-2-a2, RED-2-a3, RED-2-a4 留置 (15, 9)；母師餘 火砲0；RED-AD 抽離砲兵營 → RED-AD-sp1, RED-AD-sp2, RED-AD-sp3 留置 (15, 9)；母師餘 火砲0；RED-AD → (14, 9) (進度 0.00, .)；RED-2 → (15, 9) (進度 0.53, .)；RED-3 → (17, 4) (進度 0.52, .)；RED-SF 抵達 (9, 14)，停止行軍；紅軍抽離砲群 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 12 人｜RED-2-a1 105×12 距4 發數300 殺傷力0.15；RED-2-a2 105×12 距4 發數300 殺傷力0.15；RED-2-a3 105×12 距4 發數300 殺傷力0.15；RED-2-a4 155×12 距4 發數180 殺傷力0.55；RED-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -1.06）；BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06；藍軍砲群 對 (14, 9) 攔阻射擊 → 對格面 (14, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-AD：暴露0.7 密度0.2 戰車暴露1.0 → 傷亡 108 人、戰車 -14｜BLU-2 105×36 距3 發數900 殺傷力0.3；BLU-2 155×12 距3 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -2.39）；RED-AD 遭敵攔阻射擊：傷亡 32 人、戰車 -4、組織度 -2.39；BLU-3 構築工事 → 有頂蓋（8.00hr，暴露 0.1）；BLU-AD-sp1 構築工事 → 淺掘（0.67hr，暴露 0.4）；BLU-AD-sp2 構築工事 → 淺掘（0.67hr，暴露 0.4）；BLU-AD-sp3 構築工事 → 淺掘（0.67hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 45,
+      "game_time": "1944-08-27 03:00",
+      "summary": "[gh45 1944-08-27 03:00] RED-AD → (14, 9) (進度 0.45, .)；RED-2 → (15, 9) (進度 0.77, .)；RED-3 → (17, 4) (進度 0.86, .)；紅軍抽離砲群 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 12 人｜RED-2-a1 105×12 距4 發數300 殺傷力0.15；RED-2-a2 105×12 距4 發數300 殺傷力0.15；RED-2-a3 105×12 距4 發數300 殺傷力0.15；RED-2-a4 155×12 距4 發數180 殺傷力0.55；RED-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -1.06）；BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06；藍軍砲群 對 (15, 9) 攔阻射擊 → 對格面 (15, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-2：暴露0.7 密度0.2 戰車暴露1.0 → 傷亡 61 人、戰車 -4｜BLU-2 105×36 距4 發數900 殺傷力0.15；BLU-2 155×12 距4 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp2 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp3 SP105×18 距5 發數450 殺傷力0.15（組織度 -0.25）；RED-2 遭敵攔阻射擊：傷亡 18 人、戰車 -1、組織度 -0.25；BLU-AD-sp1 構築工事 → 淺掘（1.34hr，暴露 0.4）；BLU-AD-sp2 構築工事 → 淺掘（1.34hr，暴露 0.4）；BLU-AD-sp3 構築工事 → 淺掘（1.34hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 46,
+      "game_time": "1944-08-27 04:00",
+      "summary": "[gh46 1944-08-27 04:00] RED-AD → (14, 9) (進度 0.90, .)；RED-2 → (14, 9) (進度 0.00, .)；RED-3 → (16, 5) (進度 0.19, .)；紅軍抽離砲群 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 12 人｜RED-2-a1 105×12 距4 發數300 殺傷力0.15；RED-2-a2 105×12 距4 發數300 殺傷力0.15；RED-2-a3 105×12 距4 發數300 殺傷力0.15；RED-2-a4 155×12 距4 發數180 殺傷力0.55；RED-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -1.06）；BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06；藍軍砲群 對 (14, 9) 攔阻射擊 → 對格面 (14, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-2：暴露0.7 密度0.2 戰車暴露1.0 → 傷亡 108 人、戰車 -4｜BLU-2 105×36 距3 發數900 殺傷力0.3；BLU-2 155×12 距3 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；BLU-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -0.44）；RED-2 遭敵攔阻射擊：傷亡 32 人、戰車 -1、組織度 -0.44；BLU-AD-sp1 構築工事 → 淺掘（2.01hr，暴露 0.4）；BLU-AD-sp2 構築工事 → 淺掘（2.01hr，暴露 0.4）；BLU-AD-sp3 構築工事 → 淺掘（2.01hr，暴露 0.4）"
+    },
+    {
+      "global_hour": 47,
+      "game_time": "1944-08-27 05:00",
+      "summary": "[gh47 1944-08-27 05:00] RED-AD → (13, 9) (進度 0.30, .)；RED-2 → (14, 9) (進度 0.24, .)；RED-3 → (16, 5) (進度 0.50, .)；紅軍抽離砲群 對 BLU-2 砲擊 → 暴露0.1 密度0.2 戰車暴露0.05 → 傷亡 12 人｜RED-2-a1 105×12 距4 發數300 殺傷力0.15；RED-2-a2 105×12 距4 發數300 殺傷力0.15；RED-2-a3 105×12 距4 發數300 殺傷力0.15；RED-2-a4 155×12 距4 發數180 殺傷力0.55；RED-AD-sp1 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp2 SP105×18 距4 發數450 殺傷力0.3；RED-AD-sp3 SP105×18 距4 發數450 殺傷力0.3（組織度 -1.06）；BLU-2 遭敵砲擊：傷亡 12 人、組織度 -1.06；藍軍砲群 對 (15, 9) 攔阻射擊 → 對格面 (15, 9) 攔阻射擊（無觀測校射 ×0.3）命中 RED-2-a1：暴露0.7 密度0.12 戰車暴露0.3 → 傷亡 36 人、火砲 -1｜BLU-2 105×36 距4 發數900 殺傷力0.15；BLU-2 155×12 距4 發數180 殺傷力0.55；BLU-AD-sp1 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp2 SP105×18 距5 發數450 殺傷力0.15；BLU-AD-sp3 SP105×18 距5 發數450 殺傷力0.15（組織度 -3.0）；RED-2-a1 遭敵攔阻射擊：傷亡 10 人、組織度 -3.0；BLU-AD-sp1 構築工事 → 淺掘（2.68hr，暴露 0.4）；BLU-AD-sp2 構築工事 → 淺掘（2.68hr，暴露 0.4）；BLU-AD-sp3 構築工事 → 淺掘（2.68hr，暴露 0.4）；★我方偵獲敵 RED-AD 於 (13, 9)"
+    }
+  ],
+  "record": [
+    {
+      "gh": 38,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-AD"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_no_return_fire_since": 0,
+      "target_org": 84,
+      "target_cas_rate": 0.0,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 12
+    },
+    {
+      "gh": 39,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-AD"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_no_return_fire_since": 0,
+      "target_org": 84.96,
+      "target_cas_rate": 0.0006,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 13
+    },
+    {
+      "gh": 40,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-AD"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_no_return_fire_since": 0,
+      "target_org": 85.92,
+      "target_cas_rate": 0.0011,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 14
+    },
+    {
+      "gh": 41,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-AD"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_no_return_fire_since": 0,
+      "target_org": 86.88,
+      "target_cas_rate": 0.0017,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 15
+    },
+    {
+      "gh": 42,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-AD"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_no_return_fire_since": 0,
+      "target_org": 87.84,
+      "target_cas_rate": 0.0023,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 16
+    },
+    {
+      "gh": 43,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-AD"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_no_return_fire_since": 0,
+      "target_org": 88.8,
+      "target_cas_rate": 0.0029,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 17
+    },
+    {
+      "gh": 44,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-2-a1",
+        "RED-2-a2",
+        "RED-2-a3",
+        "RED-2-a4",
+        "RED-AD-sp1",
+        "RED-AD-sp2",
+        "RED-AD-sp3"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_no_return_fire_since": 0,
+      "target_org": 89.76,
+      "target_cas_rate": 0.0034,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 18
+    },
+    {
+      "gh": 44,
+      "kind": "攔阻射擊",
+      "actor_side": "allies",
+      "firing": [
+        "BLU-2",
+        "BLU-AD-sp1",
+        "BLU-AD-sp2",
+        "BLU-AD-sp3"
+      ],
+      "target_hex": [
+        14,
+        9
+      ],
+      "hit": "RED-AD"
+    },
+    {
+      "gh": 44,
+      "kind": "砲擊",
+      "actor_side": "allies",
+      "firing": [
+        "BLU-2",
+        "BLU-AD-sp1",
+        "BLU-AD-sp2",
+        "BLU-AD-sp3"
+      ],
+      "target": "RED-AD",
+      "target_status": "ACTIVE",
+      "target_org": 95,
+      "target_cas_rate": 0.0,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 0
+    },
+    {
+      "gh": 45,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-2-a1",
+        "RED-2-a2",
+        "RED-2-a3",
+        "RED-2-a4",
+        "RED-AD-sp1",
+        "RED-AD-sp2",
+        "RED-AD-sp3"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_org": 89.7,
+      "target_cas_rate": 0.0043,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 19
+    },
+    {
+      "gh": 45,
+      "kind": "攔阻射擊",
+      "actor_side": "allies",
+      "firing": [
+        "BLU-2",
+        "BLU-AD-sp1",
+        "BLU-AD-sp2",
+        "BLU-AD-sp3"
+      ],
+      "target_hex": [
+        15,
+        9
+      ],
+      "hit": "RED-2"
+    },
+    {
+      "gh": 45,
+      "kind": "砲擊",
+      "actor_side": "allies",
+      "firing": [
+        "BLU-2",
+        "BLU-AD-sp1",
+        "BLU-AD-sp2",
+        "BLU-AD-sp3"
+      ],
+      "target": "RED-2",
+      "target_status": "ACTIVE",
+      "target_no_return_fire_since": 0,
+      "target_org": 75,
+      "target_cas_rate": 0.0,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 0
+    },
+    {
+      "gh": 46,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-2-a1",
+        "RED-2-a2",
+        "RED-2-a3",
+        "RED-2-a4",
+        "RED-AD-sp1",
+        "RED-AD-sp2",
+        "RED-AD-sp3"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_org": 85,
+      "target_cas_rate": 0.0051,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 20
+    },
+    {
+      "gh": 46,
+      "kind": "攔阻射擊",
+      "actor_side": "allies",
+      "firing": [
+        "BLU-2",
+        "BLU-AD-sp1",
+        "BLU-AD-sp2",
+        "BLU-AD-sp3"
+      ],
+      "target_hex": [
+        14,
+        9
+      ],
+      "hit": "RED-2"
+    },
+    {
+      "gh": 46,
+      "kind": "砲擊",
+      "actor_side": "allies",
+      "firing": [
+        "BLU-2",
+        "BLU-AD-sp1",
+        "BLU-AD-sp2",
+        "BLU-AD-sp3"
+      ],
+      "target": "RED-2",
+      "target_status": "ACTIVE",
+      "target_no_return_fire_since": 0,
+      "target_org": 75,
+      "target_cas_rate": 0.0017,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 0
+    },
+    {
+      "gh": 47,
+      "kind": "砲擊",
+      "actor_side": "axis",
+      "firing": [
+        "RED-2-a1",
+        "RED-2-a2",
+        "RED-2-a3",
+        "RED-2-a4",
+        "RED-AD-sp1",
+        "RED-AD-sp2",
+        "RED-AD-sp3"
+      ],
+      "target": "BLU-2",
+      "target_status": "ACTIVE",
+      "target_org": 84.94,
+      "target_cas_rate": 0.006,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 21
+    },
+    {
+      "gh": 47,
+      "kind": "攔阻射擊",
+      "actor_side": "allies",
+      "firing": [
+        "BLU-2",
+        "BLU-AD-sp1",
+        "BLU-AD-sp2",
+        "BLU-AD-sp3"
+      ],
+      "target_hex": [
+        15,
+        9
+      ],
+      "hit": "RED-2-a1"
+    },
+    {
+      "gh": 47,
+      "kind": "砲擊",
+      "actor_side": "allies",
+      "firing": [
+        "BLU-2",
+        "BLU-AD-sp1",
+        "BLU-AD-sp2",
+        "BLU-AD-sp3"
+      ],
+      "target": "RED-2-a1",
+      "target_status": "ACTIVE",
+      "target_org": 78,
+      "target_cas_rate": 0.0,
+      "target_supply": "intact",
+      "target_encircled": false,
+      "target_contact_hours": 0
+    }
+  ]
+}
