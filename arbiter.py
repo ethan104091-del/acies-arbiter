@@ -60,6 +60,13 @@
    2026-07-30 曾一度把 W1/W2/W7 的認定與「全軍喪失受降請求權」的自動制裁
    寫進引擎，已全部移除——那是未經審判就執行處罰。
 
+  24. 【2026-08-02 Run 7 改動】工事改為 **hex 記憶**：state["works"]["x,y"]["man_hours"]。
+      挖掘累加「人數 × 時數 × 兵種速率」；某編隊的防護 = fort_from_hours(該格 man-hours
+      ÷ 該編隊人數)——一個 550 人的營挖的坑容不下一個師。移動不再摧毀工事，洞留在格子上；
+      自己回來或敵方佔領皆完整取用（Run 6 指揮官裁定不打折）。
+      間接火力以 WORKS_DEMOLITION=22.6 man-hr/殺傷單位摧毀之，近戰以攻方戰力損失%
+      × MELEE_WORKS_MULT=3.0 摧毀之；下限為佔用編隊之淺掘級（彈坑即掩體）。
+      偽裝不給 hex 記憶——帆布是隨隊裝備。
   23. 【2026-08-02 已修】抽離的砲兵營一發也打不出去。bombard() 以
       GUN_MIX[unit.type] 取砲種，而 GUN_MIX 只有 infantry/armor/ranger 三項；
       抽離的砲兵營兵種為 "artillery" → 取到空字典 → 發數 0。但 detach_bn 已
@@ -643,6 +650,8 @@ FORT_TIERS = [
     (3.0, 0.35, 0.18, "散兵壕", "標準散兵坑，可站立射擊，能承受一般彈幕"),
     (8.0, 0.50, 0.10, "有頂蓋", "完整掩體，可擋空爆與樹爆"),
 ]
+WORKS_DEMOLITION = 22.6   # Run 7：每「殺傷單位」摧毀的 man-hours（校準見 precedents §十三）
+MELEE_WORKS_MULT = 3.0    # 近戰對工事的摧毀＝攻方戰力損失% × 此倍率
 CAMO_HOURS = 3.0        # 偽裝作業門檻（裁示 17，Run 6 T5 起）：達此工時 → 能見狀態好一級
 FORT_COVER_TIER = 0.35   # [判例] combat_v1 的 Cover（org 衝擊減半）自「散兵壕」級起適用
 FORT_TANK_TIER  = 0.35   # [判例] 戰車掩壕（暴露 0.05）需挖到散兵壕級；淺掘對戰車無用
@@ -669,14 +678,75 @@ def dig(s, uid, hours=1.0):
     if u["flags"].get("moved") or not under_command(s, uid):
         return None
     rate = DIG_RATE.get(u["type"], 1.0)
-    u["dig_hours"] = round(u.get("dig_hours", 0.0) + hours * rate, 3)
+    # Run 7：累加 man-hours 至**格子**。人數 × 時數 × 兵種速率。
+    add_works(s, u["pos"], u.get("personnel", 0) * hours * rate, u.get("side"))
+    pc = hex_works(s, u["pos"]) / max(1, u.get("personnel", 1))
+    u["dig_hours"] = round(pc, 3)
+    u["fortification"] = fort_from_hours(pc)
+    tier = fort_tier(u["fortification"])
+    return tier[3], u["fortification"], tier[2]
+
+
+def works_key(pos):
+    return f"{int(pos[0])},{int(pos[1])}"
+
+
+def hex_works(s, pos):
+    """該格已累積的 man-hours（Run 7：工事記在格子上，不記在單位上）。"""
+    return s.setdefault("works", {}).get(works_key(pos), {}).get("man_hours", 0.0)
+
+
+def add_works(s, pos, man_hours, side=None):
+    w = s.setdefault("works", {}).setdefault(works_key(pos), {"man_hours": 0.0, "by": side})
+    w["man_hours"] = max(0.0, w["man_hours"] + man_hours)
+    if side and man_hours > 0:
+        w["by"] = side
+    return w["man_hours"]
+
+
+def fort_from_hours(per_capita):
+    """每人累計工時 → fortification 值。"""
     val = FORT_TIERS[0][1]
     for need, fv, _e, _n, _d in FORT_TIERS:
-        if u["dig_hours"] >= need - 1e-9:
+        if per_capita >= need - 1e-9:
             val = fv
-    u["fortification"] = val
-    tier = fort_tier(val)
-    return tier[3], val, tier[2]
+    return val
+
+
+def refresh_fortification(s):
+    """每 hour 依所在格的 man-hours 重算各編隊的工事值。
+
+    Run 7 的核心改動：工事屬於**格子**不屬於單位。
+      · 該編隊的防護 = fort_from_hours(該格 man-hours ÷ 該編隊人數)
+        ——一個 550 人的營挖出來的坑容不下一個 14,030 人的師，故必須除以人數。
+      · 該小時移動過者防護為 0（行軍中的部隊不在洞裡）。
+      · 離開後洞還在；自己回來、或敵方佔領，都完整取用（Run 6 指揮官裁定：不打折）。
+    """
+    for uid, u in s["units"].items():
+        if u.get("side") not in ("allies", "axis"):
+            continue
+        if u["flags"].get("moved"):
+            u["fortification"] = 0.0
+            u["dig_hours"] = 0.0
+            continue
+        n = max(1, u.get("personnel", 1))
+        pc = hex_works(s, u["pos"]) / n
+        u["dig_hours"] = round(pc, 3)
+        u["fortification"] = fort_from_hours(pc)
+    return s
+
+
+def damage_works(s, pos, man_hours, occupant=None):
+    """砲擊／近戰摧毀該格工事。下限為佔用編隊的「淺掘」級——彈坑本身即掩體。"""
+    if man_hours <= 0:
+        return 0.0
+    cur = hex_works(s, pos)
+    floor = FORT_TIERS[1][0] * max(1, occupant.get("personnel", 1)) if occupant else 0.0
+    new = max(floor, cur - man_hours)
+    removed = cur - new
+    if removed > 0:
+        s.setdefault("works", {}).setdefault(works_key(pos), {"man_hours": 0.0})["man_hours"] = new
+    return removed
 
 
 def camouflage(s, uid, hours=1.0):
@@ -698,7 +768,12 @@ def camouflage(s, uid, hours=1.0):
 
 
 def abandon_works(u):
-    """移動或潰散即棄工事——挖好的洞帶不走。偽裝同理（裁示 17）。"""
+    """移動或潰散即離開工事。
+
+    Run 7 起：**洞留在格子上**（見 refresh_fortification），此處只把該編隊當下的
+    防護歸零——行軍中的部隊不在洞裡。回到該格即重新取用。
+    偽裝則是隨隊裝備，帶得走也帶得壞，移動即真正歸零（Run 6 指揮官裁定：不給 hex 記憶）。
+    """
     u["fortification"] = 0.0
     u["dig_hours"] = 0.0
     u["camo_hours"] = 0.0
@@ -755,6 +830,8 @@ def bombard(s, firing_uids, target_uid, minutes=FIRE_MINUTES):
             tgt["_inc"][1] += r * tk
     if "_inc" not in tgt:
         return 0, 0, 0, "（無砲兵在射程內）"
+    # Run 7：間接火力摧毀該格工事（下限為佔用編隊的淺掘級——彈坑本身即掩體）
+    _rm = damage_works(s, tgt["pos"], tgt["_inc"][0] * WORKS_DEMOLITION, tgt)
     ef, df = exposure_factor(tgt, terr(s, tgt["pos"])), density_factor(tgt)
     cas = tgt["_inc"][0] * ef * df
     cap = tgt.get("personnel", 0) * SATURATION
@@ -775,7 +852,9 @@ def bombard(s, firing_uids, target_uid, minutes=FIRE_MINUTES):
     tank_kill = min(int(tgt["_inc"][1] * texp), tgt["equip"]["tanks"], ecap_t)
     gun_kill = min(int(tgt["_inc"][1] * texp * 0.5), tgt["equip"]["guns"], ecap_g)
     del tgt["_inc"]
-    msg = (f"暴露{ef} 密度{df} 戰車暴露{texp} → 傷亡 {cas} 人" + ("（觸飽和上限 8%）" if capped else "")
+    msg = (f"暴露{ef} 密度{df} 戰車暴露{texp}"
+           + (f" 工事-{_rm:,.0f}man-hr" if _rm > 0 else "")
+           + f" → 傷亡 {cas} 人" + ("（觸飽和上限 8%）" if capped else "")
            + (f"、戰車 -{tank_kill}" if tank_kill else "") + (f"、火砲 -{gun_kill}" if gun_kill else "")
            + "｜" + "；".join(detail))
     return cas, min(tank_kill, tgt["equip"]["tanks"]), min(gun_kill, tgt["equip"]["guns"]), msg
@@ -1010,6 +1089,11 @@ def battle(s, atk_uids, def_uids, hexpos, atk_from_march=False, def_passive=True
              f" vs 守方 CP {d_cp}（{d_arms} 兵種"
              + (f"、工事 +{s['units'][def_uids[0]].get('fortification',0):.3f}" if def_uids else "") + "）"
              f" → **兵力比 {fr:.2f}** → 對照表：攻方 -{astr}% 戰力/-{aorg} 組織、守方 -{dstr}% 戰力/-{dorg} 組織"]
+    # Run 7：近戰亦摧毀工事，但量遠小於砲擊（爆破組、噴火器、手榴彈）
+    _occ = s["units"][def_uids[0]] if def_uids else None
+    _mrm = damage_works(s, hexpos, hex_works(s, hexpos) * astr / 100.0 * MELEE_WORKS_MULT, _occ)
+    if _mrm > 0:
+        lines.append(f"　近戰摧毀該格工事 -{_mrm:,.0f} man-hr")
     for uids, spct, org, is_def in ((atk_uids, astr, aorg, False), (def_uids, dstr, dorg, True)):
         for uid in uids:
             u = s["units"][uid]
@@ -1657,6 +1741,7 @@ def run_tick(s, resolve, hours=6, log=None):
                 u["fatigue"] = max(0, u.get("fatigue", 0) - FATIGUE_REST_FULL)
                 consume(s, uid, "L0")
         apply_fatigue_caps(s)
+        refresh_fortification(s)      # Run 7：依所在格的 man-hours 重算各編隊工事值
 
         refresh_visibility(s)
         for side, lst in spot(s).items():

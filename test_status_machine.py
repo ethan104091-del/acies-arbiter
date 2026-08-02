@@ -502,5 +502,59 @@ u7["fortification"] = 0.35
 cas, tk, gk, msg = ar.bombard(w7, ["BLU-1"], "RED-3")
 check("散兵壕級 → 戰車掩壕 0.05", "戰車暴露0.05" in msg, msg[:60])
 
+# ── J. Run 7：工事的 hex 記憶（缺陷 24）──────────────────────────
+print("\n── J. hex 工事記憶（Run 7）──")
+wJ = fresh()
+wJ["works"] = {}
+for _u in wJ["units"].values():
+    _u["flags"] = {}; _u["fortification"] = 0.0; _u["dig_hours"] = 0.0
+dJ = wJ["units"]["BLU-2"]; dJ["pos"] = [11, 9]
+nJ = dJ["personnel"]
+for _ in range(8):
+    dJ["flags"]["moved"] = False; ar.dig(wJ, "BLU-2")
+check("師挖 8hr → 有頂蓋（與 Run 6 行為一致）", abs(dJ["fortification"] - 0.50) < 1e-9)
+check("man-hours 累加至格子 = 人數 × 時數",
+      abs(ar.hex_works(wJ, [11, 9]) - nJ * 8) < 1e-6, f"{ar.hex_works(wJ,[11,9]):,.0f}")
+
+dJ["flags"]["moved"] = True; ar.abandon_works(dJ); ar.refresh_fortification(wJ)
+check("★ 行軍中防護歸零（人不在洞裡）", dJ["fortification"] == 0.0)
+check("★ 但格子上的洞仍在", abs(ar.hex_works(wJ, [11, 9]) - nJ * 8) < 1e-6)
+dJ["flags"]["moved"] = False; ar.refresh_fortification(wJ)
+check("★ 回到原格即完整恢復有頂蓋（Run 6 的痛點）",
+      abs(dJ["fortification"] - 0.50) < 1e-9 and abs(dJ["dig_hours"] - 8.0) < 1e-6)
+
+# 小單位挖的洞容不下大單位
+wK = fresh(); wK["works"] = {}
+for _u in wK["units"].values(): _u["flags"] = {}
+engK, _ = ar.detach_bn(wK, "BLU-3", "eng", [7, 4])
+eK = wK["units"][engK]
+for _ in range(8):
+    eK["flags"]["moved"] = False; ar.dig(wK, engK)
+bigK = wK["units"]["BLU-1"]
+pcK = ar.hex_works(wK, [7, 4]) / bigK["personnel"]
+check("★ 工兵營 8hr 對其自身＝有頂蓋", abs(eK["fortification"] - 0.50) < 1e-9)
+check("★ 同一批洞對一個師僅及淺掘（人數比 20:1）",
+      ar.fort_from_hours(pcK) == 0.15, f"{pcK:.2f} hr/人")
+
+# 砲擊摧毀工事，下限為淺掘
+wL = fresh(); wL["works"] = {}
+for _u in wL["units"].values(): _u["flags"] = {}
+tL = wL["units"]["RED-2"]; tL["pos"] = [14, 9]
+for _ in range(8):
+    tL["flags"]["moved"] = False; ar.dig(wL, "RED-2")
+wL["units"]["BLU-2"]["pos"] = [11, 9]; wL["units"]["BLU-1"]["pos"] = [11, 9]
+before = ar.hex_works(wL, [14, 9])
+for _u in wL["units"].values(): _u["flags"] = {}
+ar.bombard(wL, ["BLU-2", "BLU-1"], "RED-2"); tL.pop("_inc", None)
+check("★ 砲擊摧毀該格 man-hours", ar.hex_works(wL, [14, 9]) < before,
+      f"{before:,.0f} → {ar.hex_works(wL,[14,9]):,.0f}")
+for _ in range(20):
+    for _u in wL["units"].values(): _u["flags"] = {}
+    ar.bombard(wL, ["BLU-2", "BLU-1"], "RED-2"); tL.pop("_inc", None)
+ar.refresh_fortification(wL)
+check("★ 摧毀下限為淺掘（彈坑即掩體）",
+      abs(tL["dig_hours"] - 0.5) < 0.01 and tL["fortification"] == 0.15,
+      f"{tL['dig_hours']:.2f} hr/人")
+
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)

@@ -56,6 +56,7 @@ s = {
     "tick": 0, "max_ticks": 8,
     "map": mp,
     "units": {},
+    "works": {},          # Run 7：hex 工事記憶 {"x,y": {"man_hours": float, "by": side}}
     "command": {
         # ★開局無指揮所——玩家須自行下令建立（scenario §5-B）。commander_at=None → +2 級延遲
         "allies": {"main_cp": None, "fwd_cp": None, "commander_at": None},
