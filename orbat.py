@@ -291,21 +291,37 @@ TYPE_ZH = {"infantry": "步兵", "armor": "裝甲", "mech_inf": "裝甲步兵",
            "ranger": "特戰", "hq": "師部勤務"}
 
 
-def print_orbat(side=None):
-    """CLI 查詢：印出師的完整營級編制樹。side=allies/axis/None(全部)。"""
+def print_orbat(side=None, state_path=None):
+    """CLI 查詢：印出師的完整營級編制樹。side=allies/axis/None(全部)。
+
+    state_path 可指定劇本的 state（PvP 純戰場用 maps/open_field_state.json）。
+    編隊順序：先用黑潮劇本的固定順序，其餘由 state 補上（故新劇本也印得出來）。
+    另加「攜行裝備」欄——抽離該營會帶走什麼（見 law_of_war.md 裁示 42）。
+    """
     from rich.console import Console
     from rich.table import Table
-    s = ensure_orbat(json.loads(STATE_PATH.read_text()))
+    sp = Path(state_path) if state_path else STATE_PATH
+    s = ensure_orbat(json.loads(sp.read_text()))
+    try:                                   # 延遲匯入避免 arbiter ↔ orbat 循環
+        from arbiter import bn_equip
+    except Exception:
+        bn_equip = None
     console = Console()
-    order = ["1ID", "4ID", "3AD", "90ID", "17SS", "2Pz", "352"]
+    fixed = ["1ID", "4ID", "3AD", "90ID", "17SS", "2Pz", "352"]
+    rest = sorted(uid for uid, u in s["units"].items()
+                  if uid not in fixed and u.get("orbat")
+                  and not u.get("is_detachment")
+                  and (not side or u.get("side") == side))
+    order = [u for u in fixed if u in s["units"]] + rest
     for uid in order:
         u = s["units"].get(uid)
-        if not u or (side and u["side"] != side):
+        if not u or (side and u["side"] != side) or not u.get("orbat"):
             continue
         ob = u.get("orbat", {})
         n_det = sum(1 for b in ob.values() if b.get("status") == "detached")
         title = (f"[bold]{uid}[/] {u['name']} — 員額 {u.get('personnel','?')}人"
-                 f" 戰力{u.get('strength','?')}%"
+                 f" 戰力{u.get('strength','?')}%  組織{u.get('org','?')}"
+                 f"  疲勞{u.get('fatigue',0)}  位置{tuple(u.get('pos',()))}"
                  + (f"  [yellow]{n_det}營已拉出[/]" if n_det else ""))
         t = Table(title=title, show_edge=True, expand=False)
         t.add_column("營碼", style="cyan")
@@ -313,16 +329,48 @@ def print_orbat(side=None):
         t.add_column("兵種")
         t.add_column("人數", justify="right")
         t.add_column("狀態")
+        t.add_column("攜行裝備", style="magenta")
         t.add_column("備註", style="dim")
         for code, b in ob.items():
             st = b.get("status", "in_division")
             stxt = {"in_division": "[dim]在師[/]",
                     "detached": "[yellow]已拉出[/]"}.get(st, f"[green]{st}[/]")
-            detachable = "" if b["type"] == "hq" else ""
+            eqs = "—"
+            if bn_equip:
+                eq = bn_equip(u, code)
+                eqs = "、".join(f"{'戰車' if k == 'tanks' else '火砲'} {v}"
+                               for k, v in eq.items() if v) or "—"
             t.add_row(code, b["name"], TYPE_ZH.get(b["type"], b["type"]),
-                      str(b.get("personnel", "")), stxt, b.get("note", ""))
+                      str(b.get("personnel", "")), stxt, eqs, b.get("note", ""))
         console.print(t)
         console.print()
+
+
+def print_detachments(side=None, state_path=None):
+    """已抽離的獨立編隊（同樣的 rich 樣式）。"""
+    from rich.console import Console
+    from rich.table import Table
+    sp = Path(state_path) if state_path else STATE_PATH
+    s = json.loads(sp.read_text())
+    det = {k: v for k, v in s["units"].items()
+           if v.get("is_detachment") and (not side or v.get("side") == side)}
+    if not det:
+        Console().print("[dim]（目前無抽離營：所有營均在師內。要拉出來用「抽離 <師>-<營碼>」下命令）[/]")
+        return
+    t = Table(title="[bold]已抽離的獨立編隊[/]", show_edge=True, expand=False)
+    for c, j in (("編隊", None), ("位置", None), ("兵力", "right"), ("組織", "right"),
+                 ("疲勞", "right"), ("工事", "right"), ("攜行裝備", None), ("母編隊", None)):
+        t.add_column(c, justify=j or "left",
+                     style="cyan" if c == "編隊" else
+                           "magenta" if c == "攜行裝備" else
+                           "dim" if c == "母編隊" else None)
+    for uid, u in sorted(det.items()):
+        eqs = "、".join(f"{'戰車' if k == 'tanks' else '火砲'} {v}"
+                       for k, v in u.get("equip", {}).items() if v) or "—"
+        t.add_row(uid, str(tuple(u["pos"])), str(u.get("personnel", 0)),
+                  str(u.get("org", "?")), str(u.get("fatigue", 0)),
+                  f"{u.get('fortification', 0):.2f}", eqs, u.get("parent", "?"))
+    Console().print(t)
 
 
 if __name__ == "__main__":
@@ -330,7 +378,12 @@ if __name__ == "__main__":
     if "--side" in sys.argv:
         i = sys.argv.index("--side")
         side = sys.argv[i + 1] if i + 1 < len(sys.argv) else None
-        print_orbat(side)
+        st = None
+        if "--state" in sys.argv:
+            j = sys.argv.index("--state")
+            st = sys.argv[j + 1] if j + 1 < len(sys.argv) else None
+        print_orbat(side, st)
+        print_detachments(side, st)
     elif "--check" in sys.argv:
         import copy
         s = ensure_orbat(json.loads(STATE_PATH.read_text()))

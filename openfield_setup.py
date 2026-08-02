@@ -12,6 +12,13 @@ W, H = 30, 18
 mp = json.load(open(G / "maps" / "open_field.json"))
 
 XP = {"infantry": 3, "armor": 4, "ranger": 5}
+# 裝備編制直接寫進 state（缺陷 19）：原本只靠 arbiter.load() 的 setdefault 補，
+# 導致直接讀 raw JSON 的檢視器取不到 equip。與 arbiter.EQUIP 同值。
+EQUIP = {
+    "infantry": {"tanks": 54, "guns": 48},
+    "armor":    {"tanks": 216, "guns": 54},
+    "ranger":   {"tanks": 0,  "guns": 12},
+}
 FULL = {"POL": 100, "SA": 100, "HE": 100, "AT": 100, "RAT": 100, "MED": 100, "PARTS": 100}
 
 # 藍軍部署（西）；紅軍 = 180° 旋轉 (x,y)->(W-1-x,H-1-y)
@@ -34,6 +41,10 @@ def mk_unit(uid, short, name, typ, pos, side, concealed=False):
         "pos": list(pos), "strength": 100, "org": 100, "xp": XP.get(typ, 3),
         "fatigue": 0, "visibility_state": "CONCEALED" if concealed else "STANDARD",
         "hidden": concealed, "resources": dict(FULL),
+        "equip": dict(EQUIP.get(typ, {"tanks": 0, "guns": 0})),
+        "losses": {"personnel": 0, "tanks": 0, "guns": 0},
+        "static_hours": 0, "move_progress": 0.0, "flags": {},
+        "fortification": 0.0, "dig_hours": 0.0, "status": "ACTIVE",
         "broken_down_vehicles": 0, "orders": "", "last_action": "開局部署",
     }
 

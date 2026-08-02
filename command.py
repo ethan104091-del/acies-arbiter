@@ -25,11 +25,40 @@ def _dist(a, b):
     return max(abs(a[0] - b[0]), abs(a[1] - b[1]))   # 切比雪夫距離（八向）
 
 
+def fwd_cp_is_forward(state, side):
+    """前進指揮所是否「真的在前」。
+
+    Run 6 新增。Run 5 揭露的漏洞：本函式原本只檢查「軍長是否進駐」與「距離是否
+    ≤ FWD_RANGE」，**沒有任何位置要求**。於是一方可以把前進指揮所設在自己的後方
+    縱深（森林格、重兵守備），零斬首風險取得 0 級命令延遲——使設計上原本要互相
+    交換的「節奏優勢 ↔ 斬首風險」完全脫鉤。
+
+    判準：前進指揮所必須位於本方各作戰編隊 x 座標的**中位數之前**（朝敵方補給源）。
+    藍軍補給源在西緣 x=0，故「前」＝ x 較大；紅軍相反。
+    不用「距敵方多近」是因為那會依賴戰霧（雙方看到的敵情不同 → 不對稱）；
+    用自己部隊的中位數是雙方都能自行驗算的客觀量。
+    """
+    cmd = state.get("command", {}).get(side, {})
+    fwd = cmd.get("fwd_cp")
+    if not fwd:
+        return False
+    xs = sorted(u["pos"][0] for u in state.get("units", {}).values()
+                if u.get("side") == side and not u.get("is_detachment"))
+    if not xs:
+        return True
+    med = xs[len(xs) // 2]
+    return fwd[0] >= med if side == "allies" else fwd[0] <= med
+
+
 def delay_tier_adjust(state, side, unit_pos):
-    """該單位命令的延遲級數調整：0(前進指揮所罩內) / +1(有主指揮所) / +2(無指揮所)。"""
+    """該單位命令的延遲級數調整：0(前進指揮所罩內) / +1(有主指揮所) / +2(無指揮所)。
+
+    0 級另須前進指揮所「真的在前」（fwd_cp_is_forward）——見該函式的說明。
+    """
     cmd = state.get("command", {}).get(side, {})
     fwd, main, at = cmd.get("fwd_cp"), cmd.get("main_cp"), cmd.get("commander_at")
-    if fwd and at == "fwd" and _dist(unit_pos, fwd) <= FWD_RANGE:
+    if (fwd and at == "fwd" and _dist(unit_pos, fwd) <= FWD_RANGE
+            and fwd_cp_is_forward(state, side)):
         return 0
     if main:
         return 1

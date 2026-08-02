@@ -611,6 +611,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",
@@ -768,6 +783,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",
@@ -925,6 +955,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",
@@ -1082,6 +1127,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",
@@ -1239,6 +1299,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",
@@ -1396,6 +1471,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 54,
+        "guns": 48
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",
@@ -1553,6 +1643,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 216,
+        "guns": 54
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",
@@ -1675,6 +1780,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 216,
+        "guns": 54
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",
@@ -1797,6 +1917,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 0,
+        "guns": 12
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",
@@ -1870,6 +2005,21 @@
         "MED": 100,
         "PARTS": 100
       },
+      "equip": {
+        "tanks": 0,
+        "guns": 12
+      },
+      "losses": {
+        "personnel": 0,
+        "tanks": 0,
+        "guns": 0
+      },
+      "static_hours": 0,
+      "move_progress": 0.0,
+      "flags": {},
+      "fortification": 0.0,
+      "dig_hours": 0.0,
+      "status": "ACTIVE",
       "broken_down_vehicles": 0,
       "orders": "",
       "last_action": "開局部署",

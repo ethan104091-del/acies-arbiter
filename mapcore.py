@@ -376,7 +376,12 @@ def compute_supply(state, sides=("allies", "axis")):
     sev = {"intact": 0, "contested": 1, "cut": 2}
     out = {}
     for uid, u in units.items():
-        if u.get("is_detachment") or u.get("side") not in sides:
+        # Run 6 修正：原本 `if u.get("is_detachment"): continue` 跳過抽離的營級單位，
+        # 使其補給狀態永遠沿用「完整」——而 law_of_war.md 的 W1 要件 C 要求
+        # 「補給走廊切斷」，兩者相乘導致**任何營級單位都不可能滿足 W1**，
+        # 不論它被摧毀得多徹底。「禁止在屍體上收割分數」恰好對最容易變成屍體的
+        # 那一類單位失效。此缺陷由 Run 5 的敗方在覆盤中指出。
+        if u.get("side") not in sides:
             continue
         side = u["side"]
         ux, uy = u["pos"]
