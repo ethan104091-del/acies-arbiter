@@ -362,7 +362,7 @@ k["fatigue"] = 50
 ar.run_tick(h3, lambda s, gh: [("both", "x")], hours=1)
 check("完全未動未戰 → 休整 -10", k["fatigue"] == 40, f"fatigue={k['fatigue']}")
 
-# 缺陷 13：移動即棄工事
+# 缺陷 13：移動即離開工事（Run 7 起洞留在格子上，見 J 段）
 h4 = fresh()
 h4["global_hour"] = 10
 w = h4["units"]["RED-3"]
@@ -370,7 +370,7 @@ w["flags"] = {}
 ar.dig(h4, "RED-3", hours=3.0)
 had = w["fortification"]
 ar.advance(h4, "RED-3", [0, w["pos"][1]])
-check("★ 缺陷 13：移動即棄工事",
+check("★ 缺陷 13：移動即離開工事（防護歸零）",
       had > 0 and w["fortification"] == 0.0 and w["dig_hours"] == 0.0,
       f"移動前 {had} → 移動後 {w['fortification']}")
 
@@ -488,7 +488,7 @@ ar.dig(w6, "RED-2", hours=0.0)
 u6["flags"]["moved"] = True
 check("移動中不得構築", ar.dig(w6, "RED-2") is None)
 ar.abandon_works(u6)
-check("移動即棄工事（洞帶不走）", u6["fortification"] == 0.0 and u6["dig_hours"] == 0.0)
+check("移動即離開工事（該編隊防護歸零）", u6["fortification"] == 0.0 and u6["dig_hours"] == 0.0)
 
 w7 = fresh()
 u7 = w7["units"]["RED-3"]

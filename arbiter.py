@@ -501,7 +501,7 @@ def advance(s, uid, target, note=""):
     first_move_this_hour = not u["flags"].get("moved")
     u["flags"]["moved"] = True
     u["static_hours"] = 0
-    abandon_works(u)                     # 缺陷 13：移動即棄工事（手冊 §11、挖好的洞帶不走）
+    abandon_works(u)                     # 行軍中的部隊不在洞裡；洞留在格子上（缺陷 24）
     if first_move_this_hour:             # 缺陷 20：行軍疲勞是「每小時 +5」，不是「每次呼叫 +5」。
         u["fatigue"] = min(100, u.get("fatigue", 0) + (8 if is_night(s) else 5))
     u["last_action"] = note or f"機動朝 {tuple(target)}"

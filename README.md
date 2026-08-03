@@ -55,16 +55,20 @@ export ANTHROPIC_API_KEY=sk-...        # needed for the AI referee / advisor
 
 ```bash
 # Generate a clean opening
-python3 blacktide_setup.py             # Black Tide  -> state.json
-python3 openfield_setup.py             # Open Field  -> maps/open_field_state.json
+python3 scenarios/blacktide_setup.py    # Black Tide  -> maps/blacktide_state.json
+python3 scenarios/openfield_setup.py    # Open Field  -> maps/open_field_state.json
 
 # Watch the battlefield (terminal map)
-python3 map.py                                                   # Black Tide, god view
-python3 map.py --state maps/open_field_state.json --supply      # Open Field + supply layer
-python3 map.py --side allies                                    # player view (own units + spotted enemy)
+python3 tools/map.py --state maps/blacktide_state.json                    # god view
+python3 tools/map.py --state maps/open_field_state.json --supply          # + supply layer
+python3 tools/map.py --state maps/open_field_state.json --side allies     # player view
 
 # Inspect the battalion ORBAT
-python3 orbat.py --side allies
+python3 orbat.py --side allies --state maps/open_field_state.json
+
+# Regression suites
+python3 tests/test_hourstate.py
+python3 tests/test_status_machine.py
 ```
 
 How the referee actually runs a game: see `prompts/referee_gm.md` (Black Tide) and `prompts/referee_pvp.md` (Open Field).
@@ -73,20 +77,34 @@ How the referee actually runs a game: see `prompts/referee_gm.md` (Black Tide) a
 
 ## Architecture (main modules)
 
-| File | Responsibility |
+Engine modules live at the repository root on purpose: the tick-resolution
+scripts under `runs/` locate them via `parents[2]`, and those scripts are the
+audit record — every past resolution has to stay replayable exactly as it ran.
+
+| Path | Responsibility |
 |---|---|
+| `arbiter.py` | The referee engine: fire, close combat, fortification, supply, status machine, briefs |
 | `mapcore.py` | Shared render core: terrain / units / supply-line layer, fog filtering |
-| `map.py` | Live terminal viewer |
-| `orbat.py` | Battalion ORBAT, detach / rejoin |
+| `orbat.py` | Battalion ORBAT, detach / rejoin (equipment is conserved) |
 | `hourstate.py` | Hour-level clock + command delay queue |
 | `command.py` | Command posts / comms delay / decapitation (PvP) |
-| `advisor.py` | AI staff officer (Claude API; only ever sees the filtered viewpoint) |
-| `server.py` / `client.py` | 1v1 networking (token auth + Cloudflare Tunnel) |
-| `*_v1.md` / `scenario*.md` | Natural-language rules and scenario definitions |
+| `rules/` | Natural-language rules and scenario definitions (`*_v1.md`, `scenario*.md`) |
+| `law/` | `law_of_war.md` (post-game tribunal) and `precedents.md` (accumulated rulings) |
+| `scenarios/` | Scenario setup and preview scripts |
+| `tools/` | Terminal map viewer, AI staff officer, 1v1 client/server, watchers |
+| `tests/` | Two regression suites |
+| `runs/` | Complete records of Runs 4-6: tick scripts, per-tick snapshots, published rulings |
 
 ## Status
 
-Proof-of-concept. The engine and both scenarios are in place with unit tests (`python3 test_hourstate.py`, `python3 command.py`), but real game-play testing is still limited. Come poke at it, critique it, and fork it as an experiment in LLM-driven game design.
+Playable. Three full 1v1 runs are recorded under `runs/` — nine ticks each,
+fifty-four in-game hours, with per-tick snapshots that let any resolution be
+replayed and checked. Run 6 was human-vs-AI and finished 3061 : 2292.
+
+The referee publishes every ruling to both sides byte-identically, and every
+one of its own mistakes as well; `law/precedents.md` carries thirteen sections
+of those, including a case where the referee made an outcome-flipping ruling
+after having already seen the outcome. Come poke at it, critique it, and fork it as an experiment in LLM-driven game design.
 
 ## Contact
 

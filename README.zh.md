@@ -55,16 +55,20 @@ export ANTHROPIC_API_KEY=sk-...        # AI 裁判/參謀需要
 
 ```bash
 # 生成乾淨開局
-python3 blacktide_setup.py             # 黑潮行動 → state.json
-python3 openfield_setup.py             # 純戰場   → maps/open_field_state.json
+python3 scenarios/blacktide_setup.py   # 黑潮行動 → maps/blacktide_state.json
+python3 scenarios/openfield_setup.py   # 純戰場   → maps/open_field_state.json
 
 # 觀戰（終端機地圖）
-python3 map.py                                                    # 黑潮，god 視角
-python3 map.py --state maps/open_field_state.json --supply       # 純戰場 + 補給線層
-python3 map.py --side allies                                     # 玩家視角（只看自己+偵獲敵軍）
+python3 tools/map.py --state maps/blacktide_state.json                 # god 視角
+python3 tools/map.py --state maps/open_field_state.json --supply       # 純戰場 + 補給線層
+python3 tools/map.py --state maps/open_field_state.json --side allies  # 玩家視角
 
 # 查營級編制
-python3 orbat.py --side allies
+python3 orbat.py --side allies --state maps/open_field_state.json
+
+# 回歸測試
+python3 tests/test_hourstate.py
+python3 tests/test_status_machine.py
 ```
 
 裁判實際怎麼跑一局，見 `prompts/referee_gm.md`（黑潮）與 `prompts/referee_pvp.md`（純戰場）。
@@ -73,18 +77,31 @@ python3 orbat.py --side allies
 
 | 檔案 | 職責 |
 |------|------|
+引擎模組刻意留在 repo 根目錄：`runs/` 底下的解算腳本以 `parents[2]` 定位它們，
+而那些腳本是稽核紀錄——每一次過去的解算都必須能原樣重放。
+
+| 路徑 | 職責 |
+|---|---|
+| `arbiter.py` | 裁判引擎：火力、近戰、工事、補給、狀態機、戰報產生 |
 | `mapcore.py` | 共用渲染核心：地形/單位/補給線層、迷霧過濾 |
-| `map.py` | 終端機即時觀戰器 |
-| `orbat.py` | 營級編制、拆分/歸建 |
+| `orbat.py` | 營級編制、拆分/歸建（裝備守恆） |
 | `hourstate.py` | 小時級時鐘 + 命令延遲佇列 |
 | `command.py` | 指揮所/通訊延遲/斬首（PvP） |
-| `advisor.py` | AI 參謀（Claude API，只吃過濾後視角） |
-| `server.py` / `client.py` | 1v1 聯機（token 驗證 + Cloudflare Tunnel） |
-| `*_v1.md` / `scenario*.md` | 自然語言規則與劇本定義 |
+| `rules/` | 自然語言規則與劇本定義（`*_v1.md`、`scenario*.md`） |
+| `law/` | `law_of_war.md`（戰後軍事法庭）與 `precedents.md`（累積判例） |
+| `scenarios/` | 劇本生成與預覽腳本 |
+| `tools/` | 終端機觀戰器、AI 參謀、1v1 client/server、監看工具 |
+| `tests/` | 兩套回歸測試 |
+| `runs/` | Run 4–6 的完整紀錄：解算腳本、逐 tick 快照、公開裁示 |
 
 ## 現狀
 
-概念驗證階段。引擎與兩個劇本已成形、有單元測試（`python3 test_hourstate.py`、`python3 command.py`），但實戰對局測試仍有限。歡迎當成 LLM 驅動遊戲設計的一個實驗來把玩、批評、fork。
+可玩階段。`runs/` 下有三局完整的 1v1 紀錄——各九個 tick、五十四小時遊戲時間，
+逐 tick 快照使任何一次解算都能重放查證。Run 6 是人類對 AI，終局 3061 : 2292。
+
+裁判把每一份裁示逐位元組相同地發給雙方，**自己犯的錯也一樣公開**；
+`law/precedents.md` 累積了十三節，其中包括一次「裁判在已經看到結果之後，
+才做出翻轉勝負的裁示」的完整紀錄。歡迎當成 LLM 驅動遊戲設計的一個實驗來把玩、批評、fork。
 
 ## 聯繫 · Contact
 
