@@ -22,6 +22,12 @@ EQUIP = {
     "armor":    {"tanks": 216, "guns": 54},
     "ranger":   {"tanks": 0,  "guns": 12},
 }
+# 彈藥基數（發），取自 rules/forces_v1.md 的開戰時彈藥表。與 arbiter.AMMO_LOAD 同值。
+AMMO = {
+    "infantry": {"105": 5800, "155": 1400},
+    "armor":    {"SP105": 6500},
+    "ranger":   {"mortar81": 3500},
+}
 FULL = {"POL": 100, "SA": 100, "HE": 100, "AT": 100, "RAT": 100, "MED": 100, "PARTS": 100}
 
 # 藍軍部署（西）；紅軍 = 180° 旋轉 (x,y)->(W-1-x,H-1-y)
@@ -45,6 +51,8 @@ def mk_unit(uid, short, name, typ, pos, side, concealed=False):
         "fatigue": 0, "visibility_state": "CONCEALED" if concealed else "STANDARD",
         "hidden": concealed, "resources": dict(FULL),
         "equip": dict(EQUIP.get(typ, {"tanks": 0, "guns": 0})),
+        "ammo": dict(AMMO.get(typ, {})),          # Run 7：彈藥實數（發數），非百分比
+        "ammo_max": dict(AMMO.get(typ, {})),
         "losses": {"personnel": 0, "tanks": 0, "guns": 0},
         "static_hours": 0, "move_progress": 0.0, "flags": {},
         "fortification": 0.0, "dig_hours": 0.0, "status": "ACTIVE",

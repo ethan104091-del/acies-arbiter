@@ -29,10 +29,19 @@ def check(name, cond, extra=""):
 
 
 def fresh():
+    """Run 4 終局狀態的乾淨副本。
+
+    注意：這是**直接讀 raw JSON**，不經過 ar.load() 的正規化——正是缺陷 19 的情境。
+    故此處必須自行補上 load() 會 setdefault 的欄位，否則測試會拿到與實際執行不同的狀態。
+    """
     s = copy.deepcopy(json.load(open(RUN4)))
     s["record"] = []
+    s.setdefault("works", {})
     for u in s["units"].values():
         u["flags"] = {}
+        if u.get("side") in ("allies", "axis"):
+            u.setdefault("equip", dict(ar.EQUIP.get(u.get("type"), {"tanks": 0, "guns": 0})))
+            ar.ensure_ammo(u)                      # Run 7：彈藥實數化
     return s
 
 
@@ -555,6 +564,72 @@ ar.refresh_fortification(wL)
 check("★ 摧毀下限為淺掘（彈坑即掩體）",
       abs(tL["dig_hours"] - 0.5) < 0.01 and tL["fortification"] == 0.15,
       f"{tL['dig_hours']:.2f} hr/人")
+
+# ── K. Run 7：彈藥實數化與火力任務（缺陷 4、5）─────────────────
+print("\n── K. 彈藥實數化與火力任務（Run 7）──")
+wK2 = fresh()
+for _u in wK2["units"].values(): _u["flags"] = {}
+shK, tgK = "BLU-1", "RED-2"
+wK2["units"][shK]["pos"] = [11, 9]; wK2["units"][tgK]["pos"] = [13, 9]
+fK, tK = wK2["units"][shK], wK2["units"][tgK]
+check("基數取自 forces_v1（105mm 5800、155mm 1400）",
+      fK["ammo"] == {"105": 5800, "155": 1400}, str(fK["ammo"]))
+a0 = dict(fK["ammo"])
+# Run 4 固定資料是戰損後的狀態，火砲非滿編 → 發數依實際門數計算，不可寫死 900
+_mixK = ar.GUN_MIX[fK["type"]]
+_scaleK = fK["equip"]["guns"] / sum(_mixK.values())
+_wantK = _mixK["105"] * _scaleK * ar.FIRE_MINUTES * ar.GUN_SPEC["105"][0]
+ar.bombard(wK2, [shK], tgK); tK.pop("_inc", None)
+check("★ 射擊會扣實際發數（依實際門數）",
+      abs(fK["ammo"]["105"] - (a0["105"] - _wantK)) < 1,
+      f"{a0['105']} → {fK['ammo']['105']:.0f}（預期扣 {_wantK:.0f}，砲 {fK['equip']['guns']} 門）")
+for _ in range(10):
+    for _u in wK2["units"].values(): _u["flags"] = {}
+    ar.bombard(wK2, [shK], tgK); tK.pop("_inc", None)
+check("★ 彈藥會打完（一個基數約一個 tick 的連續射擊）", fK["ammo"]["105"] == 0)
+for _u in wK2["units"].values(): _u["flags"] = {}
+cas, _tk, _gk, msg = ar.bombard(wK2, [shK], tgK)
+check("★ 打光後不再有效果", cas == 0 and "彈藥耗盡" in msg, msg[:40])
+ar.resupply(wK2)
+check("★ 補給交付基數 40%", abs(fK["ammo"]["105"] - 5800 * 0.4) < 1,
+      f"{fK['ammo']['105']:.0f}")
+
+# 抽離營的彈藥守恆
+wK3 = fresh()
+for _u in wK3["units"].values(): _u["flags"] = {}
+pK = wK3["units"]["BLU-AD"]; ar.ensure_ammo(pK)
+before, gbefore = pK["ammo"]["SP105"], pK["equip"]["guns"]
+uidK, detK = ar.detach_bn(wK3, "BLU-AD", "sp1", [10, 9])
+gdet = detK["equip"]["guns"]
+check("★ 抽離營彈藥總量守恆",
+      abs(detK["ammo"]["SP105"] + pK["ammo"]["SP105"] - before) < 1,
+      f"{before:.0f} → 營 {detK['ammo']['SP105']:.0f} + 母 {pK['ammo']['SP105']:.0f}")
+check("★ 抽離營彈藥依火砲比例分割",
+      abs(detK["ammo"]["SP105"] - before * gdet / max(gbefore, 1)) < 2,
+      f"砲 {gdet}/{gbefore} → 彈 {detK['ammo']['SP105']:.0f}/{before:.0f}")
+
+# 三種火力任務各有獨占優勢
+res = {}
+for mK in ("急襲", "壓制", "干擾"):
+    w = fresh()
+    for _u in w["units"].values(): _u["flags"] = {}
+    w["units"][shK]["pos"] = [11, 9]; w["units"][tgK]["pos"] = [13, 9]
+    b0 = dict(w["units"][shK]["ammo"])
+    c, _t, _g, _m = ar.bombard(w, [shK], tgK, mission=mK)
+    used = sum(b0[g] - w["units"][shK]["ammo"][g] for g in b0)
+    res[mK] = (c, used, c / max(used, 1) * 1000, w["units"][tgK]["flags"].get("interdicted"))
+check("★ 急襲效率最高（傷亡/千發）",
+      res["急襲"][2] > res["壓制"][2] > res["干擾"][2],
+      " ".join(f"{k}{v[2]:.0f}" for k, v in res.items()))
+check("★ 壓制絕對傷亡最高", res["壓制"][0] > res["急襲"][0] > res["干擾"][0],
+      " ".join(f"{k}{v[0]}" for k, v in res.items()))
+check("★ 只有干擾凍結目標土工作業",
+      res["干擾"][3] and not res["壓制"][3] and not res["急襲"][3])
+wF = fresh()
+for _u in wF["units"].values(): _u["flags"] = {}
+wF["units"][shK]["pos"] = [11, 9]; wF["units"][tgK]["pos"] = [13, 9]
+ar.bombard(wF, [shK], tgK, mission="干擾"); wF["units"][tgK].pop("_inc", None)
+check("★ 遭干擾者不得構築工事", ar.dig(wF, tgK) is None)
 
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)

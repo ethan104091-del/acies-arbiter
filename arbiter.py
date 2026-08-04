@@ -20,9 +20,19 @@
    2. density_factor() 把「目標多疏」與「多少落在彈著區內」揉成一個數，且只看兵力不看姿態。
       應拆成「彈著區覆蓋率（判例）× 暴露係數」。見 precedents.md §二。
    3. exposure_factor() 的森林 ×0.7 可能是反的（樹爆使無頂蓋部隊更慘）。見 precedents.md §E8。
-   4. 彈藥用百分比 → 永遠打不完。forces_v1 已給實數（步兵師 105mm 5,800 發、155mm 1,400 發；
+   4. 【2026-08-04 已修】彈藥用百分比 → 永遠打不完。改為實數發數（AMMO_LOAD 取自
+      forces_v1）：步兵師 105mm 5,800／155mm 1,400、裝甲師 SP105 6,500、特戰旅 81mm 3,500。
+      bombard 逐砲種扣發數、打光即不能再打；resupply 每 tick 補基數 40%（走廊完整）。
+      抽離營的彈藥依火砲比例自母編隊守恆分割。連帶使《戰爭法》W1 要件 B 得以成立。
+   4-舊. 原記述：forces_v1 已給實數（步兵師 105mm 5,800 發、155mm 1,400 發；
       裝甲師 105mm SP 6,500 發），應改為按發數扣。見 prompts/referee_pvp.md。
-   5. FIRE_MINUTES 固定 10 分鐘，抹掉了指揮官選擇火力急襲／持續壓制／干擾射擊的權利。
+   5. 【2026-08-04 已修】FIRE_MINUTES 固定 10 分鐘。改為 FIRE_MISSION 三類，
+      每類各有一件別人做不到的事（純懲罰倍率會讓選項退化）：
+        急襲 3min 彈0.4× 殺傷1.5×  → 效率最高，一個基數撐 16 小時
+        壓制 10min 彈1.0× 殺傷1.0× → 絕對傷亡最高，6 小時見底
+        干擾 30min 彈0.4× 殺傷0.3× → 最省彈，且**該小時凍結目標的土工作業與休整**
+      干擾的價值在工事有 hex 記憶之後才成立：六小時干擾可把對方釘在無工事（暴露 0.70）
+      而只花 37% 彈藥，等於把對方的挨打倍率放大近四倍。
    6. 經驗只進地面戰 CP，沒有進命中 → 特戰旅的 ⭐⭐⭐⭐⭐ 幾乎全局無作用。見 precedents.md §八。
    7. 【2026-07-30 已修】org 損失只實作了 Casualty_% × 1.5。已補齊 combat_v1 的六項：
       Suppression（連續戰鬥 6+hr 每小時 -2）／Surprise -10／Leadership（CP -20、團長 -5）／
@@ -175,6 +185,8 @@ def load(path=STATE):
                 u["equip"] = dict(EQUIP.get(u["type"], {"tanks": 0, "guns": 0}))
         u.setdefault("losses", {"personnel": 0, "tanks": 0, "guns": 0})
         u.setdefault("static_hours", 0)
+        if u.get("side") in ("allies", "axis"):
+            ensure_ammo(u)                        # Run 7：彈藥實數化
         u.setdefault("move_progress", 0.0)
         u.setdefault("flags", {})
     return s
@@ -255,6 +267,19 @@ def detach_bn(s, div_uid, code, pos):
     # 此處自營級備註推導其砲種，寫入 det["gun_mix"]，由 bombard 優先採用。
     if eq.get("guns"):
         det["gun_mix"] = bn_gun_mix(parent, code, eq["guns"])
+        # Run 7：彈藥與火砲同步守恆分割。母編隊等量扣除。
+        pa = ensure_ammo(parent)
+        # 此處尚未從母編隊扣除裝備（那在本函式尾端），故 parent.equip.guns 已是扣除前的值。
+        # 早期版本在此又加了一次 eq["guns"]，造成分母重複計算、抽離營少拿彈藥。
+        pg = max(1, parent["equip"]["guns"])
+        pmax = parent.setdefault("ammo_max", dict(pa))
+        det["ammo"], det["ammo_max"] = {}, {}
+        for g in det["gun_mix"]:
+            share = round(pa.get(g, 0) * eq["guns"] / pg, 1)
+            smax = round(pmax.get(g, 0) * eq["guns"] / pg, 1)
+            det["ammo"][g], det["ammo_max"][g] = share, smax
+            pa[g] = round(max(0.0, pa.get(g, 0) - share), 1)
+            pmax[g] = round(max(0.0, pmax.get(g, 0) - smax), 1)
     for k in ("tanks", "guns"):
         parent["equip"][k] = max(0, parent["equip"][k] - eq[k])
     ensure_unit(s, uid)
@@ -538,6 +563,13 @@ def resupply(s):
             if st == "contested":
                 worst = "contested"
         f = {"intact": 1.0, "contested": 0.5, "cut": 0.0}[worst]
+        # Run 7：彈藥以**實數發數**補給，每 tick 基數的 AMMO_RESUPPLY（走廊完整）。
+        # 連續射擊一個 tick 即見底，補給追不上——指揮官必須挑時機開火。
+        ensure_ammo(u)
+        amax = u.get("ammo_max", {})
+        for g, cap in amax.items():
+            got = cap * AMMO_RESUPPLY * f
+            u["ammo"][g] = round(min(cap, u["ammo"].get(g, 0) + got), 1)
         res = u.setdefault("resources", {})
         for k, amt in (("POL", 22), ("SA", 22), ("HE", 22), ("AT", 22), ("RAT", 22),
                        ("MED", 10), ("PARTS", 10)):
@@ -619,6 +651,29 @@ GUN_SPEC = {   # (每分持續射速, 每發殺傷力人/發, 最大射程hex, �
     "SP105":    (2.5, 0.30, 5, 0.005),
     "mortar81": (4.0, 0.18, 1, 0.001),
 }
+# ── 彈藥（Run 7 起改為實數發數，非百分比）───────────────────────────
+# 基數取自 rules/forces_v1.md 的開戰時彈藥表。一個基數約等於一個 tick 的連續射擊：
+#   步兵師 105mm 5,800 發 ÷ (36 門 × 2.5 發/min × 10 min) = 6.4 次任務
+#   裝甲師 SP105 6,500 發 ÷ (54 門 × 2.5 × 10)            = 4.8 次任務
+AMMO_LOAD = {"105": 5800, "155": 1400, "SP105": 6500, "mortar81": 3500}
+AMMO_RESUPPLY = 0.40      # 每 tick 補給基數的 40%（走廊完整）；受威脅半量、切斷為零
+                          # 依 rules/logistics_v1.md「彈藥車隊 SA+HE+AT 共 40%／趟」
+
+# 火力任務類型（Run 7 起，取代固定 10 分鐘）。
+# 三種各有一件別人做不到的事——純懲罰的倍率會讓選項退化，故每種都有補償。
+#   代號: (佔用分鐘, 彈量倍率, 每發殺傷倍率, 組織度衝擊倍率, 凍結對方土工作業, 說明)
+#
+# 彈量倍率是「相對標準任務（FIRE_MINUTES）的總彈量」，**不與佔用時長相乘**。
+FIRE_MISSION = {
+    "急襲": (3,  0.4, 1.5, 1.0, False,
+             "火力急襲（TOT）：全部彈著同時落地，目標來不及進洞。每發殺傷最高、最省彈，"
+             "但總量小。史實上 1944 年發展 TOT 正是為此。"),
+    "壓制": (10, 1.0, 1.0, 1.0, False,
+             "持續壓制：標準火力任務。絕對傷亡最高。"),
+    "干擾": (30, 0.4, 0.3, 2.0, True,
+             "干擾射擊：長時間低速率。目的不是殺人，是讓對方無法工作——"
+             "該小時視為交火，對方不得構築工事、不得完全休整，且組織度衝擊加倍。"),
+}
 FIRE_MINUTES = 10        # [判例] 「集中砲擊」每 hour 每門砲的實際射擊分鐘數（其餘為修正/裝填/補彈）
 SATURATION = 0.08        # [判例] 單一目標編隊每 hour 傷亡上限＝其兵力 8%（散布飽和、彈坑重疊）
 
@@ -677,6 +732,10 @@ def dig(s, uid, hours=1.0):
     u = s["units"][uid]
     if u["flags"].get("moved") or not under_command(s, uid):
         return None
+    if u["flags"].get("interdicted"):
+        # Run 7：遭干擾射擊者該小時不得構築工事。干擾射擊是 30 分鐘低速率的連續
+        # 落彈，刻意鋪開使目標無法出洞作業；10 分鐘的集中壓制則留下 50 分鐘可工作。
+        return None
     rate = DIG_RATE.get(u["type"], 1.0)
     # Run 7：累加 man-hours 至**格子**。人數 × 時數 × 兵種速率。
     add_works(s, u["pos"], u.get("personnel", 0) * hours * rate, u.get("side"))
@@ -685,6 +744,33 @@ def dig(s, uid, hours=1.0):
     u["fortification"] = fort_from_hours(pc)
     tier = fort_tier(u["fortification"])
     return tier[3], u["fortification"], tier[2]
+
+
+def ammo_load(unit):
+    """整編隊的彈藥基數 {砲種: 發數}，取自 AMMO_LOAD（rules/forces_v1.md 的開戰時數量）。
+
+    抽離營不用此函式——其彈藥由 detach_bn 依火砲比例自母編隊守恆分割。
+    基數是**編制存量**，不隨戰損火砲數縮減：砲被打掉了砲彈還在，
+    只是能發射的管數變少，射速自然下降（bombard 已依 equip.guns 縮放）。
+    """
+    mix = GUN_MIX.get(unit.get("type"), {})
+    return {g: AMMO_LOAD.get(g, 0) for g in mix}
+
+
+def ensure_ammo(unit):
+    """補上 ammo 欄位。整編隊給滿載；抽離營若無此欄位則依其 gun_mix 給滿（保守）。冪等。"""
+    if "ammo" in unit:
+        return unit["ammo"]
+    mix = unit.get("gun_mix") or GUN_MIX.get(unit.get("type"), {})
+    if not mix:
+        return {}
+    unit["ammo"] = {g: AMMO_LOAD.get(g, 0) for g in mix}
+    unit.setdefault("ammo_max", dict(unit["ammo"]))
+    return unit["ammo"]
+
+
+def ammo_total(unit):
+    return sum(unit.get("ammo", {}).values())
 
 
 def works_key(pos):
@@ -790,8 +876,17 @@ def exposure_factor(u, terrain="."):
     return round(e, 3)
 
 
-def bombard(s, firing_uids, target_uid, minutes=FIRE_MINUTES):
-    """回傳 (人員傷亡, 戰車損失, 火砲損失, 明細字串)。多編隊集中射擊時效果相加、受飽和上限。"""
+def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
+    """回傳 (人員傷亡, 戰車損失, 火砲損失, 明細字串)。多編隊集中射擊時效果相加、受飽和上限。
+
+    Run 7：彈藥為**實數發數**（unit["ammo"][砲種]），打完就不能再打。
+    火力任務類型（FIRE_MISSION）決定時長、彈量倍率與效果倍率——指揮官以彈藥換效果。
+    預設「壓制」= 10 分鐘、彈量 1.0×、效果 1.0×，與 Run 6 行為完全一致。
+    """
+    mmin, ammo_mult, eff_mult, org_mult, freeze, _desc = \
+        FIRE_MISSION.get(mission, FIRE_MISSION["壓制"])
+    if minutes is None:
+        minutes = mmin
     firing_uids = [u for u in firing_uids if under_command(s, u)]
     # 裁示 18：該小時行軍過的編隊不得實施砲擊。1944 年一次師屬集中射擊需佔領陣地、
     # 測地標定、開設觀測所與通信——一小時內無法既走完行軍又打完火力任務。
@@ -821,15 +916,34 @@ def bombard(s, firing_uids, target_uid, minutes=FIRE_MINUTES):
             if d > rng:
                 continue
             guns = n * scale
-            r = guns * minutes * rate
+            # 彈量倍率是「相對標準任務（FIRE_MINUTES）的總彈量」，不與時長相乘——
+            # 時長只描述該任務佔用多久，不決定發數。兩者相乘會雙重計算。
+            want = guns * FIRE_MINUTES * rate * ammo_mult
+            # Run 7：受彈藥存量限制。打不滿就只打得出存量那麼多。
+            store = ensure_ammo(f)
+            avail = store.get(gtype, 0)
+            r = min(want, avail)
+            store[gtype] = round(max(0.0, avail - r), 1)
+            if r <= 0:
+                detail.append(f"{fu} {gtype} 彈藥耗盡（0 發）")
+                continue
             lf = leth * (0.5 if d > 0.8 * rng else 1.0)      # 逼近最大射程 → 散布增大 ×0.5
+            lf *= eff_mult                                    # 火力任務效果倍率
             rounds_by[gtype] = rounds_by.get(gtype, 0) + r
-            detail.append(f"{fu} {gtype}×{guns:.0f} 距{d} 發數{r:.0f} 殺傷力{lf}")
+            short = "（存量不足）" if r < want - 0.5 else ""
+            detail.append(f"{fu} {gtype}×{guns:.0f} 距{d} 發數{r:.0f}{short} "
+                          f"殺傷力{round(lf, 4)} 餘彈{store[gtype]:.0f}")
             tgt.setdefault("_inc", [0.0, 0.0])
             tgt["_inc"][0] += r * lf
             tgt["_inc"][1] += r * tk
     if "_inc" not in tgt:
-        return 0, 0, 0, "（無砲兵在射程內）"
+        dry = [u for u in firing_uids if not any(ensure_ammo(s["units"][u]).values())]
+        return 0, 0, 0, ("（彈藥耗盡：" + "、".join(dry) + "）") if dry else "（無砲兵在射程內）"
+    if freeze:
+        # 干擾射擊：目標該小時視為交火 → 不得構築工事、不得完全休整（管線依 flags 判定）
+        tgt["flags"]["hit"] = True
+        tgt["flags"]["interdicted"] = True
+    tgt["_org_mult"] = org_mult          # 由呼叫方經 org_impact 取用
     # Run 7：間接火力摧毀該格工事（下限為佔用編隊的淺掘級——彈坑本身即掩體）
     _rm = damage_works(s, tgt["pos"], tgt["_inc"][0] * WORKS_DEMOLITION, tgt)
     ef, df = exposure_factor(tgt, terr(s, tgt["pos"])), density_factor(tgt)
@@ -852,7 +966,7 @@ def bombard(s, firing_uids, target_uid, minutes=FIRE_MINUTES):
     tank_kill = min(int(tgt["_inc"][1] * texp), tgt["equip"]["tanks"], ecap_t)
     gun_kill = min(int(tgt["_inc"][1] * texp * 0.5), tgt["equip"]["guns"], ecap_g)
     del tgt["_inc"]
-    msg = (f"暴露{ef} 密度{df} 戰車暴露{texp}"
+    msg = (f"[{mission}{minutes}min] 暴露{ef} 密度{df} 戰車暴露{texp}"
            + (f" 工事-{_rm:,.0f}man-hr" if _rm > 0 else "")
            + f" → 傷亡 {cas} 人" + ("（觸飽和上限 8%）" if capped else "")
            + (f"、戰車 -{tank_kill}" if tank_kill else "") + (f"、火砲 -{gun_kill}" if gun_kill else "")
@@ -863,7 +977,7 @@ def bombard(s, firing_uids, target_uid, minutes=FIRE_MINUTES):
 BLIND_FIRE_PENALTY = 0.30   # [判例] 無觀測校射的攔阻／擾亂射擊，每發殺傷力 ×0.30
 
 
-def bombard_hex(s, firing_uids, pos, minutes=FIRE_MINUTES):
+def bombard_hex(s, firing_uids, pos, minutes=None, mission="壓制"):
     """對**格面**射擊（攔阻／擾亂射擊）。不需偵獲目標。
 
     Run 6 新增。Run 5 的裁示 58 是「完全未偵獲者不得射擊」，因為引擎只能對
@@ -898,7 +1012,7 @@ def bombard_hex(s, firing_uids, pos, minutes=FIRE_MINUTES):
                 target_hex=list(pos), hit=tgt)
     if tgt is None:
         return 0, 0, 0, f"對格面 {tuple(pos)} 實施攔阻射擊：該格無敵方編隊，彈藥與暴露照付", None
-    cas, tk, gk, msg = bombard(s, firing_uids, tgt, minutes=minutes)
+    cas, tk, gk, msg = bombard(s, firing_uids, tgt, minutes=minutes, mission=mission)
     cas = int(cas * BLIND_FIRE_PENALTY)
     tk = int(tk * BLIND_FIRE_PENALTY)
     gk = int(gk * BLIND_FIRE_PENALTY)
@@ -969,7 +1083,8 @@ def org_impact(s, uid, casualty_pct, surprised=False, friendly_fire=False):
                 or terr(s, u["pos"]) in COVER_TERRAIN)
     if in_cover:
         imp *= COVER_FACTOR
-    return round(imp, 2)
+    _m = s["units"][uid].pop("_org_mult", 1.0)  # 干擾射擊的組織度衝擊倍率（Run 7）
+    return round((round(imp, 2)) * _m, 2)
 
 
 def org_recovery(s):

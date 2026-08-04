@@ -615,6 +615,14 @@
         "tanks": 54,
         "guns": 48
       },
+      "ammo": {
+        "105": 5800,
+        "155": 1400
+      },
+      "ammo_max": {
+        "105": 5800,
+        "155": 1400
+      },
       "losses": {
         "personnel": 0,
         "tanks": 0,
@@ -786,6 +794,14 @@
       "equip": {
         "tanks": 54,
         "guns": 48
+      },
+      "ammo": {
+        "105": 5800,
+        "155": 1400
+      },
+      "ammo_max": {
+        "105": 5800,
+        "155": 1400
       },
       "losses": {
         "personnel": 0,
@@ -959,6 +975,14 @@
         "tanks": 54,
         "guns": 48
       },
+      "ammo": {
+        "105": 5800,
+        "155": 1400
+      },
+      "ammo_max": {
+        "105": 5800,
+        "155": 1400
+      },
       "losses": {
         "personnel": 0,
         "tanks": 0,
@@ -1130,6 +1154,14 @@
       "equip": {
         "tanks": 54,
         "guns": 48
+      },
+      "ammo": {
+        "105": 5800,
+        "155": 1400
+      },
+      "ammo_max": {
+        "105": 5800,
+        "155": 1400
       },
       "losses": {
         "personnel": 0,
@@ -1303,6 +1335,14 @@
         "tanks": 54,
         "guns": 48
       },
+      "ammo": {
+        "105": 5800,
+        "155": 1400
+      },
+      "ammo_max": {
+        "105": 5800,
+        "155": 1400
+      },
       "losses": {
         "personnel": 0,
         "tanks": 0,
@@ -1474,6 +1514,14 @@
       "equip": {
         "tanks": 54,
         "guns": 48
+      },
+      "ammo": {
+        "105": 5800,
+        "155": 1400
+      },
+      "ammo_max": {
+        "105": 5800,
+        "155": 1400
       },
       "losses": {
         "personnel": 0,
@@ -1647,6 +1695,12 @@
         "tanks": 216,
         "guns": 54
       },
+      "ammo": {
+        "SP105": 6500
+      },
+      "ammo_max": {
+        "SP105": 6500
+      },
       "losses": {
         "personnel": 0,
         "tanks": 0,
@@ -1783,6 +1837,12 @@
       "equip": {
         "tanks": 216,
         "guns": 54
+      },
+      "ammo": {
+        "SP105": 6500
+      },
+      "ammo_max": {
+        "SP105": 6500
       },
       "losses": {
         "personnel": 0,
@@ -1921,6 +1981,12 @@
         "tanks": 0,
         "guns": 12
       },
+      "ammo": {
+        "mortar81": 3500
+      },
+      "ammo_max": {
+        "mortar81": 3500
+      },
       "losses": {
         "personnel": 0,
         "tanks": 0,
@@ -2008,6 +2074,12 @@
       "equip": {
         "tanks": 0,
         "guns": 12
+      },
+      "ammo": {
+        "mortar81": 3500
+      },
+      "ammo_max": {
+        "mortar81": 3500
       },
       "losses": {
         "personnel": 0,
