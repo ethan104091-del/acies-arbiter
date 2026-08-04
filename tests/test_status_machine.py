@@ -631,5 +631,37 @@ wF["units"][shK]["pos"] = [11, 9]; wF["units"][tgK]["pos"] = [13, 9]
 ar.bombard(wF, [shK], tgK, mission="干擾"); wF["units"][tgK].pop("_inc", None)
 check("★ 遭干擾者不得構築工事", ar.dig(wF, tgK) is None)
 
+# ── L. 規格書與引擎不得漂移（rules/arbiter_v2.md §XII）──────────
+print("\n── L. 規格書與引擎的一致性 ──")
+_spec = (Path(__file__).resolve().parent.parent / "rules" / "arbiter_v2.md").read_text()
+def inspec(label, *needles):
+    check(f"規格書載明 {label}", all(n in _spec for n in needles),
+          " / ".join(n for n in needles if n not in _spec) or "ok")
+
+# 工事分級：四級的暴露值必須逐字出現
+inspec("工事四級暴露值", *[str(tier[2]) for tier in ar.FORT_TIERS])
+inspec("工事工時門檻", "0.5", "3.0", "8.0")
+inspec("DIG_RATE 工兵 1.5", "1.50")
+inspec("WORKS_DEMOLITION", str(ar.WORKS_DEMOLITION))
+inspec("MELEE_WORKS_MULT", str(ar.MELEE_WORKS_MULT))
+inspec("CAMO_HOURS", str(ar.CAMO_HOURS))
+inspec("AMMO_LOAD 四項基數", *[f"{v:,}" for v in ar.AMMO_LOAD.values()])
+inspec("AMMO_RESUPPLY", "40%")
+inspec("BLIND_FIRE_PENALTY", str(ar.BLIND_FIRE_PENALTY))
+inspec("SATURATION", f"{ar.SATURATION:.0%}".replace("%", "%"))
+inspec("COMBINED 協同倍率", "1.3", "1.5")
+for _m, _v in ar.FIRE_MISSION.items():
+    inspec(f"火力任務 {_m}", _m, str(_v[0]), str(_v[1]), str(_v[2]))
+check("★ 規格書明載開放條款（不得以「規則沒寫」拒絕動作）",
+      "不得以「規則沒寫」為由拒絕一個動作" in _spec)
+check("★ 規格書明載裁判不得手寫單方內容",
+      "不得手寫任何單方內容" in _spec)
+# 被取代處都要有指回本檔的指標
+for _f, _n in (("determinism_v1.md", 1), ("combat_v1.md", 3),
+               ("logistics_v1.md", 1), ("combined_arms_v1.md", 1)):
+    _t = (Path(__file__).resolve().parent.parent / "rules" / _f).read_text()
+    check(f"{_f} 已加指回 arbiter_v2 的指標", _t.count("arbiter_v2.md") >= _n,
+          f"{_t.count('arbiter_v2.md')} 處")
+
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)
