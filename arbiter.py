@@ -875,13 +875,29 @@ def abandon_works(u):
     u["camouflaged"] = False
 
 
+FOREST_NO_COVER = 1.3     # 缺陷 3（precedents §E8）：樹爆使**無頂蓋**部隊在林中更慘
+FOREST_WITH_COVER = 0.5   # 有頂蓋則反過來：樹木遮蔽 + 頂蓋擋住樹爆
+
+
 def exposure_factor(u, terrain="."):
     """砲擊暴露係數，依工事級距查表（遞減報酬，非線性內插）。
-    森林另 ×0.7（precedents.md §E8 已質疑方向可能是反的，待 Run 6 重審）。
-    ★開火不影響此係數——工事是實體掩體，EXPOSED 只影響「是否被偵獲」（裁示 36）。"""
-    e = fort_tier(u.get("fortification", 0.0))[2]
+
+    ★ 缺陷 3 已修（2026-08-04）：森林原為一律 ×0.7，**方向是反的**。
+    WWII 的樹爆（tree burst）在林中引信提前起爆，破片由上而下灑進散兵坑——
+    無頂蓋部隊在林中挨砲**比在開闊地更慘**，這正是當時準則規定「進林必挖有頂蓋掩體」的原因。
+    依 precedents.md §E8 拆兩段：
+      · 未達有頂蓋級 → ×1.3（樹爆）
+      · 已達有頂蓋級 → ×0.5（樹木遮蔽 + 頂蓋擋住樹爆）
+
+    副作用是森林變成一個真正的取捨：它藏得住你（CAMOUFLAGED／CONCEALED），
+    但被找到並砲擊時，沒挖頂蓋反而更慘。
+
+    ★開火不影響此係數——工事是實體掩體，EXPOSED 只影響「是否被偵獲」（裁示 36）。
+    """
+    fort = u.get("fortification", 0.0)
+    e = fort_tier(fort)[2]
     if terrain == "F":
-        e *= 0.7
+        e *= FOREST_WITH_COVER if fort >= FORT_TIERS[-1][1] - 1e-9 else FOREST_NO_COVER
     return round(e, 3)
 
 
@@ -938,6 +954,11 @@ def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
                 continue
             lf = leth * (0.5 if d > 0.8 * rng else 1.0)      # 逼近最大射程 → 散布增大 ×0.5
             lf *= eff_mult                                    # 火力任務效果倍率
+            # 缺陷 6 已修（2026-08-04）：經驗進命中。precedents §八 明定經驗有兩個
+            # **互不重疊**的入口——CP 乘數用於地面戰（該公式無「發數」），
+            # 命中率用於所有計算發數的射擊。原本經驗只進前者，
+            # 使特戰旅的 ⭐⭐⭐⭐⭐ 幾乎全局無作用。
+            lf *= VET.get(f.get("xp", 3), 1.0)
             rounds_by[gtype] = rounds_by.get(gtype, 0) + r
             short = "（存量不足）" if r < want - 0.5 else ""
             detail.append(f"{fu} {gtype}×{guns:.0f} 距{d} 發數{r:.0f}{short} "

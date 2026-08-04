@@ -822,5 +822,36 @@ check("★ 一格實距由 105mm 射程反推（8.5km / 4 格）",
 check("★ 規格書載明 flash-to-bang 與晝夜差異",
       all(x in _spec for x in ("flash-to-bang", "近距", "接近最大射程", "夜間開火比白天危險")))
 
+# ── P. 缺陷 3、6（森林方向、經驗進命中）─────────────────────────
+print("\n── P. 缺陷 3、6 ──")
+wP = fresh(); uP = wP["units"]["BLU-1"]
+res = {}
+for _need, _fv, _e, _name, _ in ar.FORT_TIERS:
+    uP["fortification"] = _fv
+    res[_name] = (ar.exposure_factor(uP, "."), ar.exposure_factor(uP, "F"))
+check("★ 缺陷 3 無頂蓋在林中更慘（樹爆）",
+      all(f > o for n, (o, f) in res.items() if n != "有頂蓋"),
+      " ".join(f"{n}{o}->{f}" for n, (o, f) in res.items()))
+check("★ 缺陷 3 有頂蓋在林中更好（頂蓋擋樹爆）",
+      res["有頂蓋"][1] < res["有頂蓋"][0], str(res["有頂蓋"]))
+check("★ 缺陷 3 倍率取自 precedents §E8（1.3 / 0.5）",
+      ar.FOREST_NO_COVER == 1.3 and ar.FOREST_WITH_COVER == 0.5)
+
+casxp = {}
+for _xp in (1, 3, 5):
+    w = fresh()
+    for _u in w["units"].values(): _u["flags"] = {}
+    w["units"]["BLU-1"]["pos"] = [11, 9]; w["units"]["RED-2"]["pos"] = [13, 9]
+    w["units"]["BLU-1"]["xp"] = _xp
+    w["units"]["RED-2"]["fortification"] = 0.0
+    casxp[_xp], *_ = ar.bombard(w, ["BLU-1"], "RED-2")
+check("★ 缺陷 6 經驗影響砲擊殺傷（單調遞增）",
+      casxp[1] < casxp[3] < casxp[5], " ".join(f"xp{k}={v}" for k, v in casxp.items()))
+check("★ 缺陷 6 比例符合 VET 表",
+      abs(casxp[5] / max(casxp[3], 1) - ar.VET[5]) < 0.08,
+      f"{casxp[5]}/{casxp[3]} = {casxp[5]/max(casxp[3],1):.2f} vs VET5 {ar.VET[5]}")
+inspec("森林拆兩段（缺陷 3）", "×1.3", "×0.5", "樹爆")
+inspec("經驗進命中（缺陷 6）", "經驗進命中", "0.75")
+
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)
