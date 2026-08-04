@@ -1729,13 +1729,37 @@ def bearing_from(target_pos, firer_pos):
                          0 if dy == 0 else (1 if dy > 0 else -1)), "同格")
 
 
-def record_crater(s, firing_uids, target_uid):
-    """裁示 25：落彈分析。目標編隊自彈坑取得**方位與口徑**，不含距離、番號、規模。
+# 一格的實距（km）。由 105mm 射程 4 格 = 8.5 km 反推（rules/combat_v1.md §VI）。
+HEX_KM = 8.5 / 4
+SOUND_MPS = 340.0          # 聲速，用於 flash-to-bang 測距的說明文字
+RANGE_BAND = ((2, "近距"), (4, "中距"), (99, "接近最大射程"))
 
-    1944 年砲兵以彈坑犁溝測方位、以彈坑尺寸與破片判口徑；夜間另可行閃光測定。
-    引擎本就記錄了射擊方（record_engagement 的 firing 欄），此處只是把該事實中
-    **當時真正可觀察的部分**送到目標方手上。距離不可得——這正是聲測與閃光測定
-    需要多個觀測所交會才能解決的問題，本劇本無該編制。
+
+def range_band(d):
+    """白天可得的粗略距離帶（彈著散佈判定）。"""
+    for lim, name in RANGE_BAND:
+        if d <= lim:
+            return name
+    return RANGE_BAND[-1][1]
+
+
+def record_crater(s, firing_uids, target_uid):
+    """裁示 25 + 34：落彈分析。目標編隊自彈坑取得方位、口徑，以及距離資訊。
+
+    1944 年砲兵以彈坑犁溝測方位、以彈坑尺寸與破片判口徑。
+
+    ★ 裁示 34（Run 7，取代裁示 25 的「一律不給距離」）：
+      距離改為**依晝夜給不同精度**。裁示 25 排除距離的理由是「聲測需專門觀測營編制」，
+      但 combat_v1.md §VI-4 明文把聲測列為反砲擊的標準手段，該理由不成立
+      （見 rules/arbiter_v2.md §VIII）。
+
+      實際可用的方法是 **flash-to-bang**——量砲口焰與聲響的時間差，聲速約 340 m/s。
+      一名軍官加一支碼錶即可，不需要編制。但**前提是看得見砲口焰**：
+        · 夜間／黎明 → 砲口焰在 8–10 km 清晰可見 → 距離 ±1 格
+        · 白天       → 砲口焰幾乎看不見 → 只能由彈著散佈判粗略距離帶
+      （最大射程附近散佈明顯放大，這是白天唯一可靠的距離線索。）
+
+      零擲骰：兩者皆為目標距離的確定函數。
     """
     tgt = s["units"][target_uid]
     for fu in firing_uids:
@@ -1743,11 +1767,19 @@ def record_crater(s, firing_uids, target_uid):
         if not f:
             continue
         cal = sorted((f.get("gun_mix") or GUN_MIX.get(f["type"], {})).keys())
-        tgt.setdefault("crater_log", []).append({
+        d = dist(tgt["pos"], f["pos"])
+        night = is_night(s)
+        e = {
             "gh": s.get("global_hour", 0),
             "bearing": bearing_from(tgt["pos"], f["pos"]),
             "caliber": "、".join(cal) or "不明",
-        })
+            "night": night,
+        }
+        if night:
+            e["range_hex"] = d                    # 報告時以「約 d 格（±1）」呈現
+        else:
+            e["range_band"] = range_band(d)
+        tgt.setdefault("crater_log", []).append(e)
 
 
 def record_engagement(s, firing_uids, target_uid, kind="交火"):
@@ -2131,8 +2163,19 @@ def crater_lines(s, side):
             agg.setdefault(k, []).append(e["gh"])
         for (b, c), ghs in sorted(agg.items()):
             rng = f"gh{min(ghs)}" if len(ghs) == 1 else f"gh{min(ghs)}–gh{max(ghs)}"
+            # 裁示 34：距離依晝夜給不同精度
+            es = [x for x in log if (x["bearing"], x["caliber"]) == (b, c)]
+            hexes = sorted({x["range_hex"] for x in es if "range_hex" in x})
+            bands = sorted({x["range_band"] for x in es if "range_band" in x})
+            dtxt = ""
+            if hexes:
+                lo, hi = max(1, min(hexes) - 1), max(hexes) + 1
+                dtxt += (f"｜距離 **約 {min(hexes)} 格**（±1，即 {lo}–{hi} 格；"
+                         f"夜間 flash-to-bang 測得）")
+            if bands:
+                dtxt += f"｜距離帶 **{'／'.join(bands)}**（白天，由彈著散佈判定）"
             out.append(f"- **{uid}**（{tuple(u['pos'])}）遭砲擊 {len(ghs)} 次｜"
-                       f"來襲方位 **{b}**｜口徑 **{c}**｜時段 {rng}")
+                       f"來襲方位 **{b}**｜口徑 **{c}**{dtxt}｜時段 {rng}")
     return "\n".join(out) or "- （我方未遭砲擊，無落彈可供分析）"
 
 

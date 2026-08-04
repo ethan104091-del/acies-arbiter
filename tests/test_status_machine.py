@@ -793,5 +793,34 @@ wN4.setdefault("fog_of_war", {})["allies_spotted"] = ["RED-AD"]
 _, _, _, msgN4 = ar.bombard(wN4, ["BLU-1"], "RED-AD")
 check("★ 我方不在該格時無友傷", "友軍誤擊" not in msgN4)
 
+# ── O. 裁示 34：落彈測距依晝夜（TODO P5-12）──────────────────────
+print("\n── O. 落彈測距（裁示 34）──")
+def _crater(gh, d):
+    w = fresh(); w["global_hour"] = gh
+    for _u in w["units"].values(): _u["flags"] = {}
+    w["units"]["BLU-1"]["pos"] = [11, 9]
+    w["units"]["RED-2"]["pos"] = [11 + d, 9]
+    w.setdefault("fog_of_war", {})["allies_spotted"] = ["RED-2"]
+    ar.bombard(w, ["BLU-1"], "RED-2"); w["units"]["RED-2"].pop("_inc", None)
+    return w["units"]["RED-2"]["crater_log"][-1], w
+
+eN, wN6 = _crater(18, 4)
+check("★ 夜間給距離 ±1 格", eN.get("range_hex") == 4 and "range_band" not in eN, str(eN))
+check("★ 夜間戰報載明 ±1 的範圍",
+      "3–5 格" in ar.crater_lines(wN6, "axis"), ar.crater_lines(wN6, "axis")[-60:])
+eD, wD = _crater(0, 4)
+check("★ 白天只給粗略距離帶", eD.get("range_band") == "中距" and "range_hex" not in eD, str(eD))
+check("★ 白天戰報不載明格數",
+      "距離帶" in ar.crater_lines(wD, "axis") and "±1" not in ar.crater_lines(wD, "axis"))
+check("★ 距離帶分界 ≤2 近距／3-4 中距／≥5 接近最大射程",
+      [ar.range_band(x) for x in (1, 2, 3, 4, 5)]
+      == ["近距", "近距", "中距", "中距", "接近最大射程"])
+check("★ 方位與口徑不受晝夜影響",
+      eN["bearing"] == eD["bearing"] and eN["caliber"] == eD["caliber"])
+check("★ 一格實距由 105mm 射程反推（8.5km / 4 格）",
+      abs(ar.HEX_KM - 8.5 / 4) < 1e-9, f"{ar.HEX_KM:.4f} km")
+check("★ 規格書載明 flash-to-bang 與晝夜差異",
+      all(x in _spec for x in ("flash-to-bang", "近距", "接近最大射程", "夜間開火比白天危險")))
+
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)
