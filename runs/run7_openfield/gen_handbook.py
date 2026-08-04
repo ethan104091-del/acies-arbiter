@@ -22,10 +22,12 @@ import command as cmd         # noqa: E402
 import hourstate as hs        # noqa: E402
 
 GAME = Path(__file__).resolve().parents[2]
+# 雙方都由 AI 指揮、人類觀戰（2026-08-04 決定）。
+# 因此不再把紅軍藏進 ~/.acies——**兩軍的交付方式必須對稱**，
+# 同樣的路徑形式、同樣的檔案結構、同樣的工具。工具不對稱本身就是不公平。
 DEST = {
     "allies": Path.home() / "Desktop" / "料鋒_Run7_藍軍指揮部",
-    # 紅軍刻意不放桌面，避免人類指揮官不慎看到
-    "axis": Path.home() / ".acies" / "run7_red_hq",
+    "axis": Path.home() / "Desktop" / "料鋒_Run7_紅軍指揮部",
 }
 SIDE_ZH = {"allies": "藍", "axis": "紅"}
 SIDE_PFX = {"allies": "BLU", "axis": "RED"}
