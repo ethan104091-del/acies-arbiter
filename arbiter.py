@@ -599,8 +599,12 @@ def supply_status(s):
 
 
 # ── 傷害 / 計分 ─────────────────────────────────────────────────
-def hurt(s, uid, personnel=0, tanks=0, guns=0, org=0, str_pct=0.0, fatigue=0, note=""):
+def hurt(s, uid, personnel=0, tanks=0, guns=0, org=0, str_pct=0.0, fatigue=0, note="",
+         self_inflicted=False):
     """就地套用損失。
+
+    ★ self_inflicted=True（友軍誤擊）另計入 losses_self。
+      score() 會從敵方的殲敵credit中扣除——我自己炸死的人不是對手的戰功。
 
     ★ str_pct 自 2026-07-30 起**不再權威**：strength 由人員殘存率重算（缺陷 8）。
       保留參數是為了舊腳本相容；FR_TABLE 的戰力% 已經透過人員傷亡反映，
@@ -615,6 +619,8 @@ def hurt(s, uid, personnel=0, tanks=0, guns=0, org=0, str_pct=0.0, fatigue=0, no
     u["equip"]["guns"] -= guns
     for k, v in (("personnel", personnel), ("tanks", tanks), ("guns", guns)):
         u["losses"][k] += v
+        if self_inflicted:
+            u.setdefault("losses_self", {"personnel": 0, "tanks": 0, "guns": 0})[k] += v
     if personnel:                                     # 潰散條件 2 需要 24 hour 傷亡窗
         u.setdefault("cas_log", []).append([s["global_hour"], personnel])
     if str_pct:
@@ -705,6 +711,9 @@ FORT_TIERS = [
     (3.0, 0.35, 0.18, "散兵壕", "標準散兵坑，可站立射擊，能承受一般彈幕"),
     (8.0, 0.50, 0.10, "有頂蓋", "完整掩體，可擋空爆與樹爆"),
 ]
+FRIENDLY_FIRE_SHARE = 0.5  # 對含我方編隊之格射擊時，我方編隊承受同一波火力的比例。
+                           # 砲彈不分敵我；砲兵知道大概位置會試圖偏開，但一格 ≈2km，
+                           # 近戰中的雙方無法分離。0.5 是「試圖偏開但只能偏一半」。
 WORKS_DEMOLITION = 22.6   # Run 7：每「殺傷單位」摧毀的 man-hours（校準見 precedents §十三）
 MELEE_WORKS_MULT = 3.0    # 近戰對工事的摧毀＝攻方戰力損失% × 此倍率
 CAMO_HOURS = 3.0        # 偽裝作業門檻（裁示 17，Run 6 T5 起）：達此工時 → 能見狀態好一級
@@ -939,6 +948,11 @@ def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
     if "_inc" not in tgt:
         dry = [u for u in firing_uids if not any(ensure_ammo(s["units"][u]).values())]
         return 0, 0, 0, ("（彈藥耗盡：" + "、".join(dry) + "）") if dry else "（無砲兵在射程內）"
+    # ── 友軍誤擊（TODO P6-16）：目標格內的我方編隊承受同一波火力 ──────
+    _side = s["units"][firing_uids[0]]["side"]
+    _ff = [uid for uid, u in s["units"].items()
+           if u.get("side") == _side and list(u["pos"]) == list(tgt["pos"])
+           and uid not in firing_uids]
     if freeze:
         # 干擾射擊：目標該小時視為交火 → 不得構築工事、不得完全休整（管線依 flags 判定）
         tgt["flags"]["hit"] = True
@@ -965,7 +979,34 @@ def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
     ecap_g = max(1, int(tgt["equip"]["guns"] * SATURATION))
     tank_kill = min(int(tgt["_inc"][1] * texp), tgt["equip"]["tanks"], ecap_t)
     gun_kill = min(int(tgt["_inc"][1] * texp * 0.5), tgt["equip"]["guns"], ecap_g)
+    _inc0, _inc1 = tgt["_inc"][0], tgt["_inc"][1]   # 友軍誤擊要用，須在 del 之前取值
     del tgt["_inc"]
+    if _ff:
+        _fi = _inc0 * FRIENDLY_FIRE_SHARE
+        _ft = _inc1 * FRIENDLY_FIRE_SHARE
+        for _u in _ff:
+            _v = s["units"][_u]
+            _fef, _fdf = exposure_factor(_v, terr(s, _v["pos"])), density_factor(_v)
+            _fcas = int(min(_fi * _fef * _fdf, _v.get("personnel", 0) * SATURATION))
+            _ftexp = 1.0 if _v["flags"].get("moved") else (
+                0.05 if _v.get("fortification", 0) >= FORT_TANK_TIER - 1e-9
+                else 0.15 if _v.get("fortification", 0) > 0 else 0.3)
+            _fk = int(round(min(_ft * _ftexp, _v["equip"]["tanks"] + _v["equip"]["guns"])))
+            _ftk = min(_fk, _v["equip"]["tanks"])
+            _fgk = min(_fk - _ftk, _v["equip"]["guns"])
+            if _fcas or _ftk or _fgk:
+                _forg = org_impact(s, _u, 100.0 * _fcas / max(_v.get("personnel", 1), 1),
+                                   friendly_fire=True)
+                hurt(s, _u, personnel=_fcas, tanks=_ftk, guns=_fgk, org=_forg,
+                     note="友軍誤擊", self_inflicted=True)
+                record_fact(s, kind="友軍誤擊", actor_side=_side,
+                            firing=list(firing_uids), victim=_u,
+                            target=target_uid, hex=list(tgt["pos"]),
+                            cas=_fcas, tanks=_ftk, guns=_fgk)
+                detail.append(f"★友軍誤擊 {_u}：-{_fcas} 人"
+                              + (f"、-{_ftk} 戰車" if _ftk else "")
+                              + (f"、-{_fgk} 火砲" if _fgk else "")
+                              + f"、組織 -{_forg}")
     msg = (f"[{mission}{minutes}min] 暴露{ef} 密度{df} 戰車暴露{texp}"
            + (f" 工事-{_rm:,.0f}man-hr" if _rm > 0 else "")
            + f" → 傷亡 {cas} 人" + ("（觸飽和上限 8%）" if capped else "")
@@ -1902,8 +1943,10 @@ def score(s):
     for side in ("allies", "axis"):
         infl = {"personnel": 0, "tanks": 0, "guns": 0}
         for u in own(s, ENEMY[side]).values():           # 敵方的損失 = 我方殲敵
+            slf = u.get("losses_self") or {}
             for k in infl:
-                infl[k] += u["losses"][k]
+                # 扣除敵方的友軍誤擊自傷——那不是我方造成的（TODO P6-16）
+                infl[k] += u["losses"][k] - slf.get(k, 0)
         pts = sum(infl[k] * SCORE_W[k] for k in infl)
         out[side] = {"inflicted": infl, "points": pts}
     return out

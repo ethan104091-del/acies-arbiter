@@ -734,5 +734,64 @@ check("★ P7-17 坑#6 友軍誤擊防護在挑選前排除該格（值 288 分�
       tk.nearest_target(wN, ["BLU-1"], "allies") == "RED-AD"
       and tk.nearest_target(wN, ["BLU-1"], "allies", exclude_pos=[12, 9]) == "RED-2")
 
+# ── N. 友軍誤擊（TODO P6-16）────────────────────────────────────
+print("\n── N. 友軍誤擊 ──")
+wN2 = fresh()
+for _u in wN2["units"].values(): _u["flags"] = {}
+wN2["units"]["BLU-AD"]["pos"] = [12, 9]      # 我方，與敵同格（近戰中）
+wN2["units"]["RED-AD"]["pos"] = [12, 9]
+wN2["units"]["BLU-1"]["pos"] = [11, 9]       # 我方砲兵
+wN2.setdefault("fog_of_war", {})["allies_spotted"] = ["RED-AD"]
+a0N = wN2["units"]["BLU-AD"]["personnel"]
+casN, tkN, gkN, msgN = ar.bombard(wN2, ["BLU-1"], "RED-AD")
+wN2["units"]["RED-AD"].pop("_inc", None)
+ffN = a0N - wN2["units"]["BLU-AD"]["personnel"]
+check("★ P6-16 對含我方編隊之格射擊會造成友軍誤擊", ffN > 0, f"BLU-AD -{ffN} 人")
+check("★ 友軍誤擊在明細中標示", "友軍誤擊" in msgN, msgN[-60:])
+check("★ 友傷計入 losses_self",
+      (wN2["units"]["BLU-AD"].get("losses_self") or {}).get("personnel", 0) == ffN)
+# 友傷用**受害編隊自己的防護**計算——挖了洞連自己的砲彈也擋得住。
+# 故比例只有在雙方暴露相同時才等於 FRIENDLY_FIRE_SHARE。另建一個對照組驗證。
+wN5 = fresh()
+for _u in wN5["units"].values():
+    _u["flags"] = {}; _u["fortification"] = 0.0; _u["dig_hours"] = 0.0
+wN5["units"]["BLU-AD"]["pos"] = [12, 9]; wN5["units"]["RED-AD"]["pos"] = [12, 9]
+wN5["units"]["BLU-1"]["pos"] = [11, 9]
+wN5.setdefault("fog_of_war", {})["allies_spotted"] = ["RED-AD"]
+wN5["units"]["BLU-AD"]["personnel"] = wN5["units"]["RED-AD"]["personnel"]
+a5 = wN5["units"]["BLU-AD"]["personnel"]
+c5, _t5, _g5, _m5 = ar.bombard(wN5, ["BLU-1"], "RED-AD")
+wN5["units"]["RED-AD"].pop("_inc", None)
+f5 = a5 - wN5["units"]["BLU-AD"]["personnel"]
+check("★ 雙方暴露相同時，友傷＝敵方所受 × FRIENDLY_FIRE_SHARE",
+      abs(f5 / max(c5, 1) - ar.FRIENDLY_FIRE_SHARE) < 0.12,
+      f"我 {f5} / 敵 {c5} = {f5/max(c5,1):.2f}（期望 {ar.FRIENDLY_FIRE_SHARE}）")
+check("★ 友傷依受害編隊自身防護計算（挖洞也擋自己的砲彈）",
+      ffN / max(casN, 1) < f5 / max(c5, 1) - 0.1,
+      f"有工事 {ffN/max(casN,1):.2f} vs 無工事 {f5/max(c5,1):.2f}")
+check("★ 事實紀錄有友軍誤擊條目（法庭可查、不判 legality）",
+      any(f.get("kind") == "友軍誤擊" and f.get("victim") == "BLU-AD"
+          for f in wN2.get("record", [])))
+# 友傷不得算成敵方戰功
+wN3 = fresh()
+for _u in wN3["units"].values(): _u["flags"] = {}
+wN3["units"]["BLU-AD"]["pos"] = [12, 9]; wN3["units"]["RED-AD"]["pos"] = [12, 9]
+wN3["units"]["BLU-1"]["pos"] = [11, 9]
+wN3.setdefault("fog_of_war", {})["allies_spotted"] = ["RED-AD"]
+for _u in wN3["units"].values(): _u["losses"] = {"personnel": 0, "tanks": 0, "guns": 0}
+ar.bombard(wN3, ["BLU-1"], "RED-AD"); wN3["units"]["RED-AD"].pop("_inc", None)
+scN = ar.score(wN3)
+check("★ 友傷不計入敵方殲敵 credit（我自己炸死的人不是對手的戰功）",
+      scN["axis"]["inflicted"]["personnel"] == 0,
+      f"紅軍 credit {scN['axis']['inflicted']}")
+# 沒有我方編隊同格時不得有友傷
+wN4 = fresh()
+for _u in wN4["units"].values(): _u["flags"] = {}
+wN4["units"]["RED-AD"]["pos"] = [12, 9]; wN4["units"]["BLU-1"]["pos"] = [11, 9]
+wN4["units"]["BLU-AD"]["pos"] = [8, 9]
+wN4.setdefault("fog_of_war", {})["allies_spotted"] = ["RED-AD"]
+_, _, _, msgN4 = ar.bombard(wN4, ["BLU-1"], "RED-AD")
+check("★ 我方不在該格時無友傷", "友軍誤擊" not in msgN4)
+
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)

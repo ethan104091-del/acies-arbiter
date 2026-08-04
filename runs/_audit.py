@@ -88,6 +88,25 @@ def check_ammo(s, b):
     return out
 
 
+def check_friendly_fire(s, b):
+    """友軍誤擊的自傷帳不得超過總損失，且必須有對應的事實紀錄（TODO P6-16）。"""
+    out = []
+    for uid, u in s["units"].items():
+        if u.get("side") not in SIDES:
+            continue
+        slf = u.get("losses_self") or {}
+        for k, v in slf.items():
+            if v > u["losses"].get(k, 0) + 1e-6:
+                out.append(("錯誤", f"{uid} 的自傷 {k}={v} 超過總損失 "
+                                    f"{u['losses'].get(k, 0)}"))
+        if any(slf.values()):
+            has = any(f.get("kind") == "友軍誤擊" and f.get("victim") == uid
+                      for f in s.get("record", []))
+            if not has:
+                out.append(("錯誤", f"{uid} 有自傷帳但事實紀錄中無對應的友軍誤擊條目"))
+    return out
+
+
 def check_fire_legality(s, b):
     """裁示 18：該小時行軍過的編隊不得砲擊。以最終旗標抽驗。"""
     out = []
@@ -163,6 +182,7 @@ CHECKS = [
     ("守恆", check_conservation),
     ("彈藥", check_ammo),
     ("射擊合法性", check_fire_legality),
+    ("友軍誤擊", check_friendly_fire),
     ("工事", check_works),
     ("戰術狀態", check_tactical_state),
     ("狀態機", check_status_machine),
