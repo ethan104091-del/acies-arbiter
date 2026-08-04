@@ -425,7 +425,10 @@ def move_rate(s, u, dest_t):
         r *= 0.5
     if is_night(s):
         r *= 0.5
-    return r
+    # precedents §三 T3：前一小時遭砲擊 → 本小時機動受阻（就地臥倒、疏散、後送）
+    _sup = (SUPPRESS_MOVE_MULT
+            if u.get("suppressed_gh") == s.get("global_hour", 0) - 1 else 1.0)
+    return (r) * _sup
 
 
 def step_toward(a, b):
@@ -684,15 +687,61 @@ FIRE_MINUTES = 10        # [判例] 「集中砲擊」每 hour 每門砲的實�
 SATURATION = 0.08        # [判例] 單一目標編隊每 hour 傷亡上限＝其兵力 8%（散布飽和、彈坑重疊）
 
 
-def density_factor(u):
+# ── 彈著覆蓋率（缺陷 1、2 已修，2026-08-04）───────────────────────────
+# precedents.md §二 判定舊 density_factor 有結構性錯誤：它用單一數字同時代表
+# 「目標本身多疏」與「目標有多少落在彈著區內」，且依兵力給 0.12–0.30。
+# §二 的幾何論證是 1–6%，舊值是它的 3–20 倍。
+#
+# 為何 0.12–0.30 一定錯：引擎的「每發殺傷力 0.30 × 暴露 0.70 = 0.21」，
+# 恰好等於手冊 §8 的「開闊地散開步兵每發 0.21 人」。也就是說那 0.21 是
+# **落在部隊之間的每一發**的殺傷力，而覆蓋率的唯一職責是把「發射的發數」
+# 換算成「落在部隊之間的發數」——那是純幾何量，不該再帶任何殺傷力資訊。
+#
+# 校準錨點（WWII 野戰砲兵持續作戰統計）：**每 100–300 發造成 1 人傷亡**。
+# 舊值下引擎是 1 人 / 21 發，高出史實 5–14 倍。
+#
+# 彈著區面積（precedents §二）：
+SUPPRESS_MOVE_MULT = 0.5   # 前一小時遭砲擊者本小時移動 ×0.5（precedents §三 T3）。
+                           # 史實依據：遭砲擊的部隊就地臥倒、疏散、後送傷員、重整隊形，
+                           # 該時段失去行軍節奏。這是砲兵在 1944 年的**主要**價值——
+                           # 直接擊毀裝備的比例極低（諾曼第 ORS 調查），癱瘓機動才是。
+IMPACT_KM2_STATIC = 0.08   # 靜止目標、觀測射擊：280×280m 等效
+IMPACT_KM2_COLUMN = 0.25   # 行軍縱隊：沿路軸鋪開，500×500m 等效
+# 戰車須用「彈著點 100m 內」（determinism_v1 §III 的原文限定詞，Run 4 把它吃掉了）。
+# 彈著區向外膨脹 100m：280→480m（0.23 km²）、500→700m（0.49 km²）。
+IMPACT_KM2_STATIC_TANK = 0.23
+IMPACT_KM2_COLUMN_TANK = 0.49
+# 各級編隊佔地（1944 部署密度，FM 100-5 與各師戰史）：
+#   步兵師展開防禦 正面 5–10km／縱深 5km → 於一格內視為填滿 4 km²
+#   步兵營 正面 800m／縱深 600m ≈ 0.5 km²；孤立的連級／偵察隊為求安全更疏散
+UNIT_AREA_KM2 = ((10000, 4.00), (2000, 1.50), (600, 0.50), (0, 0.25))
+
+
+def unit_area(u):
     p = u.get("personnel", 0)
-    if p >= 10000:
-        return 0.20      # 師級散佈於 2km 格
-    if p >= 2000:
-        return 0.15      # 旅級
-    if p >= 600:
-        return 0.30      # 營級（面積小、相對密集）
-    return 0.12          # 偵察營等小單位、極散
+    for lim, a in UNIT_AREA_KM2:
+        if p >= lim:
+            return a
+    return UNIT_AREA_KM2[-1][1]
+
+
+def impact_coverage(u, for_tanks=False):
+    """彈著區對該編隊的覆蓋率＝彈著區面積 ÷ 編隊佔地面積。純幾何，無殺傷力資訊。
+
+    行軍中的編隊擠在一條路軸上，彈著區可沿其鋪開 → 覆蓋率高（precedents §二 C1）。
+    戰車另用「彈著點 100m 內」的膨脹面積（§三 T1 的原文限定詞）。
+    """
+    moving = u["flags"].get("moved")
+    if for_tanks:
+        area = IMPACT_KM2_COLUMN_TANK if moving else IMPACT_KM2_STATIC_TANK
+    else:
+        area = IMPACT_KM2_COLUMN if moving else IMPACT_KM2_STATIC
+    return round(min(1.0, area / unit_area(u)), 4)
+
+
+def density_factor(u):
+    """★ 已棄用（缺陷 2）。保留為 impact_coverage 的別名，供舊腳本相容。"""
+    return impact_coverage(u)
 
 
 # ── 工事分級（[判例] 2026-07-30，Run 5 起生效）─────────────────────
@@ -974,6 +1023,8 @@ def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
     _ff = [uid for uid, u in s["units"].items()
            if u.get("side") == _side and list(u["pos"]) == list(tgt["pos"])
            and uid not in firing_uids]
+    # precedents §三 T3：砲擊對目標的壓制——下一小時機動受阻。
+    tgt["suppressed_gh"] = s.get("global_hour", 0)
     if freeze:
         # 干擾射擊：目標該小時視為交火 → 不得構築工事、不得完全休整（管線依 flags 判定）
         tgt["flags"]["hit"] = True
@@ -981,7 +1032,7 @@ def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
     tgt["_org_mult"] = org_mult          # 由呼叫方經 org_impact 取用
     # Run 7：間接火力摧毀該格工事（下限為佔用編隊的淺掘級——彈坑本身即掩體）
     _rm = damage_works(s, tgt["pos"], tgt["_inc"][0] * WORKS_DEMOLITION, tgt)
-    ef, df = exposure_factor(tgt, terr(s, tgt["pos"])), density_factor(tgt)
+    ef, df = exposure_factor(tgt, terr(s, tgt["pos"])), impact_coverage(tgt)
     cas = tgt["_inc"][0] * ef * df
     cap = tgt.get("personnel", 0) * SATURATION
     capped = cas > cap
@@ -998,8 +1049,13 @@ def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
         texp = 0.3
     ecap_t = max(1, int(tgt["equip"]["tanks"] * SATURATION))
     ecap_g = max(1, int(tgt["equip"]["guns"] * SATURATION))
-    tank_kill = min(int(tgt["_inc"][1] * texp), tgt["equip"]["tanks"], ecap_t)
-    gun_kill = min(int(tgt["_inc"][1] * texp * 0.5), tgt["equip"]["guns"], ecap_g)
+    # 缺陷 1：戰車那條原本**完全沒有覆蓋率項**——determinism_v1 §III 的
+    # 「0.005/發」限定詞是「彈著點 100m 內」，Run 4 把它套在整個 2km 格的編隊上。
+    # 後果：Run 4 有 65% 的戰車損失死於砲擊，理性的裝甲師永遠不該前進，
+    # 全局戰車對戰車直射交戰 0 次。
+    tcov = impact_coverage(tgt, for_tanks=True)
+    tank_kill = min(int(tgt["_inc"][1] * texp * tcov), tgt["equip"]["tanks"], ecap_t)
+    gun_kill = min(int(tgt["_inc"][1] * texp * tcov * 0.5), tgt["equip"]["guns"], ecap_g)
     _inc0, _inc1 = tgt["_inc"][0], tgt["_inc"][1]   # 友軍誤擊要用，須在 del 之前取值
     del tgt["_inc"]
     if _ff:
@@ -1007,12 +1063,13 @@ def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
         _ft = _inc1 * FRIENDLY_FIRE_SHARE
         for _u in _ff:
             _v = s["units"][_u]
-            _fef, _fdf = exposure_factor(_v, terr(s, _v["pos"])), density_factor(_v)
+            _fef, _fdf = exposure_factor(_v, terr(s, _v["pos"])), impact_coverage(_v)
             _fcas = int(min(_fi * _fef * _fdf, _v.get("personnel", 0) * SATURATION))
             _ftexp = 1.0 if _v["flags"].get("moved") else (
                 0.05 if _v.get("fortification", 0) >= FORT_TANK_TIER - 1e-9
                 else 0.15 if _v.get("fortification", 0) > 0 else 0.3)
-            _fk = int(round(min(_ft * _ftexp, _v["equip"]["tanks"] + _v["equip"]["guns"])))
+            _fk = int(round(min(_ft * _ftexp * impact_coverage(_v, for_tanks=True),
+                               _v["equip"]["tanks"] + _v["equip"]["guns"])))
             _ftk = min(_fk, _v["equip"]["tanks"])
             _fgk = min(_fk - _ftk, _v["equip"]["guns"])
             if _fcas or _ftk or _fgk:
@@ -1028,7 +1085,7 @@ def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
                               + (f"、-{_ftk} 戰車" if _ftk else "")
                               + (f"、-{_fgk} 火砲" if _fgk else "")
                               + f"、組織 -{_forg}")
-    msg = (f"[{mission}{minutes}min] 暴露{ef} 密度{df} 戰車暴露{texp}"
+    msg = (f"[{mission}{minutes}min] 暴露{ef} 覆蓋{df} 戰車暴露{texp} 戰車覆蓋{tcov}"
            + (f" 工事-{_rm:,.0f}man-hr" if _rm > 0 else "")
            + f" → 傷亡 {cas} 人" + ("（觸飽和上限 8%）" if capped else "")
            + (f"、戰車 -{tank_kill}" if tank_kill else "") + (f"、火砲 -{gun_kill}" if gun_kill else "")

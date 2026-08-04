@@ -187,7 +187,9 @@ check("手動示降者仍接受命令（詐降因此出於指揮官的決定）"
       ok and ar.under_command(w3, "RED-1")
       and ar.surrender_kind(w3["units"]["RED-1"]) == ar.SURR_DECLARED)
 cas, _, _, _ = ar.bombard(w3, ["RED-1"], "BLU-1")
-check("手動示降者可以被命令開火（詐降是可能的，不被程式禁止）", cas > 0, f"傷亡 {cas}")
+check("手動示降者可以被命令開火（詐降是可能的，不被程式禁止）",
+      w3["units"]["RED-1"]["flags"].get("fired") is True,
+      "斷言射擊行為本身發生，不斷言傷亡數——重新校準後單編隊一小時的傷亡可能捨入為 0")
 check("該次開火留下「曾宣告示降」的事實",
       w3["record"][-1].get("firing_units_that_had_declared_surrender") == ["RED-1"])
 check("對手仍可選擇不受降：受降須明確呼叫，引擎不自動執行",
@@ -737,13 +739,17 @@ check("★ P7-17 坑#6 友軍誤擊防護在挑選前排除該格（值 288 分�
 # ── N. 友軍誤擊（TODO P6-16）────────────────────────────────────
 print("\n── N. 友軍誤擊 ──")
 wN2 = fresh()
-for _u in wN2["units"].values(): _u["flags"] = {}
+for _u in wN2["units"].values():
+    _u["flags"] = {}; _u["fortification"] = 0.0; _u["dig_hours"] = 0.0
 wN2["units"]["BLU-AD"]["pos"] = [12, 9]      # 我方，與敵同格（近戰中）
 wN2["units"]["RED-AD"]["pos"] = [12, 9]
-wN2["units"]["BLU-1"]["pos"] = [11, 9]       # 我方砲兵
+# 用多個砲兵編隊：缺陷 1/2 的重新校準把單編隊一小時的傷亡壓到個位數，
+# 整數捨入會吃掉友傷（機制仍在，只是量級低於解析度）。測試必須量得到才有意義。
+for _g in ("BLU-1", "BLU-2", "BLU-3"):
+    wN2["units"][_g]["pos"] = [11, 9]
 wN2.setdefault("fog_of_war", {})["allies_spotted"] = ["RED-AD"]
 a0N = wN2["units"]["BLU-AD"]["personnel"]
-casN, tkN, gkN, msgN = ar.bombard(wN2, ["BLU-1"], "RED-AD")
+casN, tkN, gkN, msgN = ar.bombard(wN2, ["BLU-1", "BLU-2", "BLU-3"], "RED-AD")
 wN2["units"]["RED-AD"].pop("_inc", None)
 ffN = a0N - wN2["units"]["BLU-AD"]["personnel"]
 check("★ P6-16 對含我方編隊之格射擊會造成友軍誤擊", ffN > 0, f"BLU-AD -{ffN} 人")
@@ -766,9 +772,20 @@ f5 = a5 - wN5["units"]["BLU-AD"]["personnel"]
 check("★ 雙方暴露相同時，友傷＝敵方所受 × FRIENDLY_FIRE_SHARE",
       abs(f5 / max(c5, 1) - ar.FRIENDLY_FIRE_SHARE) < 0.12,
       f"我 {f5} / 敵 {c5} = {f5/max(c5,1):.2f}（期望 {ar.FRIENDLY_FIRE_SHARE}）")
+# 有工事 vs 無工事的對照另建（wN2 現已改為無工事以求可解析）
+wF2 = fresh()
+for _u in wF2["units"].values(): _u["flags"] = {}
+wF2["units"]["BLU-AD"]["fortification"] = 0.50     # 我方有頂蓋
+wF2["units"]["RED-AD"]["fortification"] = 0.0
+wF2["units"]["BLU-AD"]["pos"] = [12, 9]; wF2["units"]["RED-AD"]["pos"] = [12, 9]
+for _g in ("BLU-1", "BLU-2", "BLU-3"): wF2["units"][_g]["pos"] = [11, 9]
+wF2.setdefault("fog_of_war", {})["allies_spotted"] = ["RED-AD"]
+aF2 = wF2["units"]["BLU-AD"]["personnel"]
+cF2, _tf, _gf, _mf = ar.bombard(wF2, ["BLU-1", "BLU-2", "BLU-3"], "RED-AD")
+fF2 = aF2 - wF2["units"]["BLU-AD"]["personnel"]
 check("★ 友傷依受害編隊自身防護計算（挖洞也擋自己的砲彈）",
-      ffN / max(casN, 1) < f5 / max(c5, 1) - 0.1,
-      f"有工事 {ffN/max(casN,1):.2f} vs 無工事 {f5/max(c5,1):.2f}")
+      fF2 / max(cF2, 1) < ffN / max(casN, 1),
+      f"有頂蓋 {fF2}/{cF2} vs 無工事 {ffN}/{casN}")
 check("★ 事實紀錄有友軍誤擊條目（法庭可查、不判 legality）",
       any(f.get("kind") == "友軍誤擊" and f.get("victim") == "BLU-AD"
           for f in wN2.get("record", [])))
@@ -841,10 +858,13 @@ casxp = {}
 for _xp in (1, 3, 5):
     w = fresh()
     for _u in w["units"].values(): _u["flags"] = {}
-    w["units"]["BLU-1"]["pos"] = [11, 9]; w["units"]["RED-2"]["pos"] = [13, 9]
-    w["units"]["BLU-1"]["xp"] = _xp
+    # 四個編隊同時射擊：重新校準後單編隊的傷亡是個位數，整數捨入會掩蓋 VET 的比例
+    _gs = ["BLU-1", "BLU-2", "BLU-3", "BLU-AD"]
+    for _g in _gs:
+        w["units"][_g]["pos"] = [11, 9]; w["units"][_g]["xp"] = _xp
+    w["units"]["RED-2"]["pos"] = [13, 9]
     w["units"]["RED-2"]["fortification"] = 0.0
-    casxp[_xp], *_ = ar.bombard(w, ["BLU-1"], "RED-2")
+    casxp[_xp], *_ = ar.bombard(w, _gs, "RED-2")
 check("★ 缺陷 6 經驗影響砲擊殺傷（單調遞增）",
       casxp[1] < casxp[3] < casxp[5], " ".join(f"xp{k}={v}" for k, v in casxp.items()))
 check("★ 缺陷 6 比例符合 VET 表",
@@ -852,6 +872,46 @@ check("★ 缺陷 6 比例符合 VET 表",
       f"{casxp[5]}/{casxp[3]} = {casxp[5]/max(casxp[3],1):.2f} vs VET5 {ar.VET[5]}")
 inspec("森林拆兩段（缺陷 3）", "×1.3", "×0.5", "樹爆")
 inspec("經驗進命中（缺陷 6）", "經驗進命中", "0.75")
+
+# ── Q. 缺陷 1、2：彈著覆蓋率與砲擊壓制 ──────────────────────────
+print("\n── Q. 彈著覆蓋率（缺陷 1、2）──")
+check("★ 覆蓋率＝彈著區÷佔地（師靜止 0.08/4.00＝0.02）",
+      abs(ar.impact_coverage({"personnel": 14000, "flags": {}}) - 0.02) < 1e-6)
+check("★ 行軍縱隊覆蓋率較高（0.25/4.00）",
+      abs(ar.impact_coverage({"personnel": 14000, "flags": {"moved": True}}) - 0.0625) < 1e-6)
+check("★ 小單位覆蓋率較高（彈著區固定、佔地小）",
+      ar.impact_coverage({"personnel": 300, "flags": {}})
+      > ar.impact_coverage({"personnel": 14000, "flags": {}}))
+check("★ 戰車用膨脹 100m 的面積（determinism_v1 §III 的原文限定詞）",
+      ar.impact_coverage({"personnel": 14000, "flags": {}}, for_tanks=True)
+      > ar.impact_coverage({"personnel": 14000, "flags": {}}))
+# 錨點：每 100–300 發 1 人
+wQ = fresh()
+for _u in wQ["units"].values():
+    _u["flags"] = {}; _u["fortification"] = 0.0
+wQ["units"]["BLU-1"]["pos"] = [11, 9]; wQ["units"]["RED-2"]["pos"] = [13, 9]
+wQ["units"]["BLU-1"]["xp"] = 3
+wQ["units"]["BLU-1"]["equip"]["guns"] = 48
+casQ, tkQ, _gq, _mq = ar.bombard(wQ, ["BLU-1"], "RED-2")
+roundsQ = 36 * 2.5 * 10 + 12 * 1.5 * 10
+perQ = roundsQ / max(casQ, 1)
+check("★ 校準錨點：師・無工事・靜止 → 每 100–300 發 1 人傷亡",
+      100 <= perQ <= 300, f"{casQ} 人 / {roundsQ:.0f} 發 = 1 人 / {perQ:.0f} 發")
+check("★ 缺陷 1：砲擊已幾乎殺不掉靜止的戰車（史實：ORS 調查）",
+      tkQ == 0, f"戰車 -{tkQ}")
+# 壓制
+wS = fresh(); wS["global_hour"] = 10
+for _u in wS["units"].values(): _u["flags"] = {}
+uS = wS["units"]["RED-2"]
+base = ar.move_rate(wS, uS, ".")
+uS["suppressed_gh"] = 9
+check("★ §XIII-b 前一小時遭砲擊 → 本小時移動 ×0.5",
+      abs(ar.move_rate(wS, uS, ".") - base * ar.SUPPRESS_MOVE_MULT) < 1e-9,
+      f"{base} → {ar.move_rate(wS, uS, '.')}")
+uS["suppressed_gh"] = 5
+check("★ 壓制只持續一小時", abs(ar.move_rate(wS, uS, ".") - base) < 1e-9)
+inspec("彈著覆蓋率（缺陷 1、2）", "彈著區面積 ÷", "100–300 發", "0.020")
+inspec("砲擊壓制（T3）", "SUPPRESS_MOVE_MULT", "癱瘓機動")
 
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)
