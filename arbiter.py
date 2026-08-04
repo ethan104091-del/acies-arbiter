@@ -2143,6 +2143,33 @@ def _res_str(r):
     return " ".join(f"{k}{int(r.get(k,0))}" for k in ("POL", "SA", "HE", "AT", "RAT", "MED", "PARTS"))
 
 
+def _ammo_str(u):
+    """彈藥實數。Run 7：彈藥會打完，指揮官必須看得到剩幾發，否則無法決定何時開火。"""
+    am = u.get("ammo") or {}
+    if not am:
+        return "彈藥: （無火砲）"
+    mx = u.get("ammo_max") or {}
+    parts = []
+    for g, v in sorted(am.items()):
+        cap = mx.get(g) or 1
+        pct = 100.0 * v / cap
+        mark = "　**⚠ 見底**" if pct < 15 else ("　⚠ 偏低" if pct < 35 else "")
+        parts.append(f"{g} {v:,.0f}/{cap:,.0f}發（{pct:.0f}%）{mark}")
+    return "彈藥: " + "｜".join(parts)
+
+
+def _works_str(s, u):
+    """該格的工事記憶與偽裝進度。工事記在格子上，離開再回來還在（Run 7 §9）。"""
+    mh = hex_works(s, u["pos"])
+    per = mh / max(u.get("personnel", 1), 1)
+    tier = fort_tier(fort_from_hours(per))[0] if mh > 0 else "無"
+    camo = u.get("camo_hours", 0.0)
+    ct = ("**偽裝完成**" if u.get("camouflaged")
+          else (f"偽裝 {camo:.2f}/{CAMO_HOURS}工時" if camo > 0 else "未偽裝"))
+    return (f"本格工事記憶: {mh:,.0f} man-hours（÷本編隊 {u.get('personnel',0)} 人 "
+            f"= {per:.2f}hr/人 → {tier}）｜{ct}")
+
+
 def unit_lines(s, side, full=True):
     sup = supply_status(s)
     out = []
@@ -2154,6 +2181,7 @@ def unit_lines(s, side, full=True):
             f"｜補給線 {sup.get(uid,'?')}｜能見 {u['visibility_state']}"
             f"｜工事 {u.get('fortification',0):.3f}/0.5"
             f"{own_state_tag(s, uid)}\n"
+            f"  　{_ammo_str(u)}｜{_works_str(s, u)}\n"
             f"  　資源: {_res_str(u.get('resources',{}))}｜上一動作: {u.get('last_action','')}"
             + (f"\n  　可抽離營級代號: {orbat_codes(u)}" if u.get("orbat") else ""))
     return "\n".join(out)
@@ -2295,7 +2323,7 @@ def brief_md(s, side):
 ## 四、敵情（僅列已偵獲）
 {enemy_lines(s, side)}
 
-## 四之二、落彈分析（裁示 25：彈坑犁溝測方位、彈坑尺寸判口徑；**不含距離**）
+## 四之二、落彈分析（裁示 25／34：彈坑犁溝測方位、彈坑尺寸判口徑；夜間可 flash-to-bang 測距 ±1 格，白天只得距離帶）
 {crater_lines(s, side)}
 
 ## 五、我方延遲中的命令

@@ -958,5 +958,52 @@ _cv1 = (Path(__file__).resolve().parent.parent / "rules" / "combat_v1.md").read_
 check("★ combat_v1 的 30 發已標明錯誤並指向 §XIV",
       "此數字已判定為錯誤" in _cv1 and "§XIV" in _cv1)
 
+# ── S. Run 7 簡報：內容完備與洩漏防線 ───────────────────────────
+print("\n── S. Run 7 簡報（單檔發送＋洩漏檢查）──")
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "runs" / "run7_openfield"))
+import dispatch as _dp                                        # noqa: E402
+
+wS = fresh()
+_bS = ar.brief_md(wS, "allies")
+# Run 7 把彈藥改成實數、工事改成 hex 記憶——戰報若不顯示，指揮官無從決策
+check("★ 戰報顯示彈藥實數與基數上限", "彈藥:" in _bS and "發（" in _bS)
+check("★ 戰報顯示該格工事記憶（man-hours ÷ 本編隊人數 → 級別）",
+      "man-hours" in _bS and "hr/人" in _bS)
+check("★ 戰報顯示偽裝進度", "偽裝" in _bS)
+check("★ 落彈分析標題已更新為含測距（裁示 34，原文寫「不含距離」）",
+      "裁示 25／34" in _bS and "flash-to-bang" in _bS)
+_amS = wS["units"]["BLU-1"]["ammo"]
+check("★ 彈藥顯示的數字與 state 一致（非手寫）",
+      all(f"{v:,.0f}".replace(",", "") in _bS.replace(",", "") for v in _amS.values()),
+      f"{_amS}")
+
+# 洩漏防線：三種洩漏都必須抓到，且已偵獲者不得誤報
+_gS = _dp.build(wS, 0, "allies")
+check("乾淨簡報無洩漏", not _dp.check_leak(wS, _gS, "allies"),
+      str(_dp.check_leak(wS, _gS, "allies")))
+_unspot = [u for u in wS["units"]
+           if wS["units"][u]["side"] == "axis"
+           and u not in wS["fog_of_war"].get("allies_spotted", [])]
+if _unspot:
+    _t = _unspot[0]
+    check("★ 洩漏檢查抓到未偵獲的敵編隊代號",
+          any("未偵獲的敵編隊" in x for x in _dp.check_leak(wS, _gS + f"\n{_t} 在附近", "allies")),
+          f"注入 {_t}")
+    check("★ 洩漏檢查抓到未偵獲的敵編隊短代號",
+          bool(_dp.check_leak(wS, _gS + f"\n偵得「{wS['units'][_t]['short']}」", "allies")))
+wS["command"]["axis"]["main_cp"] = [29, 8]
+wS["fog_of_war"]["allies_spotted_cps"] = []
+check("★ 洩漏檢查抓到未偵獲的敵指揮所座標",
+      any("指揮所" in x or "main" in x
+          for x in _dp.check_leak(wS, _gS + "\n敵主指揮所在 (29, 8)", "allies")))
+# 反向：已偵獲就不得誤報，否則簡報永遠發不出去
+wS["fog_of_war"]["allies_spotted_cps"] = ["main@29,8"]
+check("★ 已偵獲的敵指揮所不得誤報（否則簡報發不出去）",
+      not _dp.check_leak(wS, _gS + "\n已偵獲敵主指揮所 (29, 8)", "allies"),
+      "欄位名須為 fog_of_war['<side>_spotted_cps']、格式 'main@x,y'")
+# 共用段落對稱
+_okS, _whyS = _dp.check_symmetry({sd: _dp.build(wS, 0, sd) for sd in ("allies", "axis")}, 0)
+check("★ 兩軍簡報的共用段落逐位元組相同", _okS, _whyS)
+
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)
