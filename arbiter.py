@@ -701,6 +701,14 @@ SATURATION = 0.08        # [判例] 單一目標編隊每 hour 傷亡上限＝�
 # 舊值下引擎是 1 人 / 21 發，高出史實 5–14 倍。
 #
 # 彈著區面積（precedents §二）：
+# 火砲相對戰車的易損倍率（P5-13，2026-08-04）。原式為 ×0.5，方向是反的：
+# 牽引火砲無裝甲，破片即可毀掉照準具、輪組、制退機；戰車需近失彈直接命中。
+# 由有效殺傷半徑推導——對戰車約 5m（面積 78 m²）、對牽引火砲約 15m（700 m²）
+# → 易損面積比 700/78 ≈ 9。
+GUN_VS_TANK_VULN = 9.0
+# 火砲的暴露亦不同於戰車：牽引火砲挖砲坑（gun pit）只能遮住下半，
+# 且射擊時必須露出砲身。故其工事減免弱於戰車掩壕。
+GUN_EXPOSURE = {"moved": 1.0, "none": 0.6, "shallow": 0.45, "dug": 0.30}
 SUPPRESS_MOVE_MULT = 0.5   # 前一小時遭砲擊者本小時移動 ×0.5（precedents §三 T3）。
                            # 史實依據：遭砲擊的部隊就地臥倒、疏散、後送傷員、重整隊形，
                            # 該時段失去行軍節奏。這是砲兵在 1944 年的**主要**價值——
@@ -1055,7 +1063,13 @@ def bombard(s, firing_uids, target_uid, minutes=None, mission="壓制"):
     # 全局戰車對戰車直射交戰 0 次。
     tcov = impact_coverage(tgt, for_tanks=True)
     tank_kill = min(int(tgt["_inc"][1] * texp * tcov), tgt["equip"]["tanks"], ecap_t)
-    gun_kill = min(int(tgt["_inc"][1] * texp * tcov * 0.5), tgt["equip"]["guns"], ecap_g)
+    # P5-13：火砲用自己的易損倍率與暴露表，不再沿用戰車的並乘 0.5（方向是反的）。
+    gexp = (GUN_EXPOSURE["moved"] if tgt["flags"].get("moved") else
+            GUN_EXPOSURE["dug"] if tgt.get("fortification", 0) >= FORT_TANK_TIER - 1e-9 else
+            GUN_EXPOSURE["shallow"] if tgt.get("fortification", 0) > 0 else
+            GUN_EXPOSURE["none"])
+    gun_kill = min(int(tgt["_inc"][1] * gexp * tcov * GUN_VS_TANK_VULN),
+                   tgt["equip"]["guns"], ecap_g)
     _inc0, _inc1 = tgt["_inc"][0], tgt["_inc"][1]   # 友軍誤擊要用，須在 del 之前取值
     del tgt["_inc"]
     if _ff:

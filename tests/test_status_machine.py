@@ -913,5 +913,50 @@ check("★ 壓制只持續一小時", abs(ar.move_rate(wS, uS, ".") - base) < 1e
 inspec("彈著覆蓋率（缺陷 1、2）", "彈著區面積 ÷", "100–300 發", "0.020")
 inspec("砲擊壓制（T3）", "SUPPRESS_MOVE_MULT", "癱瘓機動")
 
+# ── R. 反砲兵與火砲易損性（P5-13）──────────────────────────────
+print("\n── R. 反砲兵（P5-13）──")
+check("★ 火砲比戰車易損（方向已修正，原為 ×0.5）", ar.GUN_VS_TANK_VULN > 1.0,
+      f"GUN_VS_TANK_VULN = {ar.GUN_VS_TANK_VULN}")
+check("★ 火砲各狀態的暴露都高於戰車（砲坑只遮下半、射擊須露砲身）",
+      ar.GUN_EXPOSURE["none"] > 0.3 and ar.GUN_EXPOSURE["dug"] > 0.05,
+      str(ar.GUN_EXPOSURE))
+def _cb(mult, fort):
+    w = fresh()
+    for _u in w["units"].values(): _u["flags"] = {}
+    w["units"]["BLU-1"]["pos"] = [11, 9]
+    w["units"]["RED-2"]["pos"] = [15, 9]
+    w["units"]["RED-2"]["fortification"] = fort
+    w["units"]["RED-2"]["equip"]["guns"] = 48
+    _old = ar.GUN_VS_TANK_VULN; ar.GUN_VS_TANK_VULN = mult
+    _c, _t, gk, _m = ar.bombard(w, ["BLU-1"], "RED-2")
+    ar.GUN_VS_TANK_VULN = _old
+    return gk
+check("★ 對整編師的砲兵，修正後才打得掉火砲",
+      _cb(0.5, 0.0) == 0 and _cb(9.0, 0.0) > 0,
+      f"×0.5 → {_cb(0.5, 0.0)} 門｜×9.0 → {_cb(9.0, 0.0)} 門")
+check("★ 火砲構築工事仍有效（但弱於戰車掩壕）",
+      _cb(9.0, 0.35) < _cb(9.0, 0.0),
+      f"無工事 {_cb(9.0,0.0)} 門 vs 散兵壕 {_cb(9.0,0.35)} 門")
+# 反砲兵的主要效果是人員，不是火砲
+wR = fresh()
+for _u in wR["units"].values(): _u["flags"] = {}
+bR, _ = ar.detach_bn(wR, "RED-2", "a1", [15, 9])
+tR = wR["units"][bR]; tR["flags"] = {}; tR["fortification"] = 0.0
+wR["units"]["BLU-1"]["pos"] = [11, 9]
+p0R, g0R = tR["personnel"], tR["equip"]["guns"]
+for _ in range(6):
+    for _u in wR["units"].values(): _u["flags"] = {}
+    c, _t, gk, _m = ar.bombard(wR, ["BLU-1"], bR); tR.pop("_inc", None)
+    if c or gk: ar.hurt(wR, bR, personnel=c, guns=gk, note="反砲兵")
+check("★ 反砲兵的主要效果是人員損失（史實：制壓而非摧毀）",
+      (p0R - tR["personnel"]) / p0R > 0.25,
+      f"人員 -{(p0R-tR['personnel'])/p0R*100:.0f}%、火砲 -{g0R-tR['equip']['guns']}/{g0R}")
+check("★ 飽和上限限制每小時火砲損失（12 門 → 1 門/hr）",
+      g0R - tR["equip"]["guns"] <= 6, f"6 小時毀 {g0R-tR['equip']['guns']} 門")
+inspec("反砲兵摧毀率的更正", "30 發毀一門", "71 發", "neutralization")
+_cv1 = (Path(__file__).resolve().parent.parent / "rules" / "combat_v1.md").read_text()
+check("★ combat_v1 的 30 發已標明錯誤並指向 §XIV",
+      "此數字已判定為錯誤" in _cv1 and "§XIV" in _cv1)
+
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)
