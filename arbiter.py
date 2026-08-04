@@ -1183,8 +1183,21 @@ def unit_cp(s, uid, pos, is_attacker, spotted_by_enemy=True, sees_enemy=True,
     return round(cp, 1)
 
 
-def battle(s, atk_uids, def_uids, hexpos, atk_from_march=False, def_passive=True):
-    """一個 hour 的地面戰。回傳 (明細字串, 守方應後退格數)。就地套用損失。"""
+def battle(s, atk_uids, def_uids, hexpos, atk_from_march=None, def_passive=True):
+    """一個 hour 的地面戰。回傳 (明細字串, 守方應後退格數)。就地套用損失。
+
+    **atk_from_march 預設 None＝由引擎自行判定**（裁示 32 + TODO P6-15）。
+    判準為「攻方是否於該小時移動過」（flags["moved"]）——戰術狀態是該小時的姿態，
+    不是整場交戰的持久標籤。
+
+    仍可傳入明確的 True/False 覆寫，但覆寫會在明細字串中留下記錄，
+    使裁判的任何裁量都出現在雙方看得到的日誌裡。Run 6 終局的教訓：
+    裁判在看到計分後才發現此參數被誤用為持久標籤，而修正翻轉了勝負。
+    """
+    _auto = any(s["units"][u]["flags"].get("moved") for u in atk_uids if u in s["units"])
+    _override = atk_from_march is not None and bool(atk_from_march) != _auto
+    if atk_from_march is None:
+        atk_from_march = _auto
     atk_uids = [u for u in atk_uids if under_command(s, u)]
     if not atk_uids:
         return "（無可受命之攻擊部隊）", 0
@@ -1200,7 +1213,11 @@ def battle(s, atk_uids, def_uids, hexpos, atk_from_march=False, def_passive=True
     for cap, astr, aorg, dstr, dorg, push in FR_TABLE:
         if fr < cap:
             break
-    lines = [f"攻方 CP {a_cp}（{a_arms} 兵種、協同 {COMBINED.get(a_arms,1.7)}）"
+    lines = []
+    if _override:
+        lines.append(f"⚠️ 裁判覆寫戰術狀態：從行軍中接戰＝{atk_from_march}"
+                     f"（引擎自動判定為 {_auto}）")
+    lines += [f"攻方 CP {a_cp}（{a_arms} 兵種、協同 {COMBINED.get(a_arms,1.7)}）"
              f" vs 守方 CP {d_cp}（{d_arms} 兵種"
              + (f"、工事 +{s['units'][def_uids[0]].get('fortification',0):.3f}" if def_uids else "") + "）"
              f" → **兵力比 {fr:.2f}** → 對照表：攻方 -{astr}% 戰力/-{aorg} 組織、守方 -{dstr}% 戰力/-{dorg} 組織"]

@@ -663,5 +663,76 @@ for _f, _n in (("determinism_v1.md", 1), ("combat_v1.md", 3),
     check(f"{_f} 已加指回 arbiter_v2 的指標", _t.count("arbiter_v2.md") >= _n,
           f"{_t.count('arbiter_v2.md')} 處")
 
+# ── M. 裁判程序與 tick 工具（TODO P6-14/15、P7-17）───────────────
+print("\n── M. 裁判程序與 tick 工具 ──")
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "runs"))
+import _audit, _tickkit as tk                                  # noqa: E402
+
+# P6-15：battle 自行判定戰術狀態
+wM = fresh()
+for _u in wM["units"].values(): _u["flags"] = {}
+aM, dM = "BLU-AD", "RED-AD"
+wM["units"][dM]["pos"] = list(wM["units"][aM]["pos"])
+m1, _ = ar.battle(wM, [aM], [dM], wM["units"][aM]["pos"])
+cp_static = float(m1.split("攻方 CP ")[1].split("（")[0])
+wM2 = fresh()
+for _u in wM2["units"].values(): _u["flags"] = {}
+wM2["units"][dM]["pos"] = list(wM2["units"][aM]["pos"])
+wM2["units"][aM]["flags"]["moved"] = True
+m2, _ = ar.battle(wM2, [aM], [dM], wM2["units"][aM]["pos"])
+cp_march = float(m2.split("攻方 CP ")[1].split("（")[0])
+check("★ P6-15 battle 依 flags[moved] 自行判定從行軍中接戰",
+      abs(cp_march / cp_static - 0.7) < 0.02, f"{cp_static} → {cp_march}")
+wM3 = fresh()
+for _u in wM3["units"].values(): _u["flags"] = {}
+wM3["units"][dM]["pos"] = list(wM3["units"][aM]["pos"])
+m3, _ = ar.battle(wM3, [aM], [dM], wM3["units"][aM]["pos"], atk_from_march=True)
+check("★ 裁判覆寫戰術狀態會在明細留痕", "裁判覆寫戰術狀態" in m3, m3[:40])
+
+# P6-14：稽核必須擋下錯誤
+for label, mut in (
+    ("彈藥為負", lambda w: w["units"]["BLU-1"]["ammo"].__setitem__("105", -1)),
+    ("移動中仍有工事", lambda w: (w["units"]["BLU-2"]["flags"].__setitem__("moved", True),
+                              w["units"]["BLU-2"].__setitem__("fortification", 0.5))),
+    ("同小時行軍又開火", lambda w: (w["units"]["BLU-3"]["flags"].__setitem__("moved", True),
+                              w["units"]["BLU-3"]["flags"].__setitem__("fired", True))),
+    ("org 超出範圍", lambda w: w["units"]["BLU-SF"].__setitem__("org", 150)),
+):
+    w = fresh()
+    for _u in w["units"].values(): _u["flags"] = {}
+    b = _audit.snapshot(w)
+    mut(w)
+    import io, contextlib
+    _blocked = False
+    with contextlib.redirect_stdout(io.StringIO()):
+        try: _audit.require_clean(w, b)
+        except AssertionError: _blocked = True
+    check(f"★ P6-14 稽核擋下「{label}」", _blocked)
+
+# P7-17：tickkit 的六個坑
+wT = fresh()
+for _u in wT["units"].values(): _u["flags"] = {}
+wT["units"]["BLU-1"]["pos"] = [3, 4]
+RT = {"BLU-1": [(1, 4), (2, 4), (3, 4), (4, 4), (5, 4)]}
+iT = tk.init_route_index(wT, RT)
+check("★ P7-17 坑#1 跨 tick 航路索引依現位置起算", iT["BLU-1"] == 3, str(iT))
+wT["units"]["BLU-1"]["pos"] = [4, 4]
+check("★ P7-17 坑#4 尾隨用被跟隨者的實際位置",
+      list(tk.shadow_target(wT, "BLU-1", RT["BLU-1"], 2)) == [2, 4])
+wR = fresh()
+for _u in wR["units"].values(): _u["flags"] = {}
+wR["units"]["BLU-2"]["pos"] = [1, 9]
+rT = tk.Retreat(); rT.start(wR, "BLU-2", [-1, 9])
+check("★ P7-17 後撤目的地夾進地圖範圍（避免永遠到不了）",
+      rT.dest["BLU-2"] == [0, 9], str(rT.dest["BLU-2"]))
+wN = fresh()
+for _u in wN["units"].values(): _u["flags"] = {}
+wN["units"]["BLU-1"]["pos"] = [11, 9]
+wN["units"]["RED-AD"]["pos"] = [12, 9]; wN["units"]["RED-2"]["pos"] = [13, 9]
+wN.setdefault("fog_of_war", {})["allies_spotted"] = ["RED-AD", "RED-2"]
+check("★ P7-17 坑#6 友軍誤擊防護在挑選前排除該格（值 288 分的那個坑）",
+      tk.nearest_target(wN, ["BLU-1"], "allies") == "RED-AD"
+      and tk.nearest_target(wN, ["BLU-1"], "allies", exclude_pos=[12, 9]) == "RED-2")
+
 print(f"\n{'全部通過' if not fails else f'{len(fails)} 項失敗: {fails}'}")
 sys.exit(1 if fails else 0)
