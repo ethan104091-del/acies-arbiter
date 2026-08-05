@@ -40,6 +40,20 @@ python3 runs/run7_openfield/dispatch.py <tick>
 # 4. 存快照 snap_T<tick+1>start.json
 ```
 
+## 觀戰（人類）
+
+```bash
+python3 tools/god.py           # 印一次上帝視角
+python3 tools/god.py -w        # 每 2 秒重印,盯解算過程
+python3 tools/god.py -f runs/run7_openfield/snap_T3start.json   # 看某個快照
+```
+
+看得到:全圖、雙方每個編隊的彈藥實數／工事／損失、雙方的偵獲差集(誰在暗處)、
+延遲中的命令佇列、工事累積、計分。
+
+**只有不下場的人可以用。** 兩位 AI 指揮官在任何情況下都不得執行它——
+他們連 `~/war-game/` 都不該讀。
+
 ## 四條不可違反的規則（`feedback_wargame_referee_leaks`）
 
 1. **不得手寫任何單方內容。** 單方事實只能經 `arbiter.brief_md()` 送達。
