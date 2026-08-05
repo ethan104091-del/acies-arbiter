@@ -1001,6 +1001,20 @@ wS["fog_of_war"]["allies_spotted_cps"] = ["main@29,8"]
 check("★ 已偵獲的敵指揮所不得誤報（否則簡報發不出去）",
       not _dp.check_leak(wS, _gS + "\n已偵獲敵主指揮所 (29, 8)", "allies"),
       "欄位名須為 fog_of_war['<side>_spotted_cps']、格式 'main@x,y'")
+# ★ 前綴碰撞：母編隊代號是其抽離營代號的前綴。偵獲了抽離營不等於洩漏母編隊。
+# Run 7 T2 實戰中,這個誤判擋住了簡報發送（"RED-2" ⊂ "RED-2-rcn"、
+# 母師短代號又出現在抽離營的 name 裡）。誤判與漏判同樣不可接受。
+wP = fresh()
+wP["fog_of_war"]["allies_spotted"] = ["RED-2-rcn"]
+_gP = _dp.build(wP, 0, "allies")
+check("★ 偵獲抽離營不得誤判為洩漏母編隊（前綴碰撞）",
+      not any("RED-2" == x.split()[-1] for x in _dp.check_leak(wP, _gP, "allies")),
+      str(_dp.check_leak(wP, _gP, "allies")))
+check("★ 但母編隊的完整 uid 若真的出現,仍須抓到",
+      any("RED-2" in x for x in _dp.check_leak(wP, _gP + "\n敵 RED-2 在 (23,9)", "allies")))
+check("★ 完全未偵獲者的短代號仍須抓到",
+      bool(_dp.check_leak(wP, _gP + "\n偵得紅裝向西", "allies")))
+
 # 共用段落對稱
 _okS, _whyS = _dp.check_symmetry({sd: _dp.build(wS, 0, sd) for sd in ("allies", "axis")}, 0)
 check("★ 兩軍簡報的共用段落逐位元組相同", _okS, _whyS)

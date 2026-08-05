@@ -29,6 +29,7 @@ Run 6 的八個 tick，有**六次** codex 讀完檔案就用完回合預算、�
     runs/run7_openfield/rulings/to_axis/03_xxx.md    → 只有紅軍拿到
 （檔名前兩位＝該裁示屬於哪個 tick。）
 """
+import re
 import sys
 from pathlib import Path
 
@@ -163,12 +164,29 @@ def check_leak(s, text, side):
     enemy = ar.ENEMY[side]
     spotted = set(s.get("fog_of_war", {}).get(f"{side}_spotted", []))
     bad = []
+    # 必須是**完整代號**,不能是子字串。母編隊的代號是其抽離營代號的前綴
+    # （"RED-2" ⊂ "RED-2-rcn"、"紅2步" ⊂ "紅2步/rcn"）,用 in 比對會把
+    # 「偵獲了偵察營」誤判成「洩漏了母師」。誤判會讓簡報永遠發不出去,
+    # 與漏判同樣不可接受——這是本檔第二次犯同一類錯（第一次是座標比對）。
+    def mentions(token, chinese=False):
+        # uid 是 ASCII,後面接 \w 或 - 代表它只是更長代號的前綴。
+        # short 含中文,不能用 \w（Python 的 \w 會匹配中文,反而漏判真洩漏）。
+        tail = r"(?![-/])" if chinese else r"(?![-\w])"
+        return re.search(re.escape(token) + tail, text) is not None
+
+    # 抽離營的 name 內含母編隊的短代號（RED-2-rcn 的 name 是「紅2步 偵察隊」）。
+    # 所以只要該母編隊有**任何一個抽離營被偵獲**，母編隊的短代號就會合法地
+    # 出現在敵情欄裡，此時它不再是可靠的洩漏訊號 —— 改為只查完整 uid。
+    parent_disclosed = {u.split("-")[0] + "-" + u.split("-")[1]
+                        for u in spotted if u.count("-") >= 2}
+
     for uid, u in s["units"].items():
         if u.get("side") != enemy or uid in spotted:
             continue
-        if uid in text:
+        if mentions(uid):
             bad.append(f"提及未偵獲的敵編隊 {uid}")
-        if u.get("short") and u["short"] in text:
+        if (u.get("short") and uid not in parent_disclosed
+                and mentions(u["short"], chinese=True)):
             bad.append(f"提及未偵獲的敵編隊代號「{u['short']}」")
     # 敵指揮所座標：未被偵獲時不得出現在簡報。
     # 偵獲紀錄的欄位是 fog_of_war["<side>_spotted_cps"]，格式 "main@29,8"。
