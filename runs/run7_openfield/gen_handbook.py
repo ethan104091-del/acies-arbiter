@@ -22,12 +22,15 @@ import command as cmd         # noqa: E402
 import hourstate as hs        # noqa: E402
 
 GAME = Path(__file__).resolve().parents[2]
-# 雙方都由 AI 指揮、人類觀戰（2026-08-04 決定）。
-# 因此不再把紅軍藏進 ~/.acies——**兩軍的交付方式必須對稱**，
-# 同樣的路徑形式、同樣的檔案結構、同樣的工具。工具不對稱本身就是不公平。
+# 藍軍＝人類另開的 AI 指揮官（桌面資料夾）；紅軍＝codex（沿用 Run 6 的 ~/.acies）。
+# 人類此局觀戰，不擔任指揮官。
+#
+# 路徑位置不對稱不構成不公平——**該對稱的是內容與工具**：
+# 同一份手冊、同一種單檔簡報、同一個命令樣板、同樣的可用動作集。
+# 那些由 gen_handbook.py 與 dispatch.py 在產生時逐位元組驗證。
 DEST = {
     "allies": Path.home() / "Desktop" / "料鋒_Run7_藍軍指揮部",
-    "axis": Path.home() / "Desktop" / "料鋒_Run7_紅軍指揮部",
+    "axis": Path.home() / ".acies" / "run7_red_hq",
 }
 SIDE_ZH = {"allies": "藍", "axis": "紅"}
 SIDE_PFX = {"allies": "BLU", "axis": "RED"}
