@@ -43,13 +43,17 @@ python3 runs/run7_openfield/dispatch.py <tick>
 ## 觀戰（人類）
 
 ```bash
-python3 tools/god.py           # 印一次上帝視角
-python3 tools/god.py -w        # 每 2 秒重印,盯解算過程
+python3 tools/map.py           # ★ 擬真地圖檢視器,預設就是上帝視角,每 0.5s 自動重繪
+python3 tools/god.py           # 文字版:彈藥／工事／偵獲差集／命令佇列
+python3 tools/god.py -w        # 每 2 秒重印
 python3 tools/god.py -f runs/run7_openfield/snap_T3start.json   # 看某個快照
 ```
 
-看得到:全圖、雙方每個編隊的彈藥實數／工事／損失、雙方的偵獲差集(誰在暗處)、
-延遲中的命令佇列、工事累積、計分。
+`map.py` 是主要的看盤工具——地形網格、部隊符號、補給層、指揮所標記,
+上帝視角下兩軍都是完整的五欄部隊表。它的 `--state` 預設跟著引擎現行 state 走。
+
+`god.py` 補 `map.py` 沒有的東西:**彈藥實數與見底警示**、**工事 hex 記憶的 man-hours**、
+**雙方偵獲清單的差集**(誰在暗處)、延遲中的命令佇列。兩個搭配著看。
 
 **只有不下場的人可以用。** 兩位 AI 指揮官在任何情況下都不得執行它——
 他們連 `~/war-game/` 都不該讀。

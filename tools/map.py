@@ -26,7 +26,13 @@ import orbat as ob_mod  # 營級編制（取代舊 detachments）
 import command as cmd_mod  # 指揮所/延遲/斬首（PvP）
 
 GAME_DIR = Path.home() / "war-game"
-STATE_PATH = GAME_DIR / "state.json"
+# 預設跟著引擎現行的 state 走。寫死 GAME_DIR/"state.json" 的話，
+# 換劇本（open_field 的 state 在 maps/ 底下）就得每次手打 --state。
+try:
+    import arbiter as _ar
+    STATE_PATH = Path(_ar.STATE)
+except Exception:
+    STATE_PATH = GAME_DIR / "state.json"
 LOG_PATH = GAME_DIR / "combat_log.jsonl"
 
 CTRL_LABEL = {"allies": "我方", "axis": "敵方", "contested": "爭奪中"}
@@ -417,9 +423,19 @@ def main():
                 layout["header"].update(Panel(render_header(state), title="戰況", border_style="cyan"))
                 layout["forces"].update(Panel(
                     render_forces(state, friendly),
-                    title="[blue]我方部隊（兵/組/補/疲/視）[/]", border_style="blue"))
+                    title=("[blue]藍軍部隊（兵/組/補/疲/視）[/]" if view == "god"
+                           else "[blue]我方部隊（兵/組/補/疲/視）[/]"),
+                    border_style="blue"))
                 layout["weather"].update(Panel(render_weather(state), title="[cyan]氣象[/]", border_style="cyan"))
-                layout["intel"].update(Panel(render_intel(state, friendly), title="[red]敵情[/]", border_style="red"))
+                # 觀戰（god）時兩軍要等量呈現：敵情欄改用完整的部隊表，
+                # 否則藍軍有兵/組/補/疲/視五欄、紅軍只有一欄兵數，看起來像在偏袒一方。
+                if view == "god":
+                    layout["intel"].update(Panel(
+                        render_forces(render_state, "axis"),
+                        title="[red]紅軍部隊（兵/組/補/疲/視）[/]", border_style="red"))
+                else:
+                    layout["intel"].update(Panel(render_intel(state, friendly),
+                                                 title="[red]敵情[/]", border_style="red"))
                 layout["log"].update(Panel(render_log(), title="戰報", border_style="yellow"))
             except Exception as e:
                 layout["map"].update(Panel(f"[red]Error: {e}[/]"))
