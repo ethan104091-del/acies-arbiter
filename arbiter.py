@@ -2263,8 +2263,25 @@ def cp_line(s, side):
     pend = c.get("pending_cp", [])
     parts = [f"主指揮所 {tuple(c['main_cp']) if c.get('main_cp') else '未建'}",
              f"前進指揮所 {tuple(c['fwd_cp']) if c.get('fwd_cp') else '未建'}",
-             f"軍長所在 {at or '隨隊（無指揮所）'}",
-             f"命令延遲加成 +{command.delay_tier_adjust(s, side, (0,0)) if not c.get('fwd_cp') else '見說明'}"]
+             f"軍長所在 {at or '隨隊（無指揮所）'}"]
+    # 「+見說明」不是資訊。指揮官必須看得到前進指揮所的驗算結果與實際階梯，
+    # 否則他可能付了斬首風險卻不知道自己已經拿不到 0 級延遲（裁示 42：
+    # 前進指揮所須位於本方整編編隊 x 中位數之前，而自己的部隊推進會讓它失格）。
+    if c.get("fwd_cp"):
+        fwd_ok = command.fwd_cp_is_forward(s, side)
+        xs = sorted(u["pos"][0] for u in s.get("units", {}).values()
+                    if u.get("side") == side and not u.get("is_detachment"))
+        med = xs[len(xs) // 2] if xs else "—"
+        parts.append(
+            f"前進指揮所「真的在前」驗算 {'✅ 通過' if fwd_ok else '❌ **未通過**'}"
+            f"（本方整編編隊 x 中位數 = {med}；"
+            f"{'藍軍須 x ≥ 中位數' if side == 'allies' else '紅軍須 x ≤ 中位數'}）")
+        base = f"其 {command.FWD_RANGE} 格內編隊 0 級、其餘 +1 級" if (fwd_ok and at == "fwd") \
+            else ("全軍 +1 級（軍長不在前進指揮所）" if fwd_ok
+                  else "全軍 +1 級（驗算未通過，前進指揮所不生延遲效益）")
+        parts.append(f"命令延遲加成 {base}")
+    else:
+        parts.append(f"命令延遲加成 +{command.delay_tier_adjust(s, side, (0, 0))} 級")
     if pend:
         parts.append("架設中: " + ", ".join(f"{p['kind']}@{tuple(p['pos'])}(gh{p['effective_gh']}生效)" for p in pend))
     return "｜".join(parts)
