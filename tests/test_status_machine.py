@@ -900,6 +900,16 @@ check("★ 校準錨點：師・無工事・靜止 → 每 100–300 發 1 人�
 check("★ 缺陷 1：砲擊已幾乎殺不掉靜止的戰車（史實：ORS 調查）",
       tkQ == 0, f"戰車 -{tkQ}")
 # 壓制
+def INJ(brief, line):
+    """把注入的洩漏文字放進**敵情欄**（描述當前狀態的段落）。
+
+    洩漏檢查刻意排除「## 七、上一 tick 你方的紀錄」那一節（見 dispatch.check_leak
+    的說明：歷史日誌已由 push_log 在當時過濾過）。所以測試不能用「附加到簡報末尾」
+    的方式注入——那會落在被排除的區段裡，使檢查看似失效。
+    """
+    return brief.replace("## 四、敵情", "## 四、敵情\n" + line, 1)
+
+
 wS = fresh(); wS["global_hour"] = 10
 for _u in wS["units"].values(): _u["flags"] = {}
 uS = wS["units"]["RED-2"]
@@ -987,19 +997,20 @@ _unspot = [u for u in wS["units"]
 if _unspot:
     _t = _unspot[0]
     check("★ 洩漏檢查抓到未偵獲的敵編隊代號",
-          any("未偵獲的敵編隊" in x for x in _dp.check_leak(wS, _gS + f"\n{_t} 在附近", "allies")),
+          any("未偵獲的敵編隊" in x
+              for x in _dp.check_leak(wS, INJ(_gS, f"{_t} 在附近"), "allies")),
           f"注入 {_t}")
     check("★ 洩漏檢查抓到未偵獲的敵編隊短代號",
-          bool(_dp.check_leak(wS, _gS + f"\n偵得「{wS['units'][_t]['short']}」", "allies")))
+          bool(_dp.check_leak(wS, INJ(_gS, f"偵得「{wS['units'][_t]['short']}」"), "allies")))
 wS["command"]["axis"]["main_cp"] = [29, 8]
 wS["fog_of_war"]["allies_spotted_cps"] = []
 check("★ 洩漏檢查抓到未偵獲的敵指揮所座標",
       any("指揮所" in x or "main" in x
-          for x in _dp.check_leak(wS, _gS + "\n敵主指揮所在 (29, 8)", "allies")))
+          for x in _dp.check_leak(wS, INJ(_gS, "敵主指揮所在 (29, 8)"), "allies")))
 # 反向：已偵獲就不得誤報，否則簡報永遠發不出去
 wS["fog_of_war"]["allies_spotted_cps"] = ["main@29,8"]
 check("★ 已偵獲的敵指揮所不得誤報（否則簡報發不出去）",
-      not _dp.check_leak(wS, _gS + "\n已偵獲敵主指揮所 (29, 8)", "allies"),
+      not _dp.check_leak(wS, INJ(_gS, "已偵獲敵主指揮所 (29, 8)"), "allies"),
       "欄位名須為 fog_of_war['<side>_spotted_cps']、格式 'main@x,y'")
 # ★ 前綴碰撞：母編隊代號是其抽離營代號的前綴。偵獲了抽離營不等於洩漏母編隊。
 # Run 7 T2 實戰中,這個誤判擋住了簡報發送（"RED-2" ⊂ "RED-2-rcn"、
@@ -1011,9 +1022,24 @@ check("★ 偵獲抽離營不得誤判為洩漏母編隊（前綴碰撞）",
       not any("RED-2" == x.split()[-1] for x in _dp.check_leak(wP, _gP, "allies")),
       str(_dp.check_leak(wP, _gP, "allies")))
 check("★ 但母編隊的完整 uid 若真的出現,仍須抓到",
-      any("RED-2" in x for x in _dp.check_leak(wP, _gP + "\n敵 RED-2 在 (23,9)", "allies")))
+      any("RED-2" in x for x in _dp.check_leak(wP, INJ(_gP, "敵 RED-2 在 (23,9)"), "allies")))
 check("★ 完全未偵獲者的短代號仍須抓到",
-      bool(_dp.check_leak(wP, _gP + "\n偵得紅裝向西", "allies")))
+      bool(_dp.check_leak(wP, INJ(_gP, "偵得紅裝向西"), "allies")))
+
+# ★ 歷史日誌不得被當成洩漏。push_log 在事件發生的當時就已依當時的偵獲狀態
+# 過濾過；用「現在」的偵獲清單複查「歷史」日誌是錯的。一個編隊可以在被砲擊時
+# 被偵獲、在 tick 末脫離接觸——它出現在日誌裡是該方自己打過的仗。
+# Run 7 T7 實際被這個誤判擋住過。
+wH = fresh()
+wH["fog_of_war"]["allies_spotted"] = []          # 現在什麼都看不到
+wH.setdefault("hour_log_side", {"allies": [], "axis": []})
+wH["hour_log_side"]["allies"] = ["[gh10] 砲群 → RED-1：傷亡 30 人（紅1步）"]
+_gH = _dp.build(wH, 0, "allies")
+check("★ 歷史日誌提及已脫離接觸的敵編隊，不算洩漏",
+      not _dp.check_leak(wH, _gH, "allies"), str(_dp.check_leak(wH, _gH, "allies")))
+check("★ 但敵情欄（描述當前狀態）提及未偵獲者仍須抓到",
+      bool(_dp.check_leak(wH, _gH.replace("## 四、敵情", "## 四、敵情\n- 敵 RED-1 在 (20,12)", 1),
+                          "allies")))
 
 # 共用段落對稱
 _okS, _whyS = _dp.check_symmetry({sd: _dp.build(wS, 0, sd) for sd in ("allies", "axis")}, 0)

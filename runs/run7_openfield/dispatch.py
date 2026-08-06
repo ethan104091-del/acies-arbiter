@@ -186,6 +186,16 @@ def check_leak(s, text, side):
     enemy = ar.ENEMY[side]
     spotted = set(s.get("fog_of_war", {}).get(f"{side}_spotted", []))
     bad = []
+    # ★ 檢查範圍必須排除「上一 tick 你方的紀錄」那一節。
+    #
+    # 那一節是 `arbiter.push_log` 產生的，而 push_log 在**事件發生的當時**就已依
+    # 當時的偵獲狀態過濾過（敵方事件只在該單位當時被偵獲時才寫入該方日誌）。
+    # 用**現在**的偵獲清單去複查**歷史**日誌是錯的：一個編隊可以在被砲擊時被偵獲、
+    # 在該 tick 結束時脫離接觸——它出現在日誌裡是該方自己打過的仗，不是洩漏。
+    # Run 7 T7 實際被這個誤判擋住過（藍軍整個 T6 在砲擊 RED-2-rcn，該營於 tick 末東撤）。
+    # 洩漏檢查應只針對描述**當前狀態**的段落（態勢圖、我方部隊、敵情、落彈分析、計分）。
+    head, sep, _hist = text.partition("## 七、上一 tick")
+    text = head if sep else text
     # 必須是**完整代號**,不能是子字串。母編隊的代號是其抽離營代號的前綴
     # （"RED-2" ⊂ "RED-2-rcn"、"紅2步" ⊂ "紅2步/rcn"）,用 in 比對會把
     # 「偵獲了偵察營」誤判成「洩漏了母師」。誤判會讓簡報永遠發不出去,
