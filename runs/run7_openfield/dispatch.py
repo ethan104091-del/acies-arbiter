@@ -102,26 +102,48 @@ Run 6 有四項規則就是指揮官提問長出來的。
 """
 
 
-def rulings_for(tick, side):
-    """本 tick 的裁示。回傳 (共用段, 單方段)。"""
-    def collect(d):
+def rulings_for(tick, side, cumulative=True):
+    """裁示。回傳 (共用段, 單方段)。
+
+    ★ 2026-08-06 修正：**裁示必須累積送達,不能只發當前 tick 的。**
+
+    初版用 `glob(f"{tick:02d}_*.md")` 只取當前 tick。後果在 Run 7 T2 顯現：
+    一方的 T1 命令交在裁示 50–57 公告之前，裁判給了補讀機會、該方選擇不改，
+    於是那八條**再也不會出現在它的任何一份簡報裡**——包括裁示 55（疲勞會壓
+    組織度上限與戰鬥效力）。它的 T2 意圖寫著要「疲勞恢復」，卻讓主力整夜行軍。
+
+    **裁示是規則,不是新聞。** 規則不會因為某一 tick 沒讀就失效，
+    也不該因為沒讀就永遠錯過。累積送達是唯一能保證雙方站在同一套規則上的做法。
+
+    `cumulative=False` 只供「本回新增」的標示用。
+    """
+    def collect(d, pat):
         if not d.is_dir():
             return []
-        return [(f.name, f.read_text()) for f in sorted(d.glob(f"{tick:02d}_*.md"))]
+        return [(f.name, f.read_text()) for f in sorted(d.glob(pat))]
 
-    shared = collect(RULINGS / "shared")
-    only = collect(RULINGS / f"to_{side}")
+    pat = "*.md" if cumulative else f"{tick:02d}_*.md"
+    keep = (lambda n: int(n[:2]) <= tick) if cumulative else (lambda n: True)
+    shared = [(n, t) for n, t in collect(RULINGS / "shared", pat) if keep(n)]
+    only = [(n, t) for n, t in collect(RULINGS / f"to_{side}", pat) if keep(n)]
     return shared, only
 
 
 def build(s, tick, side):
     shared, only = rulings_for(tick, side)
+    new_names = {n for n, _ in rulings_for(tick, side, cumulative=False)[0]}
     parts = [HEAD.format(ZH=ZH[side], n=tick), ar.brief_md(s, side)]
     if shared:
-        parts.append("\n---\n\n# 本回裁示（雙方拿到完全相同的內容）\n")
+        fresh = sorted(new_names)
+        parts.append(
+            "\n---\n\n# 裁示全集（雙方拿到完全相同的內容）\n\n"
+            "**以下是本局至今公告的全部裁示,累積列出。** 裁示是規則,不是新聞——\n"
+            "即使你在某個 tick 沒有讀到,它仍然適用,所以每回都完整附上。\n"
+            + (f"\n**本回新增:** {'、'.join(fresh)}\n" if fresh else
+               "\n**本回無新增裁示。**\n"))
         parts += [t for _n, t in shared]
     if only:
-        parts.append(f"\n---\n\n# 本回裁示（只給{ZH[side]}軍 — 裁示 7：對你自身命令的解讀只回你）\n")
+        parts.append(f"\n---\n\n# 只給{ZH[side]}軍的裁示（裁示 7：對你自身命令的解讀只回你）\n")
         parts += [t for _n, t in only]
     parts.append(TAIL.format(n=tick, PFX=PFX[side]))
     return "\n".join(parts)
