@@ -277,3 +277,53 @@ def try_camouflage(s, uid):
         return None
     return (f"{uid} 偽裝作業 → {r[0]:.2f}/{ar.CAMO_HOURS} 工時"
             + ("　★完成，靜止時能見狀態好一級" if r[1] else ""))
+
+
+# ── 近戰的強制後退 ──────────────────────────────────────────────
+def forced_push(s, uid, hexes, ev=None):
+    """`FR_TABLE` 的「守方後退 N 格」——**強制位移，不是行軍**。
+
+    ★ Run 7 T8 揭露的錯誤：初版以 `ar.advance()` 執行逼退，於是位移受**移動速率**
+      限制。一個 org 歸零、疲勞爆表的編隊每小時只挪得動 0.05–0.8 格，
+      於是「被逼退 3 格」實際等於**留在原格繼續挨打**——RED-SF 因此連續六小時
+      被同一群部隊近戰，累計 2,122 人。
+
+      `law/law_of_war.md` 早已把這件事列為 Run 4 的**缺陷 9**：
+      「一個編隊 org 掉到 0 也只會站在原地繼續挨打，既不潰散、**不強制後退**。」
+      狀態機後來補了 ROUTED／SURRENDERED，但強制後退這一半沒補。
+
+    正確語意：部隊被逐出陣地，不是自己選擇行軍。故**不受移動速率、疲勞、POL 限制**，
+    只受地形可通行性與地圖邊界限制。方向為該方補給源（allies 向西、axis 向東）。
+
+    逼退後工事防護歸零（人離開了洞），`abandon_works` 一併處理。
+    回傳實際後退格數。
+    """
+    u = s["units"].get(uid)
+    if not u or hexes <= 0:
+        return 0
+    W, H = s["map"]["width"], s["map"]["height"]
+    step = -1 if u["side"] == "allies" else 1
+    x, y = int(u["pos"][0]), int(u["pos"][1])
+    moved = 0
+    for _ in range(int(hexes)):
+        nx = x + step
+        if not (0 <= nx < W):
+            break
+        if not ar._passable(u, ar.terr(s, (nx, y))):
+            # 正面不可通行 → 試斜後方（仍朝本方補給源）
+            alt = [(nx, y + dy) for dy in (-1, 1)
+                   if 0 <= y + dy < H and ar._passable(u, ar.terr(s, (nx, y + dy)))]
+            if not alt:
+                break
+            nx, y = alt[0]
+        x = nx
+        moved += 1
+    if moved:
+        u["pos"] = [x, y]
+        u["flags"]["moved"] = True          # 被逐離陣地：該小時不得構工／射擊
+        ar.abandon_works(u)
+        u["last_action"] = f"遭近戰逼退 {moved} 格"
+        if ev is not None:
+            ev.append((uid, f"{uid} 遭強制後退 {moved} 格 → {tuple(u['pos'])}"
+                            f"（逼退為強制位移，不受移動速率限制；工事防護歸零）"))
+    return moved

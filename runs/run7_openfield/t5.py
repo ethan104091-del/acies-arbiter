@@ -152,14 +152,10 @@ def do_assault(s, gh, ev):
             ev.append((d, f"★遭 {'／'.join(atks)} 近戰突擊於 {tuple(hexpos)}：{detail}"))
         # 逼退：守方向本方補給源（紅軍＝東緣）後退 push 格
         if push > 0:
-            W = s["map"]["width"]
+            # 裁示：逼退是**強制位移**，不受移動速率限制（見 _tickkit.forced_push）
             for d in defs:
-                u = s["units"].get(d)
-                if not u or ar.status_of(u) not in ar.COMBAT_STATUSES:
-                    continue
-                tx = min(W - 1, int(u["pos"][0]) + push)
-                _, m = ar.advance(s, d, [tx, int(u["pos"][1])])
-                ev.append((d, f"{d} 被逼退 {push} 格：{m}"))
+                if ar.status_of(s["units"].get(d, {})) in ar.COMBAT_STATUSES:
+                    tk.forced_push(s, d, push, ev)
         # 守軍已不在該格 → 攻方進駐
         still = [d for d in defs if list(s["units"][d]["pos"]) == list(hexpos)
                  and ar.status_of(s["units"][d]) in ar.COMBAT_STATUSES]

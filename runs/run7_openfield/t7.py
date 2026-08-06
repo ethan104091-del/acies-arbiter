@@ -196,11 +196,8 @@ def red_assault(s, gh, ev):
         ev.append((d, f"★遭 RED-SF 近戰突擊於 {tuple(hexpos)}：{detail}"))
     if push > 0:
         for d in defs:
-            x = s["units"][d]
-            if ar.status_of(x) not in ar.COMBAT_STATUSES:
-                continue
-            _, m = ar.advance(s, d, [max(0, int(x["pos"][0]) - push), int(x["pos"][1])])
-            ev.append((d, f"{d} 被逼退 {push} 格：{m}"))
+            if ar.status_of(s["units"][d]) in ar.COMBAT_STATUSES:
+                tk.forced_push(s, d, push, ev)
     still = [d for d in defs if list(s["units"][d]["pos"]) == list(hexpos)
              and ar.status_of(s["units"][d]) in ar.COMBAT_STATUSES]
     if not still:
