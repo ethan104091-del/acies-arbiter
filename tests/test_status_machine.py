@@ -12,6 +12,7 @@
 import copy
 import json
 import pathlib
+import re
 import sys
 from pathlib import Path
 
@@ -651,7 +652,40 @@ inspec("AMMO_LOAD 四項基數", *[f"{v:,}" for v in ar.AMMO_LOAD.values()])
 inspec("AMMO_RESUPPLY", "40%")
 inspec("BLIND_FIRE_PENALTY", str(ar.BLIND_FIRE_PENALTY))
 inspec("SATURATION", f"{ar.SATURATION:.0%}".replace("%", "%"))
-inspec("COMBINED 協同倍率", "1.3", "1.5")
+# ★ 2026-08-07：COMBINED 原本只用 inspec("1.3","1.5") 逐字比對，
+# 於是規格書寫「3 以上 → 1.5」時測試照樣通過——而引擎的第四級住在
+# unit_cp 的 COMBINED.get(n, 1.7) 預設值裡，不在 dict 內。Run 7 因此以
+# 1.7 解算了 12 次而手冊寫 1.5（precedents §二十六）。
+# 改為**解析 §XI 的表格**再與引擎逐級比對。逐字比對（某處出現過 "1.7"）不算檢查——
+# 那正是本測試上一版的失效方式。
+def _parse_combined_table(spec):
+    """自 §XI 解析「兵種數 → 倍率」表，回傳 {級數: 倍率, '以上': 起始級數}。"""
+    # 注意：不能用 split("## §XI")——它會先命中「## §XIII」（前綴相同，且在檔中更早）。
+    m = re.search(r"^## §XI(?!I)\b.*?(?=^## |\Z)", spec, re.M | re.S)
+    sec = m.group(0) if m else ""
+    out, floor = {}, None
+    for ln in sec.splitlines():
+        cells = [c.strip().strip("*").strip() for c in ln.strip().strip("|").split("|")]
+        if len(cells) < 2:
+            continue
+        m_lv = re.match(r"^(\d+)\s*(以上)?$", cells[0])
+        m_mul = re.match(r"^([\d.]+)$", cells[1])
+        if not (m_lv and m_mul):
+            continue
+        lv, mul = int(m_lv.group(1)), float(m_mul.group(1))
+        out[lv] = mul
+        if m_lv.group(2):
+            floor = lv
+    return out, floor
+
+_ct, _cfloor = _parse_combined_table(_spec)
+check("§XI 的協同表可被解析（不是散文）", len(_ct) >= 3 and _cfloor is not None,
+      f"解析得 {_ct}、封頂自 {_cfloor} 種起")
+for _n in range(1, 7):
+    _eng = ar.COMBINED.get(_n, 1.7)
+    _doc = _ct.get(_n) if _n in _ct else (_ct.get(_cfloor) if _cfloor and _n >= _cfloor else None)
+    check(f"§XI 表載明的協同 {_n} 種倍率 == 引擎 {_eng}", _doc == _eng,
+          f"規格書 {_doc} vs 引擎 {_eng}")
 for _m, _v in ar.FIRE_MISSION.items():
     inspec(f"火力任務 {_m}", _m, str(_v[0]), str(_v[1]), str(_v[2]))
 check("★ 規格書明載開放條款（不得以「規則沒寫」拒絕動作）",
