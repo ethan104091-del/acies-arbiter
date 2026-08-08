@@ -1392,8 +1392,11 @@ PURSUIT_MULT   = 3.0    # combat_v1：撤退途中可被追擊，×3 傷亡
 ROUT_RECOVER_H = 6      # combat_v1：6 hour 後補給恢復 + 整補 → Org 回到 30
 ROUT_DISBAND_H = 12     # combat_v1：12 hour 未恢復 → 解散（殘部成為散兵）
 SURR_ORG       = 15     # combat_v1：Org < 15
-SURR_RAT       = 5.0    # combat_v1：食物 < 5%（且戰役 > 7 天，48 hour 劇本永不成立）
-SURR_NOSUP_H   = 48     # combat_v1：連續 48 hour 無補給
+SURR_RAT       = 5.0    # combat_v1：食物 < 5%（且戰役 > 7 天 → 54 小時劇本永不成立）
+SURR_NOSUP_H   = 48     # combat_v1：連續 48 hour 無補給。劇本為 54 小時（T0–T8 共 9 個
+                        # tick，見 scenario_open_field.md §0），故自 gh0–gh5 起斷補即可
+                        # 於 gh48 起成立——恰好落在最後一個 tick。2026-08-08 更正：
+                        # 此前文件誤載劇本為 48 小時，該條被當成不可達。
 POW_GUARD_RATIO = 0.05  # [判例] 看管兵力＝俘虜數 5%（1 名押解兵對 20 名俘虜，近史實押解比）
 
 STATUS_ACTIVE, STATUS_ROUTED = "ACTIVE", "ROUTED"
