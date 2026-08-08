@@ -449,11 +449,33 @@ def _passable(u, t):
     return RATE.get(u["type"], RATE["infantry"]).get(t, 0.0) > 0
 
 
-def plan_path(s, uid, target):
+def enemy_held(s, pos, side):
+    """該格是否有敵方**具戰鬥資格**的編隊（裁示 47 的判準）。
+
+    已投降／已解散者不算——它們不再是守軍，故不阻擋移動。
+    """
+    e = ENEMY[side]
+    p = list(pos)
+    return any(u.get("side") == e and list(u["pos"]) == p
+               and status_of(u) in COMBAT_STATUSES for u in s["units"].values())
+
+
+def enemy_held_hexes(s, side):
+    """該方視角下所有被敵方戰鬥編隊佔據的格（供 plan_path 迴避）。"""
+    e = ENEMY[side]
+    return frozenset((int(u["pos"][0]), int(u["pos"][1]))
+                     for u in s["units"].values()
+                     if u.get("side") == e and status_of(u) in COMBAT_STATUSES)
+
+
+def plan_path(s, uid, target, avoid=frozenset()):
     """Dijkstra 最短路徑（成本 = 1/該兵種在該地形的速度；不可通行 = 不可走）。
 
     目標不可達（例如戰車的目標在森林）→ 自動改走「離目標最近的可達格」。
     回傳 [下一步, ..., 終點]；已在終點回傳 []。裁判不再逐案手動繞路。
+
+    `avoid`：不得踏入的格集合。用於裁示 47（敵佔格只能經近戰突擊進入）——
+    由 `advance()` 傳入 `enemy_held_hexes()`。**繞路只擋「踏進去」，不擋接近。**
     """
     import heapq
     u = s["units"][uid]
@@ -487,7 +509,7 @@ def plan_path(s, uid, target):
                 if not (0 <= nx < W and 0 <= ny < H):
                     continue
                 t = terr(s, (nx, ny))
-                if not _passable(u, t):
+                if not _passable(u, t) or (nx, ny) in avoid:
                     continue
                 step_cost = 1.0 / RATE.get(u["type"], RATE["infantry"])[t]
                 # 同成本路徑的決勝：偏離「出發→目標」直線越遠，加越多微小懲罰。
@@ -499,16 +521,71 @@ def plan_path(s, uid, target):
     return []
 
 
-def advance(s, uid, target, note=""):
-    """把單位朝 target 推進 1 hour。回傳 (是否移動, 訊息)。避開不可通行地形。"""
+def approach(s, uid, target):
+    """裁示 47 的目標改寫：目標格由敵方戰鬥編隊佔據時，本小時實際該走去哪。
+
+    - 目標格無敵軍 → 原樣回傳。
+    - 目標格有敵軍，而本編隊**已在其相鄰格** → 回傳 None（就地待機；
+      進入該格只能經由近戰突擊 `battle`）。
+    - 目標格有敵軍，本編隊還在遠處 → 改以**離目標最近、且離本編隊最近**的
+      可通行非敵佔相鄰格為行軍目標。
+
+    ★ 只擋「最後一步進入」，不擋整段接近（`precedents.md` §二十四 錯誤二的教訓：
+      第二版寫成「目標格有敵軍就完全不動」，使三個師從兩格外就停住）。
+    """
+    u = s["units"][uid]
+    if not enemy_held(s, target, u["side"]):
+        return list(target)
+    if dist(u["pos"], target) <= 1:
+        return None
+    W, H = s["map"]["width"], s["map"]["height"]
+    blocked = enemy_held_hexes(s, u["side"])
+    here = (int(u["pos"][0]), int(u["pos"][1]))
+    cands = []
+    for dx in (-1, 0, 1):
+        for dy in (-1, 0, 1):
+            if dx == dy == 0:
+                continue
+            p = (int(target[0]) + dx, int(target[1]) + dy)
+            if not (0 <= p[0] < W and 0 <= p[1] < H):
+                continue
+            if p in blocked or not _passable(u, terr(s, p)):
+                continue
+            # 平手決勝：離本編隊最近 → 盡量不換列 → 盡量不換行 → 座標。
+            # 全部確定性、雙方同一套；目的是取「繞路最少」的相鄰格。
+            cands.append((dist(here, p), abs(p[1] - here[1]), abs(p[0] - here[0]), p))
+    if not cands:
+        return None
+    cands.sort()
+    return list(cands[0][-1])
+
+
+def advance(s, uid, target, note="", _via_approach=False):
+    """把單位朝 target 推進 1 hour。回傳 (是否移動, 訊息)。避開不可通行地形。
+
+    ★ 裁示 47（自 2026-08-08 起在引擎內強制）：**不得以移動進入敵方戰鬥編隊所在的格。**
+      移入敵佔格是近戰突擊，須改呼叫 `battle()`。本函式自行套用 `approach()`
+      改寫目標，故解算腳本不必記得——`precedents.md` §二十四 的教訓正是
+      「規則必須寫成對兩方都成立的護欄，不是對某一方的清單」，
+      而清單形式會在另一方觸發同一情境時靜默失效。
+    """
     if not under_command(s, uid):            # 自行投降／解散 → 不接受命令
         return False, f"{uid} 不接受命令（{status_of(s['units'][uid])}）"
     u = s["units"][uid]
+    if not _via_approach:
+        adj = approach(s, uid, target)
+        if adj is None:
+            return False, (f"{uid} 目標格 {tuple(target)} 由敵方戰鬥編隊佔據，"
+                           f"本編隊已在相鄰格 → 就地待機（進入須經近戰突擊 battle）")
+        if list(adj) != list(target):
+            note = note or f"機動朝 {tuple(target)}"
+            note += f"（目標格有敵軍，改趨相鄰格 {tuple(adj)}）"
+            target = adj
     if list(u["pos"]) == list(target):
         return False, f"{uid} 已在 {tuple(target)}"
-    path = plan_path(s, uid, target)
+    path = plan_path(s, uid, target, avoid=enemy_held_hexes(s, u["side"]))
     if not path:
-        return False, f"{uid} 無可行路徑至 {tuple(target)}（地形阻擋）"
+        return False, f"{uid} 無可行路徑至 {tuple(target)}（地形或敵軍阻擋）"
     nxt = list(path[0])
     t = terr(s, nxt)
     r = move_rate(s, u, t)
@@ -516,13 +593,16 @@ def advance(s, uid, target, note=""):
         return False, f"{uid} 無法機動（油料/疲勞）"
     if not u["flags"].get("moved"):       # 缺陷 20：移動速率每小時只累加一次
         u["move_progress"] = u.get("move_progress", 0.0) + r
+    _blocked = enemy_held_hexes(s, u["side"])
     moved = False
     while u["move_progress"] >= 1.0 and list(u["pos"]) != list(target):
+        if (int(nxt[0]), int(nxt[1])) in _blocked:   # 裁示 47：最後一步不得踏進敵佔格
+            break
         u["pos"] = nxt
         u["move_progress"] -= 1.0
         moved = True
         if list(u["pos"]) != list(target):
-            path = plan_path(s, uid, target)
+            path = plan_path(s, uid, target, avoid=_blocked)
             if not path:
                 break
             nxt = list(path[0])
@@ -804,7 +884,7 @@ def dig(s, uid, hours=1.0):
         return None
     rate = DIG_RATE.get(u["type"], 1.0)
     # Run 7：累加 man-hours 至**格子**。人數 × 時數 × 兵種速率。
-    add_works(s, u["pos"], u.get("personnel", 0) * hours * rate, u.get("side"))
+    add_works(s, u["pos"], u.get("personnel", 0) * hours * rate, u.get("side"), by_uid=uid)
     pc = hex_works(s, u["pos"]) / max(1, u.get("personnel", 1))
     u["dig_hours"] = round(pc, 3)
     u["fortification"] = fort_from_hours(pc)
@@ -848,11 +928,23 @@ def hex_works(s, pos):
     return s.setdefault("works", {}).get(works_key(pos), {}).get("man_hours", 0.0)
 
 
-def add_works(s, pos, man_hours, side=None):
+def add_works(s, pos, man_hours, side=None, by_uid=None):
+    """累加該格的 man_hours。
+
+    `by_uid`：**誰加的**。正值時記入 `s["works_ledger"]`，供 `_audit` 的 A3 對帳——
+    手冊明定構築工事須明確下令（裁示 33／判例 §五 F1），而 Run 7 T1 裁判把
+    「抵達即構工」寫成 `set(DEST)` 批次套用，讓一方白拿 13,988 man-hours
+    （判例 §二十一）。有了這本帳，「未經下令的構工」就變成稽核抓得到的事，
+    而不是靠裁判的注意力。
+    """
     w = s.setdefault("works", {}).setdefault(works_key(pos), {"man_hours": 0.0, "by": side})
     w["man_hours"] = max(0.0, w["man_hours"] + man_hours)
     if side and man_hours > 0:
         w["by"] = side
+    if by_uid and man_hours > 0:
+        s.setdefault("works_ledger", []).append(
+            {"gh": s.get("global_hour"), "uid": by_uid,
+             "hex": works_key(pos), "man_hours": round(man_hours, 2)})
     return w["man_hours"]
 
 
@@ -1160,11 +1252,101 @@ ARM_OF_TYPE = {"infantry": {"步兵", "戰車", "砲兵"}, "armor": {"戰車", "
                "ranger": {"特戰", "迫砲"}, "recon": {"偵察"}, "engineer": {"工兵"},
                "mech_inf": {"裝步"}, "artillery": {"砲兵"}, "aa": {"防空"}}
 COMBINED = {1: 1.0, 2: 1.3, 3: 1.5}          # 4 種以上 → 1.7（本劇本上限）
-FR_TABLE = [   # (上限, 攻方str%, 攻方org, 守方str%, 守方org, 守方後退格)
+FR_TABLE = [   # (上限, 攻方str%, 攻方org, 守方str%, 守方org, 逼退格數)
+    # 逼退格數：**正數＝守方後退，負數＝攻方被逐回**（`combat_v1` §III 的「攻方退（被迫）」）。
+    # ★ 最後兩列的 2／3 格為 [判例]：`combat_v1` §III 的地形變化欄只寫「潰散風險」「必潰散」，
+    #   未給格數。取 2／3 以延續 2.0–3.0 那一列的 2 格並在 >5.0 時遞增。
+    #   `docs/TODO.md` R8-G2 已列為「須寫進規則書」。
     (0.5, 4.0, 12, 0.5, 2, -1), (1.0, 3.0, 10, 1.0, 4, 0), (1.5, 2.0, 7, 2.0, 7, 0),
     (2.0, 1.5, 5, 3.5, 12, 1), (3.0, 1.0, 3, 6.0, 20, 2), (5.0, 0.5, 2, 10.0, 30, 2),
     (9e9, 0.5, 1, 15.0, 40, 3),
 ]
+
+
+class BattleResult:
+    """`battle()` 的回傳值。
+
+    ★ 刻意**不支援與數字比較**。舊契約是 `detail, push = battle(...)` 再
+      `if push > 0: forced_push(...)`，而四局以來所有解算腳本都漏了 `push < 0`
+      的攻方逼退（`docs/TODO.md` R8-G1）。現在逼退由 `battle()` 自己執行，
+      任何寫成 `if push > 0` 的舊程式會在此 raise TypeError 而不是靜默失效。
+    """
+
+    __slots__ = ("push", "displaced", "side_pushed")
+
+    def __init__(self, push, displaced, side_pushed):
+        self.push = push                  # 對照表的格數（正＝守方退、負＝攻方退）
+        self.displaced = displaced        # {uid: 實際位移格數}
+        self.side_pushed = side_pushed    # "defender" / "attacker" / None
+
+    def __repr__(self):
+        return (f"BattleResult(push={self.push}, side={self.side_pushed}, "
+                f"displaced={self.displaced})")
+
+    def _no(self, *_):
+        raise TypeError(
+            "BattleResult 不可與數字比較。逼退已由 battle() 自行執行——"
+            "舊寫法 `if push > 0: forced_push(...)` 會重複位移，請改讀 .displaced。")
+
+    __gt__ = __lt__ = __ge__ = __le__ = __int__ = _no
+
+
+def forced_push(s, uid, hexes, ev=None):
+    """`FR_TABLE` 的逼退——**強制位移，不是行軍**。回傳實際位移格數。
+
+    ★ Run 7 T8 揭露的錯誤（`law/precedents.md` §二十五）：初版以 `advance()` 執行逼退，
+      於是位移受**移動速率**限制。一個 org 歸零、疲勞爆表的編隊每小時只挪得動
+      0.05–0.8 格，於是「被逼退 3 格」實際等於**留在原格繼續挨打**——
+      RED-SF 因此連續六小時被同一群部隊近戰，累計 2,122 人（修正後 585）。
+      終局計分由「2800:1400」更正為「1714:1116」。
+
+      `law/law_of_war.md` 檢討 Run 4 時已把這件事列為**缺陷 9**：
+      「一個編隊 org 掉到 0 也只會站在原地繼續挨打，既不潰散、**不強制後退**。」
+      狀態機後來補了 ROUTED／SURRENDERED，強制後退這一半沒補——
+      它從引擎移到了裁判手上，而裁判用錯了函式。**2026-08-08 搬回引擎。**
+
+    語意：部隊被逐出陣地，不是自己選擇行軍。故**不受移動速率、疲勞、POL 限制**，
+    只受地形可通行性、地圖邊界、以及**不得退進敵佔格**的限制。
+    方向為該編隊自己的補給源（allies 向西、axis 向東）；正面不通則取斜後方。
+    位移後 `flags["moved"]` 為真、工事防護歸零（人離開了洞）。
+    """
+    u = s["units"].get(uid)
+    if not u or hexes <= 0:
+        return 0
+    W, H = s["map"]["width"], s["map"]["height"]
+    step = -1 if u["side"] == "allies" else 1
+    blocked = enemy_held_hexes(s, u["side"])
+    x, y = int(u["pos"][0]), int(u["pos"][1])
+    moved = 0
+    for _ in range(int(hexes)):
+        nx = x + step
+        if not (0 <= nx < W):
+            break
+        ok = (_passable(u, terr(s, (nx, y))) and (nx, y) not in blocked)
+        if not ok:
+            alt = [(nx, y + dy) for dy in (-1, 1)
+                   if 0 <= y + dy < H and _passable(u, terr(s, (nx, y + dy)))
+                   and (nx, y + dy) not in blocked]
+            if not alt:
+                break
+            nx, y = alt[0]
+        x = nx
+        moved += 1
+    if moved:
+        u["pos"] = [x, y]
+        u["flags"]["moved"] = True          # 被逐離陣地：該小時不得構工／射擊
+        abandon_works(u)
+        u["last_action"] = f"遭近戰逼退 {moved} 格"
+        s.setdefault("push_ledger", []).append(
+            {"gh": s.get("global_hour"), "uid": uid, "ordered": int(hexes), "moved": moved})
+        if ev is not None:
+            ev.append((uid, f"{uid} 遭強制後退 {moved} 格 → {tuple(u['pos'])}"
+                            f"（逼退為強制位移，不受移動速率限制；工事防護歸零）"))
+    else:
+        s.setdefault("push_ledger", []).append(
+            {"gh": s.get("global_hour"), "uid": uid, "ordered": int(hexes), "moved": 0,
+             "note": "無可退之格（邊界／地形／敵佔）"})
+    return moved
 
 
 def base_power(u):
@@ -1317,7 +1499,13 @@ def unit_cp(s, uid, pos, is_attacker, spotted_by_enemy=True, sees_enemy=True,
 
 
 def battle(s, atk_uids, def_uids, hexpos, atk_from_march=None, def_passive=True):
-    """一個 hour 的地面戰。回傳 (明細字串, 守方應後退格數)。就地套用損失。
+    """一個 hour 的地面戰。回傳 (明細字串, `BattleResult`)。就地套用損失**與逼退**。
+
+    ★ 2026-08-08 起 **逼退由本函式自行執行**（`docs/TODO.md` R8-A1／R8-G1）。
+      舊契約回傳格數、由解算腳本執行，結果是：`push > 0`（守方後退）被實作成行軍
+      （§二十五，差 1,400 分），而 `push < 0`（攻方被逐回）**四局以來從未被執行過**——
+      所有腳本都只寫 `if push > 0`。回傳型別因此改為 `BattleResult`，
+      與數字比較會 raise，讓舊寫法大聲壞掉而不是靜默失效。
 
     **atk_from_march 預設 None＝由引擎自行判定**（裁示 32 + TODO P6-15）。
     判準為「攻方是否於該小時移動過」（flags["moved"]）——戰術狀態是該小時的姿態，
@@ -1373,7 +1561,22 @@ def battle(s, atk_uids, def_uids, hexpos, atk_from_march=None, def_passive=True)
             lines.append(f"　{uid}：-{cas} 人"
                          + (f"、-{tk} 戰車" if tk else "") + (f"、-{gk} 火砲" if gk else "")
                          + f"、戰力 {u['strength']}%、組織 {u['org']}")
-    return "；".join(lines), push
+
+    # ── 逼退：由本函式**自行執行**，不再交給解算腳本（R8-A1／G1，2026-08-08）──
+    # 正數＝守方被逐出陣地；負數＝攻方被逐回。兩個方向都要做——
+    # 舊契約把執行交給腳本，而四局以來所有腳本都只寫 `if push > 0`。
+    displaced, side_pushed = {}, None
+    if push:
+        side_pushed = "defender" if push > 0 else "attacker"
+        victims = list(def_uids) if push > 0 else list(atk_uids)
+        for vid in victims:
+            n = forced_push(s, vid, abs(push))
+            displaced[vid] = n
+            if n:
+                lines.append(f"　{vid} 被逼退 {n} 格 → {tuple(s['units'][vid]['pos'])}")
+            else:
+                lines.append(f"　{vid} 應退 {abs(push)} 格但無可退之格（邊界／地形／敵佔）")
+    return "；".join(lines), BattleResult(push, displaced, side_pushed)
 
 
 # ── 編隊狀態機（combat_v1 §III 潰散／投降的可執行化）─────────────────
@@ -1637,14 +1840,20 @@ def force_retreat(s, uid, note="潰散後撤"):
     """強制撤退 ROUT_RETREAT 格，朝本方補給源方向（x=0 / x=width-1）。"""
     u = s["units"][uid]
     src_x = 0 if u["side"] == "allies" else s["map"]["width"] - 1
+    _n = 0
     for _ in range(ROUT_RETREAT):
         nxt = step_toward(u["pos"], [src_x, u["pos"][1]])
         if nxt == u["pos"] or not _passable(u, terr(s, nxt)):
             break
         u["pos"] = nxt
+        _n += 1
     abandon_works(u)                     # 撤退即棄工事
     u["static_hours"] = 0
     u["last_action"] = note
+    if _n:                               # 潰散後撤也是強制位移，記入同一本帳（_audit A4）
+        s.setdefault("push_ledger", []).append(
+            {"gh": s.get("global_hour"), "uid": uid, "ordered": ROUT_RETREAT,
+             "moved": _n, "kind": "潰散後撤"})
     return u["pos"]
 
 
@@ -2018,6 +2227,8 @@ def run_tick(s, resolve, hours=6, log=None):
     重複計一次。此裁示對雙方對稱、且在任何對局開始前作出。
     """
     resupply(s)                          # tick 邊界補給（logistics_v1；同時寫入 supply_status）
+    s["push_ledger"] = []                # 本 tick 的逼退帳（_audit A5 對帳用，見 runs/_audit.py）
+    s["works_ledger"] = []               # 本 tick 的構工帳（_audit A3：誰挖了土）
     lines = []
     for _ in range(hours):
         gh = s["global_hour"]

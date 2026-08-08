@@ -47,6 +47,7 @@ def snapshot(s):
                 "guns": u["equip"]["guns"],
                 "ammo": dict(u.get("ammo", {})),
                 "pos": list(u["pos"]),
+                "camo_hours": u.get("camo_hours", 0.0),
             }
             for uid, u in s["units"].items() if u.get("side") in SIDES
         },
@@ -178,6 +179,135 @@ def check_position_sanity(s, b):
     return out
 
 
+# ══════════════════════════════════════════════════════════════════
+# 以下六項需要**命令清單**（`runs/_manifest.py`）。沒有傳 manifest 時，
+# 它們一律回傳一條「注意」——因為「稽核跑了但少查了六項」必須看得見，
+# 不能靜默通過。這正是 Run 7 那批瑕疵的共同特徵：漏掉的東西沒有聲音。
+# ══════════════════════════════════════════════════════════════════
+def _need_manifest(name):
+    return [("注意", f"{name}：未提供命令清單（manifest），本項未檢查。"
+                     f"新的 tick 腳本應建立 runs/_manifest.TickOrders 並傳入")]
+
+
+def check_dig_authorized(s, b, mf):
+    """A3：構工與偽裝必須明確下令（裁示 33／17）。判例 §二十一。"""
+    if mf is None:
+        return _need_manifest("A3 構工授權")
+    out = []
+    for e in s.get("works_ledger") or []:
+        if e.get("uid") and e["uid"] not in mf.dig:
+            out.append(("錯誤", f"A3 {e['uid']} 於 gh{e.get('gh')} 在 {e.get('hex')} "
+                                f"構工 {e.get('man_hours')} man-hr，但本 tick 的命令清單"
+                                f"未登記它有構工令（判例 §二十一：不得批次推導）"))
+    for uid, u in s["units"].items():
+        if u.get("side") not in SIDES or uid not in b["units"]:
+            continue
+        if u.get("camo_hours", 0.0) > b["units"][uid]["camo_hours"] + 1e-9 and uid not in mf.camo:
+            out.append(("錯誤", f"A3 {uid} 的偽裝工時增加，但命令清單未登記偽裝令"))
+    return out
+
+
+def check_movement_authorized(s, b, mf):
+    """A4：位置變化須可歸因於本 tick 登記的目的地，或強制位移帳。判例 §二十四。"""
+    if mf is None:
+        return _need_manifest("A4 移動授權")
+    out = []
+    pushed = {e["uid"] for e in (s.get("push_ledger") or [])}
+    for uid, u in s["units"].items():
+        if u.get("side") not in SIDES or uid not in b["units"]:
+            continue
+        was, now = b["units"][uid]["pos"], list(u["pos"])
+        if was == now:
+            continue
+        if uid in pushed:                      # 逼退／潰散後撤：已有帳
+            continue
+        if uid not in mf.move:
+            out.append(("錯誤", f"A4 {uid} 由 {tuple(was)} 移動到 {tuple(now)}，"
+                                f"但本 tick 的命令清單未登記其目的地"
+                                f"（判例 §二十四：不得沿用上一 tick 的資料結構）"))
+            continue
+        dest = mf.move[uid]
+        if ar.dist(now, dest) > ar.dist(was, dest):
+            out.append(("錯誤", f"A4 {uid} 移動後**離登記目的地更遠**："
+                                f"{tuple(was)}→{tuple(now)}，目的地 {dest}"
+                                f"（距離 {ar.dist(was, dest)}→{ar.dist(now, dest)}）"))
+    return out
+
+
+def check_push_executed(s, b, mf):
+    """A5：battle 判定的逼退必須真的執行。判例 §二十五 ＋ R8-G1（攻方方向）。"""
+    out = []
+    for e in s.get("push_ledger") or []:
+        if e.get("kind") == "潰散後撤":
+            continue
+        if e.get("moved", 0) < e.get("ordered", 0) and not e.get("note"):
+            out.append(("錯誤", f"A5 {e['uid']} 於 gh{e.get('gh')} 應逼退 "
+                                f"{e['ordered']} 格但只位移 {e.get('moved')} 格，"
+                                f"且未載明受阻原因（判例 §二十五：逼退不受移動速率限制）"))
+        elif e.get("moved", 0) < e.get("ordered", 0):
+            out.append(("注意", f"A5 {e['uid']} 應逼退 {e['ordered']} 格、實際 "
+                                f"{e.get('moved')} 格：{e.get('note')}"))
+    # 反向檢查：本 tick 有近戰但完全沒有逼退帳 → 可能又漏了執行
+    if mf is not None and any("兵力比" in l for l in s.get("hour_log", [])[-24:]) \
+            and not (s.get("push_ledger") or []):
+        out.append(("注意", "A5 本 tick 有近戰解算但逼退帳為空——"
+                           "確認每一場的兵力比都落在 push=0 的兩列（1.0–2.0）"))
+    return out
+
+
+def check_fire_authorized(s, b, mf):
+    """A6：開火者須在命令清單、或為應變觸發、或為近戰參與者。"""
+    if mf is None:
+        return _need_manifest("A6 射擊授權")
+    out = []
+    allowed = mf.shooters() | mf.triggered
+    melee = set()
+    for line in s.get("hour_log", [])[-24:]:
+        if "兵力比" in line:
+            for uid in s["units"]:
+                if uid in line:
+                    melee.add(uid)
+    for uid, u in s["units"].items():
+        if u.get("side") not in SIDES:
+            continue
+        if u["flags"].get("fired") and uid not in allowed and uid not in melee:
+            out.append(("錯誤", f"A6 {uid} 開火但命令清單未登記其火力任務，"
+                                f"也未登記為應變觸發（mf.contingency_fired）"))
+    return out
+
+
+def check_manifest_valid(s, b, mf):
+    """A7：清單本身合法——每個動作都有出處，且出處指向本 tick。"""
+    if mf is None:
+        return _need_manifest("A7 命令出處")
+    try:
+        mf.validate()
+    except AssertionError as e:
+        return [("錯誤", f"A7 {e}")]
+    return [("注意", f"A7 命令出處齊備（{mf!r}）")] if False else []
+
+
+def check_no_mixed_hex(s, b, mf=None):
+    """A8：同一格不得同時有雙方的戰鬥編隊（裁示 47 的事後驗證）。
+
+    移入敵佔格是近戰突擊，攻方只在守軍被殲滅／投降／潰散／逼退後才進駐。
+    引擎自 2026-08-08 起在 `advance()` 內擋下，本項是它的獨立驗證——
+    判例 §二十四 的教訓是護欄寫成單方清單會靜默失效，故護欄與稽核都要有。
+    """
+    out = []
+    byhex = {}
+    for uid, u in s["units"].items():
+        if u.get("side") not in SIDES or ar.status_of(u) not in ar.COMBAT_STATUSES:
+            continue
+        byhex.setdefault((int(u["pos"][0]), int(u["pos"][1])), []).append((uid, u["side"]))
+    for pos, lst in sorted(byhex.items()):
+        sides = {sd for _, sd in lst}
+        if len(sides) > 1:
+            out.append(("錯誤", f"A8 格 {pos} 同時有雙方戰鬥編隊："
+                                f"{'、'.join(u for u, _ in lst)}（違反裁示 47）"))
+    return out
+
+
 CHECKS = [
     ("守恆", check_conservation),
     ("彈藥", check_ammo),
@@ -189,10 +319,23 @@ CHECKS = [
     ("位置", check_position_sanity),
 ]
 
+# 需要命令清單的檢查（`_manifest.TickOrders`）
+CHECKS_MF = [
+    ("A3 構工授權", check_dig_authorized),
+    ("A4 移動授權", check_movement_authorized),
+    ("A5 逼退執行", check_push_executed),
+    ("A6 射擊授權", check_fire_authorized),
+    ("A7 命令出處", check_manifest_valid),
+    ("A8 敵我同格", check_no_mixed_hex),
+]
 
-def run(s, before):
+
+def run(s, before, manifest=None):
     """跑完整清單。回傳 {類別: [(嚴重度, 說明)]}。"""
-    return {name: fn(s, before) for name, fn in CHECKS}
+    out = {name: fn(s, before) for name, fn in CHECKS}
+    for name, fn in CHECKS_MF:
+        out[name] = fn(s, before, manifest)
+    return out
 
 
 def report(findings):
@@ -208,12 +351,15 @@ def report(findings):
     return "\n".join(lines), n_err, n_warn
 
 
-def require_clean(s, before, allow_warnings=True):
+def require_clean(s, before, manifest=None, allow_warnings=True):
     """稽核。有「錯誤」級發現即 raise——計分因此印不出來。
 
     「注意」與「警告」級不阻斷，但會印出來要求裁判逐條說明。
+
+    `manifest`：本 tick 的 `runs/_manifest.TickOrders`。**不傳會少查六項**
+    （A3–A8），且每一項都會印出「未檢查」的注意——漏查必須看得見。
     """
-    findings = run(s, before)
+    findings = run(s, before, manifest)
     text, n_err, n_warn = report(findings)
     print("── 解算後自我稽核（TODO P6-14：稽核通過才准印計分）──")
     print(text)

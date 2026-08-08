@@ -281,6 +281,19 @@ def try_camouflage(s, uid):
 
 # ── 近戰的強制後退 ──────────────────────────────────────────────
 def forced_push(s, uid, hexes, ev=None):
+    """★ 已搬進 `arbiter.forced_push`，且 `battle()` 現在自行執行逼退。
+
+    保留為薄殼只為讓 Run 7 的歷史腳本仍可匯入（它們是稽核紀錄，不得編輯）。
+    **新腳本不要呼叫它**——`battle()` 已經做完了，再呼叫一次就是重複位移。
+    """
+    import warnings
+    warnings.warn("_tickkit.forced_push 已廢止：battle() 現在自行執行逼退，"
+                  "重複呼叫會造成雙重位移。改讀 BattleResult.displaced。",
+                  DeprecationWarning, stacklevel=2)
+    return ar.forced_push(s, uid, hexes, ev)
+
+
+def _forced_push_historical(s, uid, hexes, ev=None):
     """`FR_TABLE` 的「守方後退 N 格」——**強制位移，不是行軍**。
 
     ★ Run 7 T8 揭露的錯誤：初版以 `ar.advance()` 執行逼退，於是位移受**移動速率**
