@@ -634,67 +634,50 @@ wF["units"][shK]["pos"] = [11, 9]; wF["units"][tgK]["pos"] = [13, 9]
 ar.bombard(wF, [shK], tgK, mission="干擾"); wF["units"][tgK].pop("_inc", None)
 check("★ 遭干擾者不得構築工事", ar.dig(wF, tgK) is None)
 
-# ── L. 規格書與引擎不得漂移（rules/arbiter_v2.md §XII）──────────
+# ── L. 規格書與引擎不得漂移（改由 rulespec.py 保證）────────────
 print("\n── L. 規格書與引擎的一致性 ──")
 _spec = (Path(__file__).resolve().parent.parent / "rules" / "arbiter_v2.md").read_text()
+
+# ★ 2026-08-09：本段原本是 11 項 `inspec("...", "1.5")` 的**逐字比對**——
+#   只問「規格書裡出現過這個字串嗎」。於是規格書寫「3 以上 → 1.5」照樣通過，
+#   而引擎的第四級是 `COMBINED.get(n, 1.7)` 的預設值（判例 §二十六 F1）。
+#   中間版本改成「解析 §XI 的表格再比對」，仍是在別人手寫的 Markdown 上做正則。
+#
+#   現在的做法反過來：**規格書裡的表由 `rulespec.py` 產生**，
+#   測試斷言區塊內容與 `render()` 逐位元組相同。詳見 tests/test_rulespec.py。
+#   本段只保留 rulespec 管不到的兩類：散文條款，與跨檔指標。
+import rulespec as _rs                                        # noqa: E402
+
+
 def inspec(label, *needles):
+    """**散文條款**的存在性檢查——不是數值一致性檢查。
+
+    ★ 數值一律走 `rulespec`（產生區塊 ＋ 逐位元組比對）。本函式只用於斷言
+      規格書仍載有某段**推導、史實錨點或設計理由**（例如「每 100–300 發 1 人傷亡」
+      這個校準錨點、「樹爆」這個森林方向反轉的理由）。
+      拿它來比對數值就是判例 §二十六 的第四次同類失效。
+    """
     check(f"規格書載明 {label}", all(n in _spec for n in needles),
           " / ".join(n for n in needles if n not in _spec) or "ok")
 
-# 工事分級：四級的暴露值必須逐字出現
-inspec("工事四級暴露值", *[str(tier[2]) for tier in ar.FORT_TIERS])
-inspec("工事工時門檻", "0.5", "3.0", "8.0")
-inspec("DIG_RATE 工兵 1.5", "1.50")
-inspec("WORKS_DEMOLITION", str(ar.WORKS_DEMOLITION))
-inspec("MELEE_WORKS_MULT", str(ar.MELEE_WORKS_MULT))
-inspec("CAMO_HOURS", str(ar.CAMO_HOURS))
-inspec("AMMO_LOAD 四項基數", *[f"{v:,}" for v in ar.AMMO_LOAD.values()])
-inspec("AMMO_RESUPPLY", "40%")
-inspec("BLIND_FIRE_PENALTY", str(ar.BLIND_FIRE_PENALTY))
-inspec("SATURATION", f"{ar.SATURATION:.0%}".replace("%", "%"))
-# ★ 2026-08-07：COMBINED 原本只用 inspec("1.3","1.5") 逐字比對，
-# 於是規格書寫「3 以上 → 1.5」時測試照樣通過——而引擎的第四級住在
-# unit_cp 的 COMBINED.get(n, 1.7) 預設值裡，不在 dict 內。Run 7 因此以
-# 1.7 解算了 12 次而手冊寫 1.5（precedents §二十六）。
-# 改為**解析 §XI 的表格**再與引擎逐級比對。逐字比對（某處出現過 "1.7"）不算檢查——
-# 那正是本測試上一版的失效方式。
-def _parse_combined_table(spec):
-    """自 §XI 解析「兵種數 → 倍率」表，回傳 {級數: 倍率, '以上': 起始級數}。"""
-    # 注意：不能用 split("## §XI")——它會先命中「## §XIII」（前綴相同，且在檔中更早）。
-    m = re.search(r"^## §XI(?!I)\b.*?(?=^## |\Z)", spec, re.M | re.S)
-    sec = m.group(0) if m else ""
-    out, floor = {}, None
-    for ln in sec.splitlines():
-        cells = [c.strip().strip("*").strip() for c in ln.strip().strip("|").split("|")]
-        if len(cells) < 2:
-            continue
-        m_lv = re.match(r"^(\d+)\s*(以上)?$", cells[0])
-        m_mul = re.match(r"^([\d.]+)$", cells[1])
-        if not (m_lv and m_mul):
-            continue
-        lv, mul = int(m_lv.group(1)), float(m_mul.group(1))
-        out[lv] = mul
-        if m_lv.group(2):
-            floor = lv
-    return out, floor
 
-_ct, _cfloor = _parse_combined_table(_spec)
-check("§XI 的協同表可被解析（不是散文）", len(_ct) >= 3 and _cfloor is not None,
-      f"解析得 {_ct}、封頂自 {_cfloor} 種起")
-for _n in range(1, 7):
-    _eng = ar.COMBINED.get(_n, 1.7)
-    _doc = _ct.get(_n) if _n in _ct else (_ct.get(_cfloor) if _cfloor and _n >= _cfloor else None)
-    check(f"§XI 表載明的協同 {_n} 種倍率 == 引擎 {_eng}", _doc == _eng,
-          f"規格書 {_doc} vs 引擎 {_eng}")
-for _m, _v in ar.FIRE_MISSION.items():
-    inspec(f"火力任務 {_m}", _m, str(_v[0]), str(_v[1]), str(_v[2]))
+_drift = _rs.verify()
+check("★ 規格書的產生區塊與引擎逐位元組一致（取代 11 項逐字比對）",
+      not _drift, "；".join(_drift[:2]) or f"{len(_rs.RULES)} 條規則")
+_cov, _miss = _rs.coverage()
+check("★ 引擎沒有未登記的模組級常數（規則不得長在註冊表外）",
+      not _miss, f"未涵蓋：{_miss}" if _miss else f"涵蓋 {len(_cov)} 個")
+
+# 散文條款：rulespec 不管這些，必須逐字存在
 check("★ 規格書明載開放條款（不得以「規則沒寫」拒絕動作）",
       "不得以「規則沒寫」為由拒絕一個動作" in _spec)
 check("★ 規格書明載裁判不得手寫單方內容",
       "不得手寫任何單方內容" in _spec)
-# 被取代處都要有指回本檔的指標
+
+# 被取代處都要有指回本檔的指標（數值住址已於 2026-08-09 全部移入 arbiter_v2）
 for _f, _n in (("determinism_v1.md", 1), ("combat_v1.md", 3),
-               ("logistics_v1.md", 1), ("combined_arms_v1.md", 1)):
+               ("logistics_v1.md", 1), ("combined_arms_v1.md", 1),
+               ("movement_v1.md", 2), ("recon_v1.md", 1)):
     _t = (Path(__file__).resolve().parent.parent / "rules" / _f).read_text()
     check(f"{_f} 已加指回 arbiter_v2 的指標", _t.count("arbiter_v2.md") >= _n,
           f"{_t.count('arbiter_v2.md')} 處")

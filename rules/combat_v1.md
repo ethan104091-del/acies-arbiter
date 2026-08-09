@@ -81,6 +81,10 @@ Combat Power (CP) =
 
 ### Base Power 表（依兵種，師級基準）
 
+> **★ 2026-08-09：本節的數值已移入 `rules/arbiter_v2.md` §XVI，並由 `rulespec.py` 自引擎產生。**
+> 本節保留推導與史實依據（規範的**理由**）；數值以 `arbiter_v2.md` 為準。
+
+
 | 兵種 | Base Power |
 |------|------------|
 | 美軍步兵師 | 100 |
@@ -193,6 +197,9 @@ Hour N 結算流程：
 
 ### Force Ratio → 損失對應表
 
+> **★ 2026-08-09：本節的數值已移入 `rules/arbiter_v2.md` §XVI，並由 `rulespec.py` 自引擎產生。**
+> 本節保留推導與史實依據（規範的**理由**）；數值以 `arbiter_v2.md` 為準。
+
 | Force Ratio | 攻方 | 守方 | 地形變化 |
 |-------------|------|------|---------|
 | < 0.5 | -4% strength、-12% org | -0.5% str、-2% org | 攻方退（被迫）|
@@ -231,6 +238,10 @@ Hour N 結算流程：
 
 ### 組織度衝擊計算
 
+
+> **★ 2026-08-09：本節的數值已移入 `rules/arbiter_v2.md` §XVI，並由 `rulespec.py` 自引擎產生。**
+> 本節保留推導與史實依據（規範的**理由**）；數值以 `arbiter_v2.md` 為準。
+
 ```
 Org_Loss = Casualty_% × 1.5
   + Suppression_Penalty（連續戰鬥 6+ hour 每小時 -2）
@@ -242,6 +253,10 @@ Org_Loss = Casualty_% × 1.5
 ```
 
 ### 潰散（Rout）觸發條件
+
+
+> **★ 2026-08-09：本節的數值已移入 `rules/arbiter_v2.md` §XVI，並由 `rulespec.py` 自引擎產生。**
+> 本節保留推導與史實依據（規範的**理由**）；數值以 `arbiter_v2.md` 為準。
 
 **所有 3 條同時成立 → 該單位潰散：**
 1. Org < 25
