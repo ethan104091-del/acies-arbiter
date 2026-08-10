@@ -46,8 +46,26 @@ check("★ combined_arms 的求值函式跨出 COMBINED 的鍵（4–8 種皆 1.
 check("★ cp_chain 的值是量測來的，不是抄的",
       "unit_cp" in rs._fixture.__doc__ or True)
 _meas = {k: f() for k, f in rs.CP_CHAIN.items()}
-check("　量測得五個乘數且皆為正數", len(_meas) == 5 and all(v and v > 0 for v in _meas.values()),
+check("　CP 乘數鏈全部量得出值且皆為正數",
+      len(_meas) == len(rs.CP_CHAIN) and all(v and v > 0 for v in _meas.values()),
       "／".join(f"{k}={v}" for k, v in _meas.items()))
+# ★ R8-G3 的回歸：這兩個乘數在 2026-08-10 之前量不到（伏擊是死碼、突襲是 pass）
+check("★ 攻方突襲 ×1.5 量得到（此前是一行 `pass`）",
+      _meas["攻方突襲（守方未偵獲攻方）"] == 1.5)
+check("★ 守方伏擊 ×2.0 量得到（此前無呼叫方傳旗標，是死碼）",
+      _meas["守方伏擊（攻方未偵獲守方）"] == 2.0)
+
+# 未實作清單
+print("\n── 1b. 未實作清單（S4）──")
+check("★ 未實作清單非空且每項都有住址與理由",
+      rs.UNIMPLEMENTED and all(u.addr and u.why and u.status in
+                               ("none", "partial", "superseded")
+                               for u in rs.UNIMPLEMENTED),
+      f"{len(rs.UNIMPLEMENTED)} 項")
+for _u in rs.UNIMPLEMENTED:
+    _files = re.findall(r"[\w.]+\.md", _u.addr)
+    check(f"　{_u.id} 的住址檔案存在：{'／'.join(_files)}",
+          bool(_files) and all((ROOT / "rules" / f).exists() for f in _files))
 
 
 # ── 2. 文件區塊與引擎一致，且改動會被抓到 ────────────────────────────

@@ -144,6 +144,8 @@ def _cp_def(**kw):
 
 
 CP_CHAIN = {
+    "攻方突襲（守方未偵獲攻方）": lambda: _cp_ratio(spotted_by_enemy=False),
+    "守方被突襲（看不見攻方）": lambda: round(_cp_def(sees_enemy=False) / _cp_def(), 4),
     "攻方在森林（目標格）": lambda: (
         round(_cp(pos=_fixture()[3]) / _cp(), 4) if _fixture()[3] else None),
     "守方在森林": lambda: round(
@@ -161,6 +163,21 @@ CP_CHAIN = {
 def _fatigue_row(f):
     cap, eff, mv = ar.fatigue_effects({"fatigue": f})
     return cap, eff, mv
+
+
+# 編隊種類的人話標籤。★ 手冊與規格書用同一份產生，故標籤必須讓**指揮官**看得懂——
+# 只印引擎代號（`infantry`）是產生器方便、讀者不方便。兩者都給。
+TYPE_ZH = {
+    "infantry": "步兵師", "armor": "裝甲師／自走砲", "mech_inf": "裝甲步兵營",
+    "ranger": "特戰旅", "recon": "偵察營（抽離）", "engineer": "工兵營（抽離）",
+    "artillery": "砲兵營（抽離）", "aa": "防空營（抽離）", "hq": "司令部／勤務",
+    "div": "師級主力",
+}
+
+
+def _zh(k):
+    """人話標籤 ＋ 引擎代號。兩者都要：讀者看標籤，下令與查證看代號。"""
+    return f"{TYPE_ZH.get(k, k)} `{k}`"
 
 
 # ── 註冊表 ────────────────────────────────────────────────────────
@@ -202,15 +219,15 @@ RULES = [
 
     Rule("dig_rate", "挖掘／偽裝工時速率",
          domain=sorted(ar.DIG_RATE), fn=lambda k: ar.DIG_RATE[k],
-         header=["兵種（引擎代號）", "倍率"],
-         row=lambda k, v: [f"`{k}`", f"{v:.2f}"],
+         header=["兵種", "倍率"],
+         row=lambda k, v: [_zh(k), f"{v:.2f}"],
          covers=["DIG_RATE"],
          addr=("rules/arbiter_v2.md", "§I")),
 
     Rule("move_rate", "移動速率（格/hour，白天無壓制）",
          domain=sorted(ar.RATE), fn=lambda k: ar.RATE[k],
-         header=["兵種（引擎代號）", "開闊地", "森林"],
-         row=lambda k, v: [f"`{k}`", f"{v['.']:.2f}",
+         header=["兵種", "開闊地", "森林"],
+         row=lambda k, v: [_zh(k), f"{v['.']:.2f}",
                            "**不可入**" if v["F"] == 0 else f"{v['F']:.2f}"],
          covers=["RATE"],
          note="夜間一律 ×0.5；疲勞 40+／60+／80+ 分別 ×0.9／×0.8／×0.7；"
@@ -220,8 +237,8 @@ RULES = [
 
     Rule("sight", "偵察視距（格）",
          domain=sorted(ar.SIGHT), fn=lambda k: ar.SIGHT[k],
-         header=["編隊種類", "白天", "夜間"],
-         row=lambda k, v: [f"`{k}`", _f(v[0]), _f(v[1])],
+         header=["觀測者", "白天", "夜間"],
+         row=lambda k, v: [_zh(k), _f(v[0]), _f(v[1])],
          covers=["SIGHT"],
          addr=("rules/arbiter_v2.md", "§XV")),
 
@@ -238,15 +255,16 @@ RULES = [
     Rule("gun_spec", "火砲諸元",
          domain=list(ar.GUN_SPEC), fn=lambda k: (ar.GUN_SPEC[k], ar.AMMO_LOAD.get(k)),
          header=["砲種", "射速/min", "每發殺傷力", "射程（格）", "每發殺戰車", "彈藥基數（發）"],
-         row=lambda k, v: [f"`{k}`", _f(v[0][0]), _f(v[0][1]), f"**{_f(v[0][2])}**",
-                           _f(v[0][3]), f"{v[1]:,}" if v[1] else "—"],
+         row=lambda k, v: [f"`{k}`", f"{v[0][0]:.1f}", _f(v[0][1]),
+                           f"**{_f(v[0][2])}**", _f(v[0][3]),
+                           f"{v[1]:,}" if v[1] else "—"],
          covers=["GUN_SPEC", "AMMO_LOAD"],
          addr=("rules/arbiter_v2.md", "§IV")),
 
     Rule("fire_mission", "火力任務類型",
          domain=list(ar.FIRE_MISSION), fn=lambda k: ar.FIRE_MISSION[k],
          header=["任務", "佔用（min）", "彈量×", "每發殺傷×", "org 衝擊×", "凍結土工"],
-         row=lambda k, v: [f"**{k}**", _f(v[0]), _f(v[1]), _f(v[2]), _f(v[3]),
+         row=lambda k, v: [f"**{k}**", _f(v[0]), _m(v[1]), _m(v[2]), _m(v[3]),
                            "**是**" if v[4] else "—"],
          covers=["FIRE_MISSION", "FIRE_MINUTES"],
          note=f"彈量倍率是「相對標準任務（`FIRE_MINUTES = {ar.FIRE_MINUTES}` 分）"
@@ -278,7 +296,7 @@ RULES = [
     Rule("base_power", "基礎戰力",
          domain=sorted(ar.BASE_POWER), fn=lambda k: ar.BASE_POWER[k],
          header=["編隊種類", "基礎值"],
-         row=lambda k, v: [f"`{k}`", _f(v)],
+         row=lambda k, v: [_zh(k), _f(v)],
          covers=["BASE_POWER"],
          note="抽離的營級單位按人數等比：`人數 / 1000 × 7.1`。",
          addr=("rules/arbiter_v2.md", "§XVI")),
@@ -288,11 +306,12 @@ RULES = [
          header=["條件", "乘數"],
          row=lambda k, v: [k, "—" if v is None else f"**{_m(v)}**"],
          covers=[],
-         note="★ 這五個乘數**寫在 `unit_cp` 的函式體裡**，既不在常數表也不在 `.get` 預設值裡。\n"
+         note="★ 這些乘數**寫在 `unit_cp` 的函式體裡**，既不在常數表也不在 `.get` 預設值裡。\n"
               "本表的值是**量測**出來的：同一編隊、同一狀態，只切換單一條件後取 CP 比值。\n"
               "抄字面值就是再一次 F1（判例 §二十六）。\n"
-              "★ 未實作：「突襲 攻方 ×1.5」在 `unit_cp` 裡是一行 `pass`；"
-              "「突破後追擊 ×1.4／×0.6」完全未實作（`docs/TODO.md` R8-G3）。",
+              "★ 三個能見／突襲乘數自 2026-08-10 起由 `battle()` 自戰霧推導後傳入"
+              "（R8-G3）。在此之前沒有任何呼叫方傳過那兩個旗標，故伏擊 ×2.0 是死碼、"
+              "突襲 ×1.5 是一行 `pass`——而手冊公告過前者。見判例 §二十七。",
          addr=("rules/arbiter_v2.md", "§XVI")),
 
     Rule("fatigue", "疲勞效應",
@@ -306,6 +325,7 @@ RULES = [
               f"戰鬥 輕 +{ar.FATIGUE_COMBAT['light']}／中 +{ar.FATIGUE_COMBAT['medium']}／"
               f"重 +{ar.FATIGUE_COMBAT['heavy']}。\n"
               f"恢復：完全休整 −{ar.FATIGUE_REST_FULL}/hr（該小時未移動、未開火、未遭擊）。\n"
+              "組織度上限另受口糧危機扣減（見 §XV 資源消耗）：`org_cap = 疲勞上限 − 口糧扣減`。\n"
               "★ 未實作：`movement_v1` §IV 的「接戰待命 −3／輕度活動 −1」——"
               "開火但未移動的編隊恢復量為 **0**（`docs/TODO.md` R8-G7）。",
          addr=("rules/arbiter_v2.md", "§XV")),
@@ -410,11 +430,13 @@ RULES = [
          domain=sorted(ar.EQUIP),
          fn=lambda k: (ar.EQUIP[k], ar.GUN_MIX.get(k, {})),
          header=["編隊種類", "戰車", "火砲", "火砲編成"],
-         row=lambda k, v: [f"`{k}`", _f(v[0]["tanks"]), _f(v[0]["guns"]),
+         row=lambda k, v: [_zh(k), _f(v[0]["tanks"]), _f(v[0]["guns"]),
                            "、".join(f"{g}×{n}" for g, n in v[1].items()) or "—"],
-         covers=["EQUIP", "GUN_MIX", "SCORE_W", "ARM_OF_TYPE"],
+         covers=["EQUIP", "GUN_MIX", "SCORE_W", "ARM_OF_TYPE", "TIE_BAND"],
          note="計分：" + " ＋ ".join(f"{k} ×{v}" for k, v in ar.SCORE_W.items())
               + "。友軍誤擊的自傷不計入對手戰功。\n"
+              f"終局判定順序：斬首即勝 → 殲敵較多 → **殲敵相當（差 ≤ {ar.TIE_BAND:.0%}）"
+              f"時自損較少者勝** → 完全平手（`verdict()`，R8-H5）。\n"
               "兵種協同依**編制內營種**（`ARM_OF_TYPE`）："
               + "；".join(f"`{k}` = " + "＋".join(sorted(v))
                           for k, v in ar.ARM_OF_TYPE.items() if k in ar.EQUIP) + "。",
@@ -422,19 +444,93 @@ RULES = [
 
     Rule("consumption", "資源消耗（步兵師基準，%/hour）",
          domain=["L0", "L1", "L2", "L3", "L4"], fn=lambda k: ar.CONS[k],
-         header=["等級", "POL", "SA", "HE", "AT", "RAT", "MED", "PARTS"],
+         header=["等級", "POL", "SA", "AT", "RAT", "MED", "PARTS"],
          row=lambda k, v: [f"**{k}**"] + [_f(v[r]) for r in
-                                          ("POL", "SA", "HE", "AT", "RAT", "MED", "PARTS")],
-         covers=["CONS", "MULT"],
+                                          ("POL", "SA", "AT", "RAT", "MED", "PARTS")],
+         covers=["CONS", "MULT", "RAT_CRISIS"],
          note="兵種乘數：" + "；".join(
              f"`{t}` " + "、".join(f"{r}×{_f(m)}" for r, m in d.items())
              for t, d in ar.MULT.items()) + "。\n"
-              "★ 彈藥自 Run 7 起以**實數發數**計（§IV）；上表的 HE／SA／AT 三欄為"
-              "百分比制的遺留，仍被消耗且仍進 `supply_factor`（`docs/TODO.md` R8-G5）。",
+              "★ `HE` 欄已於 2026-08-10 移除（R8-G5）：砲彈自 Run 7 起以**實數發數**計（§IV），"
+              "百分比的 HE 與實彈是同一批砲彈的兩套帳。\n"
+              "`SA`（輕兵器彈）與 `AT`（反戰車彈）**保留**——它們沒有實彈帳，"
+              "這兩欄是其唯一表示。\n"
+              f"組織度上限另受口糧影響：RAT <30% −10、<10% −20（`RAT_CRISIS`，R8-G6）。",
          addr=("rules/arbiter_v2.md", "§XV")),
 ]
 
 BY_ID = {r.id: r for r in RULES}
+
+
+def render_unimplemented():
+    """「本局未實作的規則」表。手冊與規格書都用這一份。"""
+    tag = {"none": "**未實作**", "partial": "部分實作", "superseded": "已被取代"}
+    rows = ["| 規則 | 狀態 | 規範住址 | 對指揮官的意義 |", "|---|---|---|---|"]
+    for u in UNIMPLEMENTED:
+        rows.append(f"| {u.label} | {tag[u.status]} | `{u.addr}` | "
+                    f"{(u.effect or u.why).replace(chr(10), ' ')} |")
+    return "\n".join(rows)
+
+
+# ── 本局未實作的規則（S4：規則書不得承諾引擎不做的事）──────────────────
+#
+# 指揮官是照規則書規劃的。Run 7 的手冊裡，以下每一項都**沒有**標示未實作，
+# 而它們全部寫在規則書裡、讀起來像是有效的規則。
+#
+# 這張表是**唯一的來源**：手冊的「本局未實作」一節由它產生，
+# 測試斷言每一項的住址存在。加規則而忘了標，就會在覆蓋率或住址檢查裡現形。
+class Unimpl:
+    def __init__(self, id, label, addr, status, why, effect=""):
+        self.id, self.label, self.addr = id, label, addr
+        self.status = status              # none / partial / superseded
+        self.why, self.effect = why, effect
+
+
+UNIMPLEMENTED = [
+    Unimpl("armor_penetration", "戰車對戰車穿甲表 ＋ 命中係數表",
+           "combat_v1.md §IV、determinism_v1.md §I", "none",
+           "`battle()` 的第 9 步（`combat_v1` §III 結算流程「若有戰車對戰車 → 加跑穿甲表」）"
+           "從未實作。戰車損失＝`equip.tanks × 戰力損失%`，與人員同比例。",
+           "**規則書最精細的兩個系統連續四局零使用。** Sherman／Panther 的穿甲差異不存在；"
+           "戰車只是另一個損失欄位。`docs/TODO.md` G4／Phase 4。"),
+    Unimpl("pursuit_cp", "突破後追擊 攻方 ×1.4／守方 ×0.6",
+           "combat_v1.md §II 戰術狀態表", "none",
+           "CP 側未實作。追擊只從**傷亡側**實作（`PURSUIT_MULT = 3.0` 乘在潰散守方的人員損失上）。",
+           "刻意不補 CP 側，否則同一件事會被計兩次。"),
+    Unimpl("fatigue_alert_rest", "疲勞「接戰待命 −3／輕度活動 −1」",
+           "movement_v1.md §IV", "partial",
+           "引擎只有「完全休整 −10」或「零」。",
+           "**開火但未移動的編隊，疲勞恢復量為 0。** 與 `flags[\"hit\"]` 的二元性"
+           "（判例 §二十三）同一家族的離散化失真。`docs/TODO.md` G7。"),
+    Unimpl("logistics_crisis", "`logistics_v1` §4 的其餘五項危機閾值",
+           "logistics_v1.md §4", "partial",
+           "已實作：POL（<20% 移動 ×0.5、<10% 停止）、RAT（<30% org 上限 −10、<10% −20）。"
+           "未實作：SA／AT／MED／PARTS 的個別效果。",
+           "以 `combat_v1` 的 `supply_factor`（min <30% → ×0.7、<10% → ×0.4）概括承受。"),
+    Unimpl("vis_hidden_decoy", "`HIDDEN` 與 `DECOY` 兩個能見狀態",
+           "recon_v1.md §I", "none",
+           "`refresh_visibility` 只產出 EXPOSED／STANDARD／CAMOUFLAGED／CONCEALED。"
+           "`VIS_REQ[\"HIDDEN\"]` 是死碼；DECOY 沒有任何引擎支援。",
+           "假陣地／假目標無法部署，與 `precedents.md` §七 的空白並列。"),
+    Unimpl("casualty_split", "傷亡分類 KIA／WIA-輕／WIA-重／MIA／POW",
+           "combat_v1.md〈傷亡分類〉", "none",
+           "引擎只有人員總損失，沒有分流。",
+           "**`law_of_war.md` W2b（屠殺俘虜）因此是空條文**——"
+           "該條的要件是「POW 於後續 tick 自人員帳中消失」，沒有 POW 帳就沒有消失可查。"),
+    Unimpl("camo_material", "反偵察的物資成本（帆布 yd²、木材 bf、人時）",
+           "recon_v1.md §VI", "superseded",
+           "偽裝改為工時制（`CAMO_HOURS`，見 `arbiter_v2.md` §III），不扣物資。",
+           "指揮官不必計算帆布庫存；偽裝的成本是**時間**。"),
+    Unimpl("cas_aa", "近距空中支援（CAS）與防空",
+           "combat_v1.md §VII／§VIII、determinism_v1.md §IV／§VII", "none",
+           "純戰場劇本雙方**皆無航空兵**，編制表裡沒有飛機。",
+           "五兵種協同的上限因此是四種（步＋戰＋砲＋工）。"),
+    Unimpl("counter_battery_kill", "反砲兵摧毀率「每 N 發毀一門」",
+           "combat_v1.md §VI-4、arbiter_v2.md §XIV", "none",
+           "火砲損失走 `GUN_SPEC` 第四個係數與飽和上限，與「每 N 發毀一門」無關。"
+           "規則書原載的 30 發已判定錯誤（幾何估算為 71 發）。",
+           "彈藥改實數後現在有可能實作，列為 Run 8 待決。"),
+]
 
 
 # ── 覆蓋率白名單：每一項都要寫理由 ─────────────────────────────────
@@ -492,18 +588,25 @@ def _blocks(text):
     return {m.group(1): (m.group(0), m.group(2)) for m in pat.finditer(text)}
 
 
+def _render_id(rid):
+    """區塊內容的產生器。`unimplemented` 是特例（不是 Rule，是另一張表）。"""
+    if rid == "unimplemented":
+        return render_unimplemented()
+    return BY_ID[rid].render() if rid in BY_ID else None
+
+
 def verify(paths=None):
-    """檢查每個區塊的內容與 `render(id)` 逐位元組相同。回傳不符清單。"""
+    """檢查每個區塊的內容與產生結果逐位元組相同。回傳不符清單。"""
     bad = []
     seen = set()
     for p in (paths if paths is not None else doc_paths()):
         text = Path(p).read_text()
         for rid, (_, body) in _blocks(text).items():
             seen.add(rid)
-            if rid not in BY_ID:
+            want = _render_id(rid)
+            if want is None:
                 bad.append(f"{Path(p).name}：區塊 `{rid}` 無對應規則")
                 continue
-            want = BY_ID[rid].render()
             if body != want:
                 import difflib
                 d = [l for l in difflib.unified_diff(body.split("\n"), want.split("\n"),
@@ -525,8 +628,10 @@ def sync(paths=None):
         p = Path(p)
         text = new = p.read_text()
         for rid, (whole, _) in _blocks(text).items():
-            if rid in BY_ID:
-                new = new.replace(whole, BY_ID[rid].block())
+            body = _render_id(rid)
+            if body is not None:
+                new = new.replace(
+                    whole, f"{BEGIN.format(rid)}\n{body}\n{END.format(rid)}")
         if new != text:
             p.write_text(new)
             changed.append(p.name)

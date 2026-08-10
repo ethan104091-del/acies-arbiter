@@ -161,14 +161,21 @@ SIGHT = {"div": (3, 2), "ranger": (4, 3), "recon": (5, 3)}
 VIS_REQ = {"EXPOSED": None, "STANDARD": None, "CAMOUFLAGED": 2, "CONCEALED": 1, "HIDDEN": 0}
 
 # ── 消耗（logistics_v1 §2，步兵師基準 %/hour）────────────────────
+# ★ 2026-08-10（R8-G5）：**`HE` 欄已移除**——砲彈自 Run 7 起以實數發數計（§IV），
+#   百分比的 HE 與實彈 `ammo` 是同一批砲彈的兩套帳。Run 7 終局實彈打到見底而
+#   HE% 仍有 91–100%，證實百分比那一套已惰化，卻仍在扣、仍進 `supply_factor`。
+#
+#   ★ `SA` 與 `AT` **不移除**：輕兵器彈與反戰車彈**沒有**實彈帳，
+#     這兩欄是它們的唯一表示。移除會是模型退步，不是清理。
+#     （`docs/TODO.md` R8-G5 初稿寫「移除 HE／SA／AT 三欄」，範圍寫錯，已更正。）
 CONS = {
-    "L0": {"POL": .3, "SA": .1, "HE": 0,  "AT": 0,  "RAT": .7, "MED": .1, "PARTS": .2},
-    "L1": {"POL": 2., "SA": .2, "HE": 0,  "AT": 0,  "RAT": .7, "MED": .2, "PARTS": .5},
-    "L2": {"POL": 1., "SA": .5, "HE": .3, "AT": .2, "RAT": .7, "MED": .5, "PARTS": .3},
-    "L3": {"POL": 2.5, "SA": 2., "HE": 1.5, "AT": 1.5, "RAT": .9, "MED": 2., "PARTS": 1.},
-    "L4": {"POL": 4., "SA": 4., "HE": 3.5, "AT": 4., "RAT": 1., "MED": 5., "PARTS": 2.},
+    "L0": {"POL": .3, "SA": .1, "AT": 0,  "RAT": .7, "MED": .1, "PARTS": .2},
+    "L1": {"POL": 2., "SA": .2, "AT": 0,  "RAT": .7, "MED": .2, "PARTS": .5},
+    "L2": {"POL": 1., "SA": .5, "AT": .2, "RAT": .7, "MED": .5, "PARTS": .3},
+    "L3": {"POL": 2.5, "SA": 2., "AT": 1.5, "RAT": .9, "MED": 2., "PARTS": 1.},
+    "L4": {"POL": 4., "SA": 4., "AT": 4., "RAT": 1., "MED": 5., "PARTS": 2.},
 }
-MULT = {"armor": {"POL": 3.0, "AT": 2.5, "PARTS": 2.0, "HE": 1.5},
+MULT = {"armor": {"POL": 3.0, "AT": 2.5, "PARTS": 2.0},
         "mech_inf": {"POL": 2.0}}
 
 
@@ -654,8 +661,8 @@ def resupply(s):
             got = cap * AMMO_RESUPPLY * f
             u["ammo"][g] = round(min(cap, u["ammo"].get(g, 0) + got), 1)
         res = u.setdefault("resources", {})
-        for k, amt in (("POL", 22), ("SA", 22), ("HE", 22), ("AT", 22), ("RAT", 22),
-                       ("MED", 10), ("PARTS", 10)):
+        for k, amt in (("POL", 22), ("SA", 22), ("AT", 22), ("RAT", 22),
+                       ("MED", 10), ("PARTS", 10)):        # HE 已移出（R8-G5）
             res[k] = round(min(100.0, res.get(k, 0) + amt * f), 2)
         u["supply_status"] = worst
         out[uid] = worst
@@ -1438,10 +1445,35 @@ def fatigue_effects(u):
     return 75, 0.80, 0.70
 
 
+RAT_CRISIS = ((10.0, 20), (30.0, 10))   # (RAT 門檻%, 組織度上限扣減)
+
+
+def rat_org_penalty(u):
+    """`logistics_v1` §4 危機閾值：RAT <30% → 組織度上限 −10；<10% → −20。
+
+    ★ 2026-08-10（R8-G6）實作。在此之前 `logistics_v1` §4 的七項危機閾值
+      **只有 POL 一項有實作**（在 `move_rate` 裡），其餘六項是規則書承諾而引擎不做的事。
+      RAT 這一項單獨實作的理由：它是唯一會改變**潰散門檻**的——
+      org 上限降低使 `ROUT_ORG` 更容易觸及，而三局零潰散正是待檢討的問題
+      （`law_of_war.md` §9）。其餘五項（SA／HE／AT／MED／PARTS）已由
+      `combat_v1` 的 `supply_factor` 概括承受，見 `rulespec` 的 UNIMPLEMENTED。
+    """
+    rat = (u.get("resources") or {}).get("RAT", 100)
+    for lim, pen in RAT_CRISIS:
+        if rat < lim:
+            return pen
+    return 0
+
+
+def org_cap(u):
+    """該編隊當前的組織度上限＝疲勞上限 − 口糧危機扣減。"""
+    return max(0, fatigue_effects(u)[0] - rat_org_penalty(u))
+
+
 def apply_fatigue_caps(s):
-    """把疲勞造成的組織度上限就地套用（每 hour 呼叫）。"""
+    """把疲勞與口糧造成的組織度上限就地套用（每 hour 呼叫）。"""
     for u in s["units"].values():
-        cap, _, _ = fatigue_effects(u)
+        cap = org_cap(u)
         if u.get("org", 100) > cap:
             u["org"] = cap
     return s
@@ -1449,7 +1481,8 @@ def apply_fatigue_caps(s):
 
 def supply_factor(u):
     r = u.get("resources", {})
-    vals = [r.get(k, 100) for k in ("POL", "SA", "HE", "AT", "RAT")]
+    # HE 已移出（R8-G5：砲彈走實數發數，見 CONS 的註解）
+    vals = [r.get(k, 100) for k in ("POL", "SA", "AT", "RAT")]
     if min(vals) < 10:
         return 0.4
     if min(vals) < 30:
@@ -1469,6 +1502,22 @@ def arms_present(s, uids, pos):
 
 def unit_cp(s, uid, pos, is_attacker, spotted_by_enemy=True, sees_enemy=True,
             from_march=False, passive=False, arms_count=None):
+    """一個編隊在該場戰鬥中的戰鬥力（`combat_v1` §II 的可執行化）。
+
+    ★ 2026-08-10（R8-G3）：兩個能見乘數在此之前**沒有任何呼叫方傳入過**——
+      `battle()` 只傳 `passive` 與 `arms_count`，於是
+      「守方伏擊 ×2.0」雖已實作卻是**死碼**，「攻方突襲 ×1.5」則是一行 `pass`。
+      而手冊 §8 與 `arbiter_v2.md` 的 §8 勘誤**都對雙方公告過**前者存在。
+      現在由 `battle()` 自 `fog_of_war` 推導後傳入。
+
+      已查證：Run 5–7 三局的四場近戰，守方**當時皆已被攻方偵獲**
+      （見 `law/precedents.md` §二十七），故本項對既有戰史無影響，不需勘誤。
+
+    | 旗標 | 語意 | 效果 |
+    |---|---|---|
+    | `spotted_by_enemy=False` | **本編隊未被敵方偵獲** | 攻方 → 突襲 ×1.5；守方 → 伏擊 ×2.0 |
+    | `sees_enemy=False` | **本編隊看不見敵方** | 守方 → 被突襲 ×0.7（`combat_v1` §II 的配對懲罰） |
+    """
     u = s["units"][uid]
     # 已投降（兩條路皆同）者不得主張抵抗：放下武器就不能再算防禦戰力。
     # 但手動示降者若被指揮官命令**主動攻擊**，攻方戰力照算——那正是詐降的內容。
@@ -1485,10 +1534,12 @@ def unit_cp(s, uid, pos, is_attacker, spotted_by_enemy=True, sees_enemy=True,
         cp *= 0.7 if t == "F" else 1.0
     else:
         cp *= (1.5 if t == "F" else 1.0) + u.get("fortification", 0.0)
-    if not is_attacker and not spotted_by_enemy:
-        cp *= 2.0                       # 守方伏擊（攻方沒發現守方）
-    if is_attacker and not sees_enemy:
-        pass
+    if not spotted_by_enemy:
+        # combat_v1 §II 能見狀態倍率：守方 CONCEALED 在攻方視線外 → 伏擊 ×2.0；
+        # 攻方在死角接近（守方未發現攻方）→ 突襲 ×1.5。
+        cp *= 1.5 if is_attacker else 2.0
+    if not is_attacker and not sees_enemy:
+        cp *= 0.7                       # 被突襲方（combat_v1 §II 戰術狀態：守方 ×0.7）
     n = arms_count or 1
     cp *= COMBINED.get(n, 1.7)
     if from_march:
@@ -1528,8 +1579,20 @@ def battle(s, atk_uids, def_uids, hexpos, atk_from_march=None, def_passive=True)
         record_engagement(s, atk_uids, duid, kind="地面戰")
     a_arms = len(arms_present(s, atk_uids, hexpos))
     d_arms = len(arms_present(s, def_uids, hexpos))
-    a_cp = sum(unit_cp(s, u, hexpos, True, from_march=atk_from_march, arms_count=a_arms) for u in atk_uids)
-    d_cp = sum(unit_cp(s, u, hexpos, False, passive=def_passive, arms_count=d_arms) for u in def_uids)
+    # ★ R8-G3（2026-08-10）：能見乘數自戰霧推導。在此之前沒有任何呼叫方傳過這兩個
+    #   旗標，故「守方伏擊 ×2.0」是死碼、「攻方突襲 ×1.5」是 `pass`——而手冊公告過前者。
+    _fog = s.get("fog_of_war", {})
+    _a_side = s["units"][atk_uids[0]]["side"]
+    _d_side = ENEMY[_a_side]
+    _seen_by_def = set(_fog.get(f"{_d_side}_spotted", []))   # 守方偵獲的攻方編隊
+    _seen_by_atk = set(_fog.get(f"{_a_side}_spotted", []))   # 攻方偵獲的守方編隊
+    _atk_unseen = not any(u in _seen_by_def for u in atk_uids)    # 守方看不見任何攻方 → 突襲
+    _def_unseen = not any(u in _seen_by_atk for u in def_uids)    # 攻方看不見守方 → 伏擊
+    a_cp = sum(unit_cp(s, u, hexpos, True, spotted_by_enemy=not _atk_unseen,
+                       from_march=atk_from_march, arms_count=a_arms) for u in atk_uids)
+    d_cp = sum(unit_cp(s, u, hexpos, False, spotted_by_enemy=not _def_unseen,
+                       sees_enemy=not _atk_unseen,
+                       passive=def_passive, arms_count=d_arms) for u in def_uids)
     fr = a_cp / max(d_cp, 0.1)
     for cap, astr, aorg, dstr, dorg, push in FR_TABLE:
         if fr < cap:
@@ -1538,6 +1601,10 @@ def battle(s, atk_uids, def_uids, hexpos, atk_from_march=None, def_passive=True)
     if _override:
         lines.append(f"⚠️ 裁判覆寫戰術狀態：從行軍中接戰＝{atk_from_march}"
                      f"（引擎自動判定為 {_auto}）")
+    if _atk_unseen:
+        lines.append("★ 攻方未被守方偵獲 → 突襲：攻方 ×1.5、守方 ×0.7")
+    if _def_unseen:
+        lines.append("★ 守方未被攻方偵獲 → 伏擊：守方 ×2.0")
     lines += [f"攻方 CP {a_cp}（{a_arms} 兵種、協同 {COMBINED.get(a_arms,1.7)}）"
              f" vs 守方 CP {d_cp}（{d_arms} 兵種"
              + (f"、工事 +{s['units'][def_uids[0]].get('fortification',0):.3f}" if def_uids else "") + "）"
@@ -2276,7 +2343,16 @@ def run_tick(s, resolve, hours=6, log=None):
     return lines
 
 
+TIE_BAND = 0.02      # [判例] 「殲敵相當」＝雙方分數差 ≤ 較高分的 2%
+
+
 def score(s):
+    """殲敵計分（`scenario_open_field.md` §3-2）。
+
+    ★ 2026-08-10（R8-H5）另回傳 `self_loss`：劇本 §3-3 的平手判準是
+      「殲敵相當時，**自損較少**者勝」，而此前 `score()` 完全不回傳自損，
+      該條因此無從執行。判定見 `verdict()`。
+    """
     out = {}
     for side in ("allies", "axis"):
         infl = {"personnel": 0, "tanks": 0, "guns": 0}
@@ -2285,9 +2361,43 @@ def score(s):
             for k in infl:
                 # 扣除敵方的友軍誤擊自傷——那不是我方造成的（TODO P6-16）
                 infl[k] += u["losses"][k] - slf.get(k, 0)
+        own_loss = {"personnel": 0, "tanks": 0, "guns": 0}
+        for u in own(s, side).values():                  # 我方的全部損失（含自傷）
+            for k in own_loss:
+                own_loss[k] += u["losses"][k]
         pts = sum(infl[k] * SCORE_W[k] for k in infl)
-        out[side] = {"inflicted": infl, "points": pts}
+        out[side] = {"inflicted": infl, "points": pts,
+                     "self_loss": own_loss,
+                     "self_points": sum(own_loss[k] * SCORE_W[k] for k in own_loss)}
     return out
+
+
+def verdict(s):
+    """終局判定（`scenario_open_field.md` §3）。回傳 (勝方或 None, 理由字串)。
+
+    順序：① 斬首即勝 → ② 殲敵較多者勝 → ③ 殲敵相當時自損較少者勝 → ④ 完全平手。
+
+    ★ 「殲敵相當」在劇本裡沒有定義，此處裁定為 **`TIE_BAND` = 較高分的 2%**
+      （`docs/TODO.md` R8-H5）。取 2% 的理由：一個師級編隊一小時的近戰產出約
+      360 分，而三局的總分在 400–3,000 之間；2% 大約是「一次營級交火的量級」，
+      小於它就不該說某方殲敵較多。此值於任何對局開始前裁定，對雙方對稱。
+    """
+    sc = score(s)
+    dec = s.get("victory_state") or {}
+    if dec.get("decapitated"):                    # 斬首：由裁判在解算中認定後寫入
+        w = dec["decapitated"]
+        return w, f"斬首即勝：{w} 摧毀了敵軍長所在的指揮所"
+    a, x = sc["allies"]["points"], sc["axis"]["points"]
+    hi = max(a, x)
+    if hi and abs(a - x) > hi * TIE_BAND:
+        w = "allies" if a > x else "axis"
+        return w, f"殲敵較多：{a} vs {x}（差 {abs(a - x)}，超過 {TIE_BAND:.0%} 門檻）"
+    sa, sx = sc["allies"]["self_points"], sc["axis"]["self_points"]
+    if sa != sx:
+        w = "allies" if sa < sx else "axis"
+        return w, (f"殲敵相當（{a} vs {x}，差 {abs(a - x)} ≤ {TIE_BAND:.0%}）"
+                   f"→ 自損較少者勝：{sa} vs {sx}")
+    return None, f"完全平手：殲敵 {a} vs {x}、自損 {sa} vs {sx}"
 
 
 # ── 渲染 ────────────────────────────────────────────────────────
@@ -2354,7 +2464,8 @@ def ascii_map(s, viewer="god", show_cp=True):
 
 
 def _res_str(r):
-    return " ".join(f"{k}{int(r.get(k,0))}" for k in ("POL", "SA", "HE", "AT", "RAT", "MED", "PARTS"))
+    return " ".join(f"{k}{int(r.get(k,0))}"           # HE 已移出（R8-G5）
+                    for k in ("POL", "SA", "AT", "RAT", "MED", "PARTS"))
 
 
 def _ammo_str(u):
