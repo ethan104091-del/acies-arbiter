@@ -207,7 +207,7 @@ RULES = [
          note="★ 第 4 級不在 `COMBINED` dict 裡，是 `unit_cp` 的 `.get(n, 1.7)` 預設值。\n"
               "判例 §二十六：手冊曾因此寫成「3 種以上 1.5」。"
               "`ARM_OF_TYPE` 使裝甲師 ∪ 步兵師 ＝ 4 種，故 1.7 是常見情況。",
-         addr=("rules/arbiter_v2.md", "§XI")),
+         addr=("rules/40_近戰.md", "§6")),
 
     Rule("fort_tiers", "工事分級",
          domain=range(len(ar.FORT_TIERS)), fn=lambda i: ar.FORT_TIERS[i],
@@ -215,14 +215,14 @@ RULES = [
          row=lambda i, t: [f"**{t[3]}**", _f(t[0]) if i else "—", _f(t[1]),
                            f"**{_f(t[2])}**", t[4]],
          covers=["FORT_TIERS"],
-         addr=("rules/arbiter_v2.md", "§I")),
+         addr=("rules/50_工事.md", "§1")),
 
     Rule("dig_rate", "挖掘／偽裝工時速率",
          domain=sorted(ar.DIG_RATE), fn=lambda k: ar.DIG_RATE[k],
          header=["兵種", "倍率"],
          row=lambda k, v: [_zh(k), f"{v:.2f}"],
          covers=["DIG_RATE"],
-         addr=("rules/arbiter_v2.md", "§I")),
+         addr=("rules/50_工事.md", "§1")),
 
     Rule("move_rate", "移動速率（格/hour，白天無壓制）",
          domain=sorted(ar.RATE), fn=lambda k: ar.RATE[k],
@@ -233,14 +233,14 @@ RULES = [
          note="夜間一律 ×0.5；疲勞 40+／60+／80+ 分別 ×0.9／×0.8／×0.7；"
               "POL <20% ×0.5、<10% 停止；前一小時遭砲擊 ×"
               f"{_f(ar.SUPPRESS_MOVE_MULT)}。",
-         addr=("rules/arbiter_v2.md", "§XV")),
+         addr=("rules/10_地形與移動.md", "§2")),
 
     Rule("sight", "偵察視距（格）",
          domain=sorted(ar.SIGHT), fn=lambda k: ar.SIGHT[k],
          header=["觀測者", "白天", "夜間"],
          row=lambda k, v: [_zh(k), _f(v[0]), _f(v[1])],
          covers=["SIGHT"],
-         addr=("rules/arbiter_v2.md", "§XV")),
+         addr=("rules/20_偵察.md", "§1")),
 
     Rule("vis_req", "能見狀態 → 被偵獲所需距離",
          domain=["EXPOSED", "STANDARD", "CAMOUFLAGED", "CONCEALED", "HIDDEN"],
@@ -250,7 +250,7 @@ RULES = [
          covers=["VIS_REQ"],
          note="★ `HIDDEN` 引擎**永不指派**（`refresh_visibility` 只產出前四種）——"
               "`docs/TODO.md` R8-H6。",
-         addr=("rules/arbiter_v2.md", "§XV")),
+         addr=("rules/20_偵察.md", "§2")),
 
     Rule("gun_spec", "火砲諸元",
          domain=list(ar.GUN_SPEC), fn=lambda k: (ar.GUN_SPEC[k], ar.AMMO_LOAD.get(k)),
@@ -259,7 +259,7 @@ RULES = [
                            f"**{_f(v[0][2])}**", _f(v[0][3]),
                            f"{v[1]:,}" if v[1] else "—"],
          covers=["GUN_SPEC", "AMMO_LOAD"],
-         addr=("rules/arbiter_v2.md", "§IV")),
+         addr=("rules/30_火力.md", "§1")),
 
     Rule("fire_mission", "火力任務類型",
          domain=list(ar.FIRE_MISSION), fn=lambda k: ar.FIRE_MISSION[k],
@@ -269,7 +269,7 @@ RULES = [
          covers=["FIRE_MISSION", "FIRE_MINUTES"],
          note=f"彈量倍率是「相對標準任務（`FIRE_MINUTES = {ar.FIRE_MINUTES}` 分）"
               "的總彈量」，**不與佔用時長相乘**。",
-         addr=("rules/arbiter_v2.md", "§V")),
+         addr=("rules/30_火力.md", "§2")),
 
     Rule("fr_table", "兵力比 → 損失對照表",
          domain=range(len(ar.FR_TABLE)), fn=lambda i: ar.FR_TABLE[i],
@@ -282,7 +282,7 @@ RULES = [
          note="★ 逼退**由 `battle()` 自行執行**，兩個方向都做（判例 §二十五、`docs/TODO.md` R8-G1）。\n"
               "★ 最後兩列的 2／3 格為 [判例]：`combat_v1` §III 的地形變化欄只寫"
               "「潰散風險」「必潰散」，未給格數。",
-         addr=("rules/arbiter_v2.md", "§XVI")),
+         addr=("rules/40_近戰.md", "§3")),
 
     Rule("vet", "經驗倍率",
          domain=sorted(ar.VET), fn=lambda k: ar.VET[k],
@@ -291,7 +291,7 @@ RULES = [
          covers=["VET"],
          note="經驗有**兩個互不重疊的入口**（判例 §八）：地面戰 CP，以及"
               "所有計算發數的射擊（`bombard` 的每發殺傷力另乘此值）。",
-         addr=("rules/arbiter_v2.md", "§XII-b")),
+         addr=("rules/30_火力.md", "§10")),
 
     Rule("base_power", "基礎戰力",
          domain=sorted(ar.BASE_POWER), fn=lambda k: ar.BASE_POWER[k],
@@ -299,7 +299,7 @@ RULES = [
          row=lambda k, v: [_zh(k), _f(v)],
          covers=["BASE_POWER"],
          note="抽離的營級單位按人數等比：`人數 / 1000 × 7.1`。",
-         addr=("rules/arbiter_v2.md", "§XVI")),
+         addr=("rules/40_近戰.md", "§1")),
 
     Rule("cp_chain", "CP 乘數鏈（★ 由量測引擎產生）",
          domain=list(CP_CHAIN), fn=lambda k: CP_CHAIN[k](),
@@ -312,7 +312,7 @@ RULES = [
               "★ 三個能見／突襲乘數自 2026-08-10 起由 `battle()` 自戰霧推導後傳入"
               "（R8-G3）。在此之前沒有任何呼叫方傳過那兩個旗標，故伏擊 ×2.0 是死碼、"
               "突襲 ×1.5 是一行 `pass`——而手冊公告過前者。見判例 §二十七。",
-         addr=("rules/arbiter_v2.md", "§XVI")),
+         addr=("rules/40_近戰.md", "§2")),
 
     Rule("fatigue", "疲勞效應",
          domain=[0, 20, 40, 60, 80], fn=_fatigue_row,
@@ -325,10 +325,10 @@ RULES = [
               f"戰鬥 輕 +{ar.FATIGUE_COMBAT['light']}／中 +{ar.FATIGUE_COMBAT['medium']}／"
               f"重 +{ar.FATIGUE_COMBAT['heavy']}。\n"
               f"恢復：完全休整 −{ar.FATIGUE_REST_FULL}/hr（該小時未移動、未開火、未遭擊）。\n"
-              "組織度上限另受口糧危機扣減（見 §XV 資源消耗）：`org_cap = 疲勞上限 − 口糧扣減`。\n"
+              "組織度上限另受口糧危機扣減（見 70_後勤 §4）：`org_cap = 疲勞上限 − 口糧扣減`。\n"
               "★ 未實作：`movement_v1` §IV 的「接戰待命 −3／輕度活動 −1」——"
               "開火但未移動的編隊恢復量為 **0**（`docs/TODO.md` R8-G7）。",
-         addr=("rules/arbiter_v2.md", "§XV")),
+         addr=("rules/10_地形與移動.md", "§4")),
 
     Rule("gun_exposure", "火砲暴露（對照戰車）",
          domain=["moved", "none", "shallow", "dug"],
@@ -339,7 +339,7 @@ RULES = [
          covers=["GUN_EXPOSURE", "GUN_VS_TANK_VULN"],
          note=f"火砲相對戰車的易損倍率 `GUN_VS_TANK_VULN = {_f(ar.GUN_VS_TANK_VULN)}`"
               "（牽引火砲無裝甲；由有效殺傷半徑 15m vs 5m 推導）。",
-         addr=("rules/arbiter_v2.md", "§XIV")),
+         addr=("rules/50_工事.md", "§5")),
 
     Rule("impact_coverage", "彈著覆蓋率的兩個輸入",
          domain=["靜止", "行軍", "戰車靜止", "戰車行軍"],
@@ -356,7 +356,7 @@ RULES = [
               f"一格 = {ar.HEX_KM:.3f} km 見方 = {ar.HEX_KM ** 2:.2f} km²"
               "（★ `precedents.md` §二 的幾何論證寫「2 km／4 km²」，"
               "與此差 13%——`docs/TODO.md` R8-H4）。",
-         addr=("rules/arbiter_v2.md", "§XIII")),
+         addr=("rules/30_火力.md", "§6")),
 
     Rule("org_impact", "組織度衝擊的六項",
          domain=["連續戰鬥", "被突襲", "指揮所被毀", "團長陣亡", "友軍誤擊",
@@ -379,7 +379,7 @@ RULES = [
          note="`impact = (傷亡% × 1.5 + 壓制 + 突襲 + 指揮 + 誤擊) × (工事 ? "
               f"{_f(ar.COVER_FACTOR)} : 1)`，自然恢復另加，**不被工事減半**。\n"
               f"戰車掩壕門檻 `FORT_TANK_TIER = {_f(ar.FORT_TANK_TIER)}`（淺掘對戰車無用）。",
-         addr=("rules/arbiter_v2.md", "§XVI")),
+         addr=("rules/80_狀態.md", "§1")),
 
     Rule("status_thresholds", "潰散與投降門檻",
          domain=["潰散 org", "潰散 24hr 傷亡", "潰散後撤", "追擊倍率",
@@ -402,7 +402,7 @@ RULES = [
               "★ 第三條使「補給完整時 org 歸零仍不潰散」——"
               "Run 5–7 三局零潰散、零投降（`docs/TODO.md` R8-C3、`law_of_war.md` §9）。\n"
               f"受降的看管兵力 ＝ 俘虜數 × {ar.POW_GUARD_RATIO:.0%}。",
-         addr=("rules/arbiter_v2.md", "§XVI")),
+         addr=("rules/80_狀態.md", "§2")),
 
     Rule("scalars", "其餘係數",
          domain=["飽和上限", "攔阻射擊", "砲擊壓制移動", "友軍誤擊分攤",
@@ -424,7 +424,7 @@ RULES = [
                  "FRIENDLY_FIRE_SHARE", "WORKS_DEMOLITION", "MELEE_WORKS_MULT",
                  "CAMO_HOURS", "AMMO_RESUPPLY", "FOREST_NO_COVER",
                  "FOREST_WITH_COVER"],
-         addr=("rules/arbiter_v2.md", "§XII")),
+         addr=("rules/00_核心.md", "§5")),
 
     Rule("orbat", "編成與計分",
          domain=sorted(ar.EQUIP),
@@ -440,7 +440,7 @@ RULES = [
               "兵種協同依**編制內營種**（`ARM_OF_TYPE`）："
               + "；".join(f"`{k}` = " + "＋".join(sorted(v))
                           for k, v in ar.ARM_OF_TYPE.items() if k in ar.EQUIP) + "。",
-         addr=("rules/arbiter_v2.md", "§XI")),
+         addr=("rules/40_近戰.md", "§6")),
 
     Rule("consumption", "資源消耗（步兵師基準，%/hour）",
          domain=["L0", "L1", "L2", "L3", "L4"], fn=lambda k: ar.CONS[k],
@@ -451,12 +451,12 @@ RULES = [
          note="兵種乘數：" + "；".join(
              f"`{t}` " + "、".join(f"{r}×{_f(m)}" for r, m in d.items())
              for t, d in ar.MULT.items()) + "。\n"
-              "★ `HE` 欄已於 2026-08-10 移除（R8-G5）：砲彈自 Run 7 起以**實數發數**計（§IV），"
+              "★ `HE` 欄已於 2026-08-10 移除（R8-G5）：砲彈自 Run 7 起以**實數發數**計（30_火力 §1），"
               "百分比的 HE 與實彈是同一批砲彈的兩套帳。\n"
               "`SA`（輕兵器彈）與 `AT`（反戰車彈）**保留**——它們沒有實彈帳，"
               "這兩欄是其唯一表示。\n"
               f"組織度上限另受口糧影響：RAT <30% −10、<10% −20（`RAT_CRISIS`，R8-G6）。",
-         addr=("rules/arbiter_v2.md", "§XV")),
+         addr=("rules/70_後勤.md", "§4")),
 ]
 
 BY_ID = {r.id: r for r in RULES}
@@ -488,45 +488,45 @@ class Unimpl:
 
 UNIMPLEMENTED = [
     Unimpl("armor_penetration", "戰車對戰車穿甲表 ＋ 命中係數表",
-           "combat_v1.md §IV、determinism_v1.md §I", "none",
+           "v1_archive/combat_v1.md §IV、v1_archive/determinism_v1.md §I", "none",
            "`battle()` 的第 9 步（`combat_v1` §III 結算流程「若有戰車對戰車 → 加跑穿甲表」）"
            "從未實作。戰車損失＝`equip.tanks × 戰力損失%`，與人員同比例。",
            "**規則書最精細的兩個系統連續四局零使用。** Sherman／Panther 的穿甲差異不存在；"
            "戰車只是另一個損失欄位。`docs/TODO.md` G4／Phase 4。"),
     Unimpl("pursuit_cp", "突破後追擊 攻方 ×1.4／守方 ×0.6",
-           "combat_v1.md §II 戰術狀態表", "none",
+           "v1_archive/combat_v1.md §II 戰術狀態表", "none",
            "CP 側未實作。追擊只從**傷亡側**實作（`PURSUIT_MULT = 3.0` 乘在潰散守方的人員損失上）。",
            "刻意不補 CP 側，否則同一件事會被計兩次。"),
     Unimpl("fatigue_alert_rest", "疲勞「接戰待命 −3／輕度活動 −1」",
-           "movement_v1.md §IV", "partial",
+           "v1_archive/movement_v1.md §IV", "partial",
            "引擎只有「完全休整 −10」或「零」。",
            "**開火但未移動的編隊，疲勞恢復量為 0。** 與 `flags[\"hit\"]` 的二元性"
            "（判例 §二十三）同一家族的離散化失真。`docs/TODO.md` G7。"),
     Unimpl("logistics_crisis", "`logistics_v1` §4 的其餘五項危機閾值",
-           "logistics_v1.md §4", "partial",
+           "v1_archive/logistics_v1.md §4", "partial",
            "已實作：POL（<20% 移動 ×0.5、<10% 停止）、RAT（<30% org 上限 −10、<10% −20）。"
            "未實作：SA／AT／MED／PARTS 的個別效果。",
            "以 `combat_v1` 的 `supply_factor`（min <30% → ×0.7、<10% → ×0.4）概括承受。"),
     Unimpl("vis_hidden_decoy", "`HIDDEN` 與 `DECOY` 兩個能見狀態",
-           "recon_v1.md §I", "none",
+           "v1_archive/recon_v1.md §I", "none",
            "`refresh_visibility` 只產出 EXPOSED／STANDARD／CAMOUFLAGED／CONCEALED。"
            "`VIS_REQ[\"HIDDEN\"]` 是死碼；DECOY 沒有任何引擎支援。",
            "假陣地／假目標無法部署，與 `precedents.md` §七 的空白並列。"),
     Unimpl("casualty_split", "傷亡分類 KIA／WIA-輕／WIA-重／MIA／POW",
-           "combat_v1.md〈傷亡分類〉", "none",
+           "v1_archive/combat_v1.md〈傷亡分類〉", "none",
            "引擎只有人員總損失，沒有分流。",
            "**`law_of_war.md` W2b（屠殺俘虜）因此是空條文**——"
            "該條的要件是「POW 於後續 tick 自人員帳中消失」，沒有 POW 帳就沒有消失可查。"),
     Unimpl("camo_material", "反偵察的物資成本（帆布 yd²、木材 bf、人時）",
-           "recon_v1.md §VI", "superseded",
-           "偽裝改為工時制（`CAMO_HOURS`，見 `arbiter_v2.md` §III），不扣物資。",
+           "v1_archive/recon_v1.md §VI", "superseded",
+           "偽裝改為工時制（`CAMO_HOURS`，見 `50_工事.md` §3），不扣物資。",
            "指揮官不必計算帆布庫存；偽裝的成本是**時間**。"),
     Unimpl("cas_aa", "近距空中支援（CAS）與防空",
-           "combat_v1.md §VII／§VIII、determinism_v1.md §IV／§VII", "none",
+           "v1_archive/combat_v1.md §VII／§VIII、v1_archive/determinism_v1.md §IV／§VII", "none",
            "純戰場劇本雙方**皆無航空兵**，編制表裡沒有飛機。",
            "五兵種協同的上限因此是四種（步＋戰＋砲＋工）。"),
     Unimpl("counter_battery_kill", "反砲兵摧毀率「每 N 發毀一門」",
-           "combat_v1.md §VI-4、arbiter_v2.md §XIV", "none",
+           "v1_archive/combat_v1.md §VI-4、30_火力.md §8", "none",
            "火砲損失走 `GUN_SPEC` 第四個係數與飽和上限，與「每 N 發毀一門」無關。"
            "規則書原載的 30 發已判定錯誤（幾何估算為 71 發）。",
            "彈藥改實數後現在有可能實作，列為 Run 8 待決。"),
@@ -550,7 +550,7 @@ INTERNAL = {
     "SURRENDER_HINTS": "示降／受降的近似詞表，只用於提醒裁判該命令可能有法律後果",
     "TYPE_INI": "地圖渲染用的單字元代號",
     "BEARING8": "八向方位的字面對照（落彈分析用），無可調數值",
-    "RANGE_BAND": "白天距離帶的分界，已於 §VIII 以散文載明；"
+    "RANGE_BAND": "白天距離帶的分界，已於 20_偵察 §4 以散文載明；"
                   "★ 待併入 scalars（R8-B 未完項）",
     "SOUND_MPS": "聲速物理常數，用於 flash-to-bang 的說明文字",
     "COVER_TERRAIN": "本劇本為空（純戰場無城鎮地形）",
@@ -575,6 +575,8 @@ def doc_paths():
     """所有可能含 rulespec 區塊的文件。"""
     out = []
     for p in sorted((ROOT / "rules").rglob("*.md")) + sorted((ROOT / "law").glob("*.md")):
+        if "v1_archive" in p.parts:       # 封存件不再同步
+            continue
         if BEGIN.split("{")[0] in p.read_text():
             out.append(p)
     return out

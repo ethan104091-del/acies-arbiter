@@ -65,7 +65,7 @@ check("★ 未實作清單非空且每項都有住址與理由",
 for _u in rs.UNIMPLEMENTED:
     _files = re.findall(r"[\w.]+\.md", _u.addr)
     check(f"　{_u.id} 的住址檔案存在：{'／'.join(_files)}",
-          bool(_files) and all((ROOT / "rules" / f).exists() for f in _files))
+          bool(_files) and all(list((ROOT / "rules").rglob(f)) for f in _files))
 
 
 # ── 2. 文件區塊與引擎一致，且改動會被抓到 ────────────────────────────
@@ -77,7 +77,7 @@ docs = rs.doc_paths()
 check("有文件含產生區塊", len(docs) >= 1, "／".join(p.name for p in docs))
 
 # 反向驗證：把文件裡的一個數字改掉，verify 必須抓到
-target = ROOT / "rules" / "arbiter_v2.md"
+target = ROOT / "rules" / "40_近戰.md"
 orig = target.read_text()
 try:
     tampered = orig.replace("| 4 以上 | **1.70** |", "| 4 以上 | **1.50** |", 1)

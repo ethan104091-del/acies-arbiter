@@ -636,7 +636,8 @@ check("★ 遭干擾者不得構築工事", ar.dig(wF, tgK) is None)
 
 # ── L. 規格書與引擎不得漂移（改由 rulespec.py 保證）────────────
 print("\n── L. 規格書與引擎的一致性 ──")
-_spec = (Path(__file__).resolve().parent.parent / "rules" / "arbiter_v2.md").read_text()
+_RULES = Path(__file__).resolve().parent.parent / "rules"
+_spec = "\n".join(p.read_text() for p in sorted(_RULES.glob("[0-9]*.md")))   # 2026-09-11 重整：規範住址改為九份機能檔
 
 # ★ 2026-08-09：本段原本是 11 項 `inspec("...", "1.5")` 的**逐字比對**——
 #   只問「規格書裡出現過這個字串嗎」。於是規格書寫「3 以上 → 1.5」照樣通過，
@@ -674,13 +675,11 @@ check("★ 規格書明載開放條款（不得以「規則沒寫」拒絕動作
 check("★ 規格書明載裁判不得手寫單方內容",
       "不得手寫任何單方內容" in _spec)
 
-# 被取代處都要有指回本檔的指標（數值住址已於 2026-08-09 全部移入 arbiter_v2）
-for _f, _n in (("determinism_v1.md", 1), ("combat_v1.md", 3),
-               ("logistics_v1.md", 1), ("combined_arms_v1.md", 1),
-               ("movement_v1.md", 2), ("recon_v1.md", 1)):
-    _t = (Path(__file__).resolve().parent.parent / "rules" / _f).read_text()
-    check(f"{_f} 已加指回 arbiter_v2 的指標", _t.count("arbiter_v2.md") >= _n,
-          f"{_t.count('arbiter_v2.md')} 處")
+# 封存件都要有指回新住址的橫幅（2026-09-11 重整）
+for _f in ("arbiter_v2.md", "determinism_v1.md", "combat_v1.md", "logistics_v1.md",
+           "combined_arms_v1.md", "movement_v1.md", "recon_v1.md", "command_v2.md"):
+    _t = (_RULES / "v1_archive" / _f).read_text()
+    check(f"v1_archive/{_f} 有封存橫幅", _t.startswith("> **已封存") and "00_核心.md" in _t[:300])
 
 # ── M. 裁判程序與 tick 工具（TODO P6-14/15、P7-17）───────────────
 print("\n── M. 裁判程序與 tick 工具 ──")
@@ -981,7 +980,7 @@ check("★ 反砲兵的主要效果是人員損失（史實：制壓而非摧毀
 check("★ 飽和上限限制每小時火砲損失（12 門 → 1 門/hr）",
       g0R - tR["equip"]["guns"] <= 6, f"6 小時毀 {g0R-tR['equip']['guns']} 門")
 inspec("反砲兵摧毀率的更正", "30 發毀一門", "71 發", "neutralization")
-_cv1 = (Path(__file__).resolve().parent.parent / "rules" / "combat_v1.md").read_text()
+_cv1 = (_RULES / "v1_archive" / "combat_v1.md").read_text()
 check("★ combat_v1 的 30 發已標明錯誤並指向 §XIV",
       "此數字已判定為錯誤" in _cv1 and "§XIV" in _cv1)
 

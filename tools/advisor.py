@@ -26,8 +26,8 @@ SIDE_ZH = {"allies": "盟軍 III Corps（Phoenix）", "axis": "德軍 Panzergrup
 
 # 規則檔：當作參謀的共用知識（公開資訊，雙方都能讀）。
 # 放進 system 一起 cache，讓參謀真的「懂規則」。
-RULE_FILES = ["rules/scenario.md", "rules/forces_v1.md", "rules/combat_v1.md",
-              "rules/unimplemented/weather_v1.md", "rules/recon_v1.md", "rules/rules_v2.md"]
+RULE_FILES = ["rules/v1_archive/scenario.md", "rules/90_史料/forces_v1.md", "rules/v1_archive/combat_v1.md",
+              "rules/unimplemented/weather_v1.md", "rules/v1_archive/recon_v1.md", "rules/v1_archive/rules_v2.md"]   # 2026-09-11 重整後路徑
 
 _client = None
 _import_error = None
