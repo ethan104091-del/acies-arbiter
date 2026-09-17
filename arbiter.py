@@ -2272,6 +2272,67 @@ def fatigue_from_combat(tier="light"):
     return FATIGUE_COMBAT.get(tier, FATIGUE_COMBAT["light"])
 
 
+def begin_tick(s):
+    """tick 邊界：補給一次、逼退帳與構工帳歸零。
+
+    v2（2026-09）自 run_tick 拆出：裁判逐小時落定時，一個 tick 只能呼叫本函式一次，
+    再逐小時呼叫 run_hour。行為與拆出前的 run_tick 開頭逐位元組相同。
+    """
+    resupply(s)                          # tick 邊界補給（logistics_v1；同時寫入 supply_status）
+    s["push_ledger"] = []                # 本 tick 的逼退帳（_audit A5 對帳用，見 runs/_audit.py）
+    s["works_ledger"] = []               # 本 tick 的構工帳（_audit A3：誰挖了土）
+
+
+def run_hour(s, resolve, log=None):
+    """跑一個小時。回傳該小時的敘事行。管線順序見 run_tick 的說明，不可調動。
+
+    v2（2026-09）自 run_tick 拆出；run_tick 現在只是 begin_tick ＋ N 次 run_hour 的薄迴圈，
+    tests/test_run_hour_equivalence.py 以 Run 7 九份快照證明兩者逐位元組等價。
+    """
+    gh = s["global_hour"]
+    command.activate_due_cps(s)
+    hs.hour_brief(s)
+
+    ev = apply_due_legal_orders(s)          # 具法律後果的命令：機器解析先行
+    ev += list(resolve(s, gh) or [])
+
+    night = is_night(s)
+    for uid, u in s["units"].items():
+        if u.get("side") not in ("allies", "axis"):
+            continue
+        if u["flags"].get("moved"):
+            # 行軍疲勞由 advance() 施加（白天 +5／夜間 +8，= movement_v1 的 5 + 3），
+            # 此處**不得再加**——2026-07-30 曾在這裡重複加一次，導致行軍疲勞加倍。
+            consume(s, uid, "L1")
+        elif u["flags"].get("fired") or u["flags"].get("hit"):
+            consume(s, uid, "L3")          # 交戰中的消耗由 resolve 視情況再加
+        else:
+            u["fatigue"] = max(0, u.get("fatigue", 0) - FATIGUE_REST_FULL)
+            consume(s, uid, "L0")
+    apply_fatigue_caps(s)
+    refresh_fortification(s)      # Run 7：依所在格的 man-hours 重算各編隊工事值
+
+    refresh_visibility(s)
+    for side, lst in spot(s).items():
+        for uid in lst:
+            ev.append((side, f"★我方偵獲敵 {uid} 於 {tuple(s['units'][uid]['pos'])}"))
+
+    refresh_return_fire(s)
+    refresh_combat_hours(s)
+    org_recovery(s)
+    for uid, kind, txt in evaluate_status(s):
+        ev.append((uid, txt))
+    pow_upkeep(s)
+
+    push_log(s, ev, gh_label=f"[gh{gh}] ")
+    line = f"[gh{gh} {hs.game_time_str(gh)}] " + ("；".join(x for _, x in ev) if ev else "無事件")
+    if log is not None:
+        log.append(line)
+    clear_flags(s)
+    hs.end_hour(s, line)
+    return line
+
+
 def run_tick(s, resolve, hours=6, log=None):
     """跑一個 tick 的 N 個小時。回傳每小時的敘事行。
 
@@ -2293,53 +2354,10 @@ def run_tick(s, resolve, hours=6, log=None):
     潰散/投降的門檻判定應該用該小時的**淨值**。若倒過來，等於把該小時的傷害
     重複計一次。此裁示對雙方對稱、且在任何對局開始前作出。
     """
-    resupply(s)                          # tick 邊界補給（logistics_v1；同時寫入 supply_status）
-    s["push_ledger"] = []                # 本 tick 的逼退帳（_audit A5 對帳用，見 runs/_audit.py）
-    s["works_ledger"] = []               # 本 tick 的構工帳（_audit A3：誰挖了土）
+    begin_tick(s)
     lines = []
     for _ in range(hours):
-        gh = s["global_hour"]
-        command.activate_due_cps(s)
-        hs.hour_brief(s)
-
-        ev = apply_due_legal_orders(s)          # 具法律後果的命令：機器解析先行
-        ev += list(resolve(s, gh) or [])
-
-        night = is_night(s)
-        for uid, u in s["units"].items():
-            if u.get("side") not in ("allies", "axis"):
-                continue
-            if u["flags"].get("moved"):
-                # 行軍疲勞由 advance() 施加（白天 +5／夜間 +8，= movement_v1 的 5 + 3），
-                # 此處**不得再加**——2026-07-30 曾在這裡重複加一次，導致行軍疲勞加倍。
-                consume(s, uid, "L1")
-            elif u["flags"].get("fired") or u["flags"].get("hit"):
-                consume(s, uid, "L3")          # 交戰中的消耗由 resolve 視情況再加
-            else:
-                u["fatigue"] = max(0, u.get("fatigue", 0) - FATIGUE_REST_FULL)
-                consume(s, uid, "L0")
-        apply_fatigue_caps(s)
-        refresh_fortification(s)      # Run 7：依所在格的 man-hours 重算各編隊工事值
-
-        refresh_visibility(s)
-        for side, lst in spot(s).items():
-            for uid in lst:
-                ev.append((side, f"★我方偵獲敵 {uid} 於 {tuple(s['units'][uid]['pos'])}"))
-
-        refresh_return_fire(s)
-        refresh_combat_hours(s)
-        org_recovery(s)
-        for uid, kind, txt in evaluate_status(s):
-            ev.append((uid, txt))
-        pow_upkeep(s)
-
-        push_log(s, ev, gh_label=f"[gh{gh}] ")
-        line = f"[gh{gh} {hs.game_time_str(gh)}] " + ("；".join(x for _, x in ev) if ev else "無事件")
-        lines.append(line)
-        if log is not None:
-            log.append(line)
-        clear_flags(s)
-        hs.end_hour(s, line)
+        lines.append(run_hour(s, resolve, log))
     return lines
 
 
