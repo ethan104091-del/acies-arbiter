@@ -1,0 +1,10 @@
+# 料鋒 v2（後端／裁判工作者）；v1 的 requirements.txt 照舊
+anthropic>=1.0
+fastapi
+uvicorn[standard]
+sqlalchemy>=2
+psycopg[binary]
+alembic
+pydantic>=2
+httpx
+pytest

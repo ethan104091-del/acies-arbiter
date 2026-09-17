@@ -1,0 +1,35 @@
+# 料鋒 v2：Postgres ＋ 後端 ＋ 裁判工作者 ＋ 前端。
+# 本機開發可只起 db：docker compose up db（或直接用本機 Postgres，ACIES_DATABASE_URL 指過去）。
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: acies
+      POSTGRES_USER: acies
+      POSTGRES_PASSWORD: acies
+    ports: ["5433:5432"]
+    volumes: ["acies_pg:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U acies"]
+      interval: 5s
+      retries: 10
+  api:
+    build: {context: ., dockerfile: acies/Dockerfile}
+    command: uvicorn acies.api.app:app --host 0.0.0.0 --port 8000
+    environment:
+      ACIES_DATABASE_URL: postgresql+psycopg://acies:acies@db/acies
+    ports: ["8000:8000"]
+    depends_on: {db: {condition: service_healthy}}
+  referee:
+    build: {context: ., dockerfile: acies/Dockerfile}
+    command: python -m acies.referee.worker
+    environment:
+      ACIES_DATABASE_URL: postgresql+psycopg://acies:acies@db/acies
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+    depends_on: {db: {condition: service_healthy}}
+  web:
+    build: {context: ./web}
+    ports: ["5173:80"]
+    depends_on: [api]
+volumes:
+  acies_pg: {}

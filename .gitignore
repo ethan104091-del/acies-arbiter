@@ -30,3 +30,9 @@ hour_action_*.json
 annotations.json
 supply_demo.png
 open_field_preview.png
+
+# v2
+.venv/
+web/node_modules/
+web/dist/
+.env
