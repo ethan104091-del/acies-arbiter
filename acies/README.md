@@ -53,3 +53,10 @@ v1 四支舊測試與等價測試用 `python3 tests/<檔>.py`。
 4. `writer.py`：定案／改寫／推翻都追加 `law/precedents.md` 新節；推翻／改寫另在規則檔對應節插入「★ 判例 §N（自動審查）」一句；資料庫裁示標狀態；每次寫 `law/review_log/<日期>_<桌>.md`，逐項記改動點、改動前原文、兩官意見與辯論。
 
 不需要人按；你只看 `law/review_log/`。
+
+## 條款帳細節（`acies/ledger/clauses.py`，2026-10-02）
+
+- 取代自新條款**生效**小時起（判例 §二十八 28.3）：登記時只記 `superseded_by`，舊條款在新條款生效前照常展開。
+- 位移類應變觸發且含行軍 → 後端自動合成常設條款「{應變}→(x,y)」，逐小時列在條款帳，抵達即 `completed`，跨 tick 不停。
+- 滯回計數器：`phase` 裡以 `_hours`／`_count` 結尾的數值每小時只能 +1 或歸零（G10）。
+- 自我約束 `phase.expires_gh` 到期即 `expired`；tick 邊界未消耗的應變 `expired`、已觸發者 `consumed`（記 `consumed_gh`）。

@@ -176,11 +176,10 @@ def submit(db, table_id, worker_id, decision, dossier_id=None):
     db.add(rec)
 
     clause_rows = db.scalars(select(M.Clause).where(M.Clause.table_id == t.id)).all()
-    for c in clause_rows:                      # 到期生效由後端標記，裁判不算延遲
-        if c.status == "pending" and c.effective_gh is not None and c.effective_gh <= gh:
-            c.status = "active"
+    _sync_clause_dicts(clause_rows, _activate(clause_rows, gh))      # 到期生效、取代自生效起（28.3）
     clause_status = {c.clause_id: c.status for c in clause_rows}
     errs = validate.validate(decision, s, kind=kind, clause_status=clause_status)
+    errs += clause_rules.counter_errors(decision.get("clause_updates", []), [_clause_dict(c) for c in clause_rows])
     warnings = []
     if kind == "resolve":
         for code, msg in clause_rules.completeness_errors(decision, [_clause_dict(c) for c in clause_rows], t.tick):
@@ -236,17 +235,23 @@ def _suspend(db, t, r, rec, gh, kind, body):
 
 def _apply_ledger(db, t, decision, gh):
     """條款帳與待裁定／問答的寫入（第一階段：直接落表；狀態機細節在第二階段）。"""
+    all_rows = db.scalars(select(M.Clause).where(M.Clause.table_id == t.id)).all()
+    dicts = [_clause_dict(c) for c in all_rows]
     for cu in decision.get("clause_updates", []):
+        cu = clause_rules.normalize_update(cu, dicts, gh)
         c = db.scalar(select(M.Clause).where(M.Clause.table_id == t.id, M.Clause.clause_id == cu["clause_id"]))
         if c is None:
             c = M.Clause(table_id=t.id, clause_id=cu["clause_id"], side=cu.get("side") or "allies",
                          kind=cu.get("kind") or "standing", tick=t.tick, text=cu.get("text") or "",
                          issued_gh=gh, status="pending")
             db.add(c)
-        for k in ("side", "kind", "text", "level", "units", "supersedes", "superseded_by", "phase", "predicate", "status"):
+        for k in ("side", "kind", "text", "level", "units", "supersedes", "superseded_by", "phase", "predicate", "status", "consumed_gh"):
             if cu.get(k) is not None:
                 setattr(c, k, cu[k])
         c.history = list(c.history or []) + [{"gh": gh, "update": cu}]
+    # 位移類應變觸發 → 合成常設條款（裁判不必記得）
+    for nc in clause_rules.synthesize_displacements(decision, dicts, gh):
+        db.add(M.Clause(table_id=t.id, **{k: v for k, v in nc.items()}))
     for p in decision.get("pending", []):
         if p.get("material"):
             continue
@@ -359,6 +364,11 @@ def _commit_resolve(db, t, r, rec, s, decision, gh, snap, warnings=()):
     _store_rulings(db, t, decision, gh)
     _apply_ledger(db, t, decision, gh)
 
+    # 條款帳的小時結算：合成位移條款抵達即完成、自我約束到期
+    rows = db.scalars(select(M.Clause).where(M.Clause.table_id == t.id)).all()
+    ds = [_clause_dict(c) for c in rows]
+    clause_rules.complete_arrivals(ds, s); clause_rules.expire_self_constraints(ds, gh + 1)
+    _sync_clause_dicts(rows, ds)
     # 落定
     h = state_io.state_hash(s)
     rec.execution = {**ex.to_dict(), "line": line, "audit": {k: v for k, v in findings.items() if v},
@@ -391,9 +401,28 @@ def _commit_resolve(db, t, r, rec, s, decision, gh, snap, warnings=()):
 
 
 def _expire_contingencies(db, t, gh):
-    db.execute(update(M.Clause).where(M.Clause.table_id == t.id, M.Clause.kind == "contingency",
-                                      M.Clause.status.in_(["pending", "active"]))
-               .values(status="expired"))
+    rows = db.scalars(select(M.Clause).where(M.Clause.table_id == t.id)).all()
+    ds = [_clause_dict(c) for c in rows]
+    clause_rules.tick_boundary(ds, gh)
+    _sync_clause_dicts(rows, ds)
+
+
+def _activate(rows, gh):
+    ds = [_clause_dict(c) for c in rows]
+    clause_rules.activate_due(ds, gh)
+    return ds
+
+
+def _sync_clause_dicts(rows, ds):
+    """把純函式改過的 dict 寫回資料列（只動狀態機欄位）。"""
+    by = {d["clause_id"]: d for d in ds}
+    for c in rows:
+        d = by.get(c.clause_id)
+        if d is None:
+            continue
+        for k in ("status", "superseded_by", "consumed_gh", "phase"):
+            if getattr(c, k) != d.get(k):
+                setattr(c, k, d.get(k))
 
 
 def _finish(db, t, r, s, gh):
